@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // import Login from './views/Login';
 import Menu from './views/Menu';
+import SignUp from './views/SignUp';
 
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -110,7 +111,7 @@ export default class RouterComponent extends React.Component {
                     />
 
                 </Stack>
-
+                
             </Stack>
 
         </Router>
