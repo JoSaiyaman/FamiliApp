@@ -5,6 +5,7 @@ import {
   ImageBackground,
   SafeAreaView,
   StyleSheet,
+  ActivityIndicator,
   ScrollView,
   Image,
   ToastAndroid,
@@ -14,17 +15,16 @@ import {
   Alert
 } from 'react-native';
 // import {Button, Overlay} from 'react-native-elements';
-import { Actions, ActionConst, Overlay } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { Form } from 'react-native-form-auto-next';
-import { Input } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input,  Overlay} from 'react-native-elements';
 
-// import {logout, OK, FAIL} from '../../res/api';
-import IMAGES from '../../res/images';
-import {MenuCard} from '../../components/MenuCard';
 import COLORS from "../../res/colors";
 import light from "../../res/styles/lightMode";
-export default class Menu extends React.Component{
+import {api} from '../../res/api/api';
+import {RegisterUser} from '../../res/api/models/RegisterUser';
+import {commonStyles} from '../../res/styles/commonStyles';
+export class SignUp extends React.Component{
 
   constructor(props){
 
@@ -50,7 +50,7 @@ export default class Menu extends React.Component{
         },
 
         input_containers:{
-            backgroundColor:"#ffece6",
+            backgroundColor:COLORS.secondary,
             paddingLeft: 10,
             paddingRight: 10,
             marginLeft: 8
@@ -63,15 +63,50 @@ export default class Menu extends React.Component{
         },
 
         input_labels:{
-            color: COLORS.navbar
+            color: COLORS.primary
         }
     });
+  }
+
+  registerUser(){
+
+    let registerUserModel = new RegisterUser(
+
+      this.state.username,
+      this.state.password,
+      this.state.email,
+      this.state.first_name,
+      this.state.last_name
+
+    );
+    
+    this.setState({
+
+      loading:true
+
+    })
+    api.register_user(registerUserModel).then((response)=>{
+
+      if(response["messages"]){
+
+        Alert.alert(response["messages"]);
+        this.setState({loading:false});
+        return;
+
+      }
+      this.setState({loading:false});
+      Alert.alert("Atención", 'Se ha registrado el usuario');
+      Actions.pop();
+
+    });
+
   }
 
   verificar(){
       if (this.state.username && this.state.password && this.state.password_rep && this.state.email && this.state.first_name
     && this.state.last_name){
-        Alert.alert("Atención", 'CALVOOOO');
+        
+        this.registerUser();
     } else {
         Alert.alert("Atención", 'Faltan datos');
     }
@@ -90,11 +125,19 @@ export default class Menu extends React.Component{
 
   render(){
     let estilos = this.estilo()
-
+    let c_style = commonStyles(this);
     return(
       
       <View style={estilos.main_container}>
         <Text style={estilos.name}>Registrar usuario</Text>
+
+        <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                    >
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
+
         <ScrollView style={{flex:1}}
         contentContainerStyle={estilos.content_style}
             > 
@@ -184,16 +227,16 @@ export default class Menu extends React.Component{
                     />
                 </Form>
                 <View>
-                    <TouchableHighlight style={{
-                        width: this.width *0.85, 
-                        backgroundColor:"coral", 
-                        alignItems:"center",
-                        height: 50,
-                        marginTop: 20,
-                        justifyContent:"center"}}
+                    <TouchableHighlight style={{width:this.width*0.5, 
+                        marginLeft:this.width*0.25 - 13, 
+                        padding:13, 
+                        marginTop:10,
+                        marginBottom:15,
+                        ...c_style.rounded_button
+                      }}
                         onPress={() => this.verificar()}
                         underlayColor="#cc3600">
-                        <Text style={{color:"white", fontSize:20, fontWeight: "bold"}}>Registrar usuario</Text> 
+                        <Text style={{...c_style.text_button}}>Registrar usuario</Text> 
                     </TouchableHighlight>
                 </View>
             </View>

@@ -13,8 +13,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // import Login from './views/Login';
 import Menu from './views/Menu';
-import SignUp from './views/SignUp';
-
+import {SignIn} from './views/SignIn/SignIn';
+import {SignUp} from './views/SignUp';
+import COLORS from '../res/colors';
 export default class RouterComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -74,7 +75,7 @@ export default class RouterComponent extends React.Component {
 
     render() {
         return (
-        <Router tintColor='white' navigationBarStyle={[style.navBar, {backgroundColor: this.state.back_color}]} titleStyle={{color: "white"}}>
+        <Router tintColor='white' navigationBarStyle={[style.navBar, {backgroundColor: COLORS.primary}]} titleStyle={{color: "white"}}>
             <Stack hideNavBar key="root">
                 {/* <Stack
                     key="auth"
@@ -95,11 +96,22 @@ export default class RouterComponent extends React.Component {
 
                 </Stack> */}
 
+                <Scene
+                    key="login"
+                    component={SignIn}
+                    hideNavBar={true}
+                    />
 
+                <Scene
+                    key="signup"                    
+                    hideNavBar={false}
+                    component={SignUp}              
+                    />
                 
                 <Stack
                     key="main"
                     type="reset"
+                    hideNavBar={false}
                     style={style.titleStyle}
                 >
                     <Scene
