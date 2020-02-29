@@ -14,7 +14,8 @@ import {Actions} from 'react-native-router-flux';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-import {get_user_groups, OK, FAIL} from '../../../res/api/calls/groups';
+import {get_user_groups} from '../../../res/api/calls/groups';
+import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
@@ -59,7 +60,7 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(id, name, role){
+    renderList(id, name){
 
         //Sirve para renderear la lista
         let elementWidth = this.width * 0.9;
@@ -180,7 +181,6 @@ import commonStyles from '../../../res/commonStyles';
                 loading: true
             })
             get_user_groups().then((res)=>{
-                console.log("RESULTADO",res);
                 if(res["status"] == OK){
                     if(!res.detail){
                         
@@ -226,10 +226,9 @@ import commonStyles from '../../../res/commonStyles';
                             ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
-                                let id = item.business.id;
-                                let name = item.business.name;
-                                let role = item.role
-                                return this.renderList(id, name, role );
+                                let id = item.id;
+                                let name = item.family_group.name;
+                                return this.renderList(id, name);
 
                             }}
                             keyExtractor={item => item.id}

@@ -1,20 +1,26 @@
 import {HOST, OK, FAIL} from '../hostInfo';
+import {store} from '../../../res/redux/main_store'
 
 
 //RegisterUser model
 export async function create_group(createGroupInstance){
 
     let url = `${HOST}familiapp/family_group/`;
+    let parm = {
+        "name": createGroupInstance
+    }
+    console.log("Diccionario", JSON.stringify(parm));
 
     let requestParams = {
 
         headers:{
 
-            'Content-Type':"application/json"
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
 
         },
         method:"POST",
-        body: JSON.stringify(createGroupInstance)
+        body: JSON.stringify(parm)
 
     };
 
@@ -32,6 +38,8 @@ export async function create_group(createGroupInstance){
             json["status"] = FAIL;
             json["messages"] = "Error al crear grupo";
 
+        } else {
+            json["status"] = OK;
         }
 
     }catch(err){
@@ -51,7 +59,8 @@ export async function get_user_groups(){
 
         headers:{
 
-            'Content-Type':"application/json"
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
 
         },
         method:"GET"

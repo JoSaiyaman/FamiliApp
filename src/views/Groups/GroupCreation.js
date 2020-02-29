@@ -17,7 +17,8 @@ import {noInternetNotification} from '../../../connectionHelpers/noInternetToast
 
 import {Overlay} from 'react-native-elements';
 
-import {create_group, OK, FAIL} from '../../../res/api/calls/groups';
+import {create_group} from '../../../res/api/calls/groups';
+import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 
   export class GroupCreation extends Component{
@@ -118,8 +119,8 @@ import COLORS from '../../../res/colors';
                 this.setState({        
                     loading:true
                 });
-        
                 create_group(this.state.name).then((res)=>{
+                    console.log("resultado", res);
                     if(res.status == OK){
                 
                 
