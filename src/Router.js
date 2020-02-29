@@ -16,6 +16,8 @@ import {SignIn} from './views/SignIn/SignIn';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
 
+import {GroupCreation} from './views/Groups/GroupCreation';
+import {GroupTray} from './views/Groups/GroupTray';
 import COLORS from '../res/colors';
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -107,6 +109,18 @@ export default class RouterComponent extends React.Component {
                     key="signup"                    
                     hideNavBar={false}
                     component={SignUp}              
+                    />
+
+                <Scene
+                    key="groupcreation"
+                    component={GroupCreation}
+                    hideNavBar={false}
+                    />
+
+                <Scene
+                    key="grouptray"
+                    component={GroupTray}
+                    hideNavBar={false}
                     />
                 
                 <Stack

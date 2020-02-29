@@ -26,7 +26,7 @@ export  function loginAction(context, username, password){
             Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
 
             setLoginInfo(response["token"], username);
-            Actions.main()       
+            Actions.grouptray()       
 
         }else{
 
