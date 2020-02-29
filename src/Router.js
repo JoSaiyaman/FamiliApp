@@ -123,6 +123,13 @@ export default class RouterComponent extends React.Component {
                     hideNavBar={false}
                     />
                 
+                <Scene
+                    hideNavBar={true}
+                    title=""
+                    key="join_group"
+                    component={JoinGroup}
+                />
+
                 <Stack
                     key="main"
                     type="reset"

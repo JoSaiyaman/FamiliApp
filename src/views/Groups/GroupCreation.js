@@ -182,7 +182,7 @@ import COLORS from '../../../res/colors';
                 </TouchableOpacity>
 
                 <TouchableOpacity  style={this.style.button}
-                    onPress={()=>console.log("Asociar")}
+                    onPress={()=>Actions.join_group()}
 
                 >
 
