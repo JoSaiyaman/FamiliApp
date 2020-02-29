@@ -11,10 +11,11 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-// import Login from './views/Login';
 import Menu from './views/Menu';
 import {SignIn} from './views/SignIn/SignIn';
 import {SignUp} from './views/SignUp';
+import {JoinGroup} from './views/JoinGroup/JoinGroup';
+
 import COLORS from '../res/colors';
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -111,7 +112,7 @@ export default class RouterComponent extends React.Component {
                 <Stack
                     key="main"
                     type="reset"
-                    hideNavBar={false}
+                    hideNavBar={true}
                     style={style.titleStyle}
                 >
                     <Scene
@@ -121,6 +122,17 @@ export default class RouterComponent extends React.Component {
                         component={Menu}
                         initial                        
                     />
+
+                    <Stack key="join_group" hideNavBar={true}>
+
+                        <Scene
+                            hideNavBar={true}
+                            title=""
+                            key="join_group"
+                            component={JoinGroup}
+                        />
+
+                    </Stack>                    
 
                 </Stack>
                 

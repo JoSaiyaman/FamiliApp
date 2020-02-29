@@ -51,6 +51,14 @@ export const commonStyles = (context)=>{
 
         textfield_input_labels:{
             color: COLORS.primary
+        },
+
+        floating_button:{
+
+            position:'absolute',
+            top: 10,
+            left: 10,            
+
         }
 
     }
