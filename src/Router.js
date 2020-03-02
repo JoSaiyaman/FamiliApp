@@ -18,6 +18,8 @@ import {JoinGroup} from './views/JoinGroup/JoinGroup';
 
 import {GroupCreation} from './views/Groups/GroupCreation';
 import {GroupTray} from './views/Groups/GroupTray';
+import {WishlistTray} from './views/Wishlists/WishlistTray';
+import {WishlistCreation} from './views/Wishlists/WishlistCreation';
 import COLORS from '../res/colors';
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -153,7 +155,22 @@ export default class RouterComponent extends React.Component {
                             component={JoinGroup}
                         />
 
-                    </Stack>                    
+                    </Stack>
+
+                    <Stack
+                        key="wishlists"
+                    >
+                        <Scene
+                            key="wishlist_tray"
+                            component={WishlistTray}
+                            hideNavBar={false}
+                        />
+                        <Scene
+                            key="wishlist_creation"
+                            component={WishlistCreation}
+                            hideNavBar={false}
+                        />
+                    </Stack>
 
                 </Stack>
                 
