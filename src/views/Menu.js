@@ -19,6 +19,7 @@ import IMAGES from '../../res/images';
 import {MenuCard} from '../../components/MenuCard';
 import COLORS from "../../res/colors";
 import light from "../../res/styles/lightMode";
+import {commonStyles} from '../../res/styles/commonStyles';
 export default class Menu extends React.Component{
 
   constructor(props){
@@ -58,7 +59,7 @@ export default class Menu extends React.Component{
 
   render(){
     let estilos = this.estilo()
-
+    let c_style = commonStyles(this);
     return(
       
       <View style={estilos.main_container}>
@@ -72,13 +73,13 @@ export default class Menu extends React.Component{
                   style={this.style.menu_card}           
                   image={IMAGES.placeholder}       
                   onPress={()=>{Actions.join_group()}}
-                  name="Álbum"/>
+                  name="Unise a grupo"/>
 
                 <MenuCard
                   style={this.style.menu_card}
                   image={IMAGES.placeholder}    
-                  onPress={()=>{Actions.home_screen()}}              
-                  name="e-Giftcards"/>
+                  onPress={()=>{Actions.group_qr()}}              
+                  name="Ver QR de grupo"/>
 
                 <MenuCard
                   style={this.style.menu_card}
@@ -103,8 +104,25 @@ export default class Menu extends React.Component{
                   image={IMAGES.placeholder}
                   onPress={()=>{Actions.home_screen()}}
                   name="Emergencia"/>
-            </ScrollView>
+                
+                <TouchableOpacity 
+                
+                  style={{
 
+                    width:this.width*0.5,
+                    alignSelf:"center",
+                    margin:15,
+                    ...c_style.rounded_button
+
+                  }}
+                  onPress={()=>Actions.push("login")}
+                
+                >
+
+                  <Text style={{...c_style.text_button}}>Salir</Text>
+
+                </TouchableOpacity>
+            </ScrollView>            
 
       </View>
       
