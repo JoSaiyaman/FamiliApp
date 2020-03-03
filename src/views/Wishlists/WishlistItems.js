@@ -6,24 +6,21 @@ import {
     Dimensions,
     FlatList,    
     TouchableOpacity,
-    ActivityIndicator,
     Image,
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-
-import {Overlay} from 'react-native-elements';
 
 // Connection related importss
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-//import {get_user_groups} from '../../../res/api/calls/groups';
+import {get_wishlist_items} from '../../../res/api/calls/wishlist';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
 
-  export class WishlistTray extends Component{
+  export class WishlistItems extends Component{
 
     constructor(props){
 
@@ -37,7 +34,7 @@ import commonStyles from '../../../res/commonStyles';
 
             loading:true,
             hasInternet: true,
-            grupos:[],
+            items:[],
 
         }
         //*************************Estilo*******
@@ -59,19 +56,13 @@ import commonStyles from '../../../res/commonStyles';
             }
 
         });
-        
-        let onClick = ()=>{
-            
-            Actions.wishlists();
 
-        }
     }
 
     //******************Renderers *************************
-//    renderList(id, name){
+    renderList(id, name, description){
 
         //Sirve para renderear la lista
-        /*
         let elementWidth = this.width * 0.9;
         let elementHeight = this.height * 0.07;
         let marginLeft = this.width*0.05 - this.padding;
@@ -99,19 +90,21 @@ import commonStyles from '../../../res/commonStyles';
             }
 
         });
-        
-        //aqui algo
+
+        let onClick = ()=>{
+            
+            console.log("ID", id);
+
+        }
 
         return(
 
             <TouchableOpacity onPress={onClick.bind(this)} style={style.cont}>
 
                 <View style={style.text}>
-
-                    <Text style={{fontSize: 18}}>
-
-                        Nombre
-
+                    <Text>
+                        <Text style={{fontSize: 18}}>{name} </Text>
+                        - {description}
                     </Text>
 
                 </View>                
@@ -121,7 +114,6 @@ import commonStyles from '../../../res/commonStyles';
         )
 
     }
-    */
 
     renderActions(){
 
@@ -139,12 +131,12 @@ import commonStyles from '../../../res/commonStyles';
         return(
 
             <>
-                {/* TEMP: ONPRESS lleva a wishlistitems */}
+
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.wishlist_items()}}
+                    onPress={()=>{this.loadItems()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
@@ -152,7 +144,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{Actions.wishlist_creation()}}
+                    onPress={()=>{Actions.wishlist_add_items()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                                
 
@@ -171,7 +163,7 @@ import commonStyles from '../../../res/commonStyles';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay grupos.
+                    No hay items en la Wishlist.
                 </Text>
             </View>
 
@@ -181,66 +173,76 @@ import commonStyles from '../../../res/commonStyles';
 
     //****************** Data loading  ***********/
 
-    loadGroups() {
+    loadItems() {
         if (hasInternetConnection(this)) {
             this.setState({
-                // loading: true
-                loading: false
+                loading: true
             })
-            //get_user_groups().then((res)=>{
-             //   if(res["status"] == OK){
-            //        if(!res.detail){
+            get_wishlist_items().then((res)=>{
+                console.log("Resultado",res);
+                console.log("Endpoint", res.items);
+                console.log("Items", res.items.wishlistitem_set);
+                if(res["status"] == OK){
+                    if(!res.detail){
                         
-                        //this.setState({
+                        this.setState({
         
-                            //grupos:res.groups
+                            items:res.items.wishlistitem_set
         
-                        //})
-                        //if (res.groups.length == 0) {
-                          //  Actions.groupcreation()
-                        //}
+                        })
+                        if (res.groups.length == 0) {
+                            Actions.groupcreation()
+                        }
     
-            //        } else {
-            //            Alert.alert("Error",res.detail);
-            //        }
+                    } else {
+                        Alert.alert("Error",res.detail);
+                    }
     
     
-            //    }
-            //    this.setState({loading:false});
-            //});    
+                }
+                this.setState({loading:false});
+            });    
         }
     }
 
     //************************Métodos de lifecycle que no son render */
     componentWillMount(){
-        //this.loadGroups()
+        this.loadItems()
     }
     
     render(){
         // global.rol = 'COLLABORATOR'
-        //let dataToRender = this.state.grupos;
+        let dataToRender = this.state.items;
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
-          //      onRetry={this.loadGroups.bind(this)}
+                onRetry={this.loadItems.bind(this)}
             >
                 <View style={this.style.main}>
-                    <Overlay isVisible={false}
-                        overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
-                    >
-
-                        <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
-
-                    </Overlay>
                     
-                  <Text>ola</Text>
+                    <View style={this.style.list_view}>
 
-                  </View>  
-            
-            
+                        <FlatList
+                            data={dataToRender}
+                            ListEmptyComponent={this.renderListEmpty()}
+                            renderItem={({item})=>{
+                                
+                                let id = item.id;
+                                let name = item.name;
+                                let description = item.description
+                                return this.renderList(id, name, description);
+
+                            }}
+                            keyExtractor={item => item.id}
+                            extraData={this.state.dataToRender}
+                            ListFooterComponent={() => <View></View>}
+                            ListFooterComponentStyle={{height: 30}} />
+
+                    </View>
+
                     {this.renderActions()}
 
-                
+                </View>
             </ConnectionWrapper>
         );
 

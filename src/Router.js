@@ -20,6 +20,9 @@ import {GroupCreation} from './views/Groups/GroupCreation';
 import {GroupTray} from './views/Groups/GroupTray';
 import {WishlistTray} from './views/Wishlists/WishlistTray';
 import {WishlistCreation} from './views/Wishlists/WishlistCreation';
+import {WishlistItems} from './views/Wishlists/WishlistItems';
+import {WishlistAddItems} from './views/Wishlists/WishlistAddItems';
+
 import COLORS from '../res/colors';
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -168,6 +171,18 @@ export default class RouterComponent extends React.Component {
                         <Scene
                             key="wishlist_creation"
                             component={WishlistCreation}
+                            hideNavBar={false}
+                        />
+                        <Scene
+                            title="Listas de deseos"
+                            key="wishlist_items"
+                            component={WishlistItems}
+                            hideNavBar={false}
+                        />
+                        <Scene
+                            title="Agregar a la lista"
+                            key="wishlist_add_items"
+                            component={WishlistAddItems}
                             hideNavBar={false}
                         />
                     </Stack>
