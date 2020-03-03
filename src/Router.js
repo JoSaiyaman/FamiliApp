@@ -157,6 +157,7 @@ export default class RouterComponent extends React.Component {
                     />
 
                     <Scene
+                        title="Wishlists"
                         key="wishlist_tray"
                         component={WishlistTray}
                         hideNavBar={false}
