@@ -140,7 +140,6 @@ import COLORS from '../../../res/colors';
                     console.log("resultado", res);
                     if(res.status == OK){
                 
-                
                         if(!res.error_details){
                             
                             //Guardar en redux***************
