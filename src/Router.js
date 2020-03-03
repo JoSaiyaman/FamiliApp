@@ -149,6 +149,29 @@ export default class RouterComponent extends React.Component {
                         initial                        
                     />
 
+                    <Scene
+                        key="wishlist_tray"
+                        component={WishlistTray}
+                        hideNavBar={false}
+                    />
+                    <Scene
+                        key="wishlist_creation"
+                        component={WishlistCreation}
+                        hideNavBar={false}
+                    />
+                    <Scene
+                        title="Listas de deseos"
+                        key="wishlist_items"
+                        component={WishlistItems}
+                        hideNavBar={false}
+                    />
+                    <Scene
+                        title="Agregar a la lista"
+                        key="wishlist_add_items"
+                        component={WishlistAddItems}
+                        hideNavBar={false}
+                    />
+
                     <Stack key="join_group" hideNavBar={true}>
 
                         <Scene
@@ -159,35 +182,8 @@ export default class RouterComponent extends React.Component {
                         />
 
                     </Stack>
-
-                    <Stack
-                        key="wishlists"
-                    >
-                        <Scene
-                            key="wishlist_tray"
-                            component={WishlistTray}
-                            hideNavBar={false}
-                        />
-                        <Scene
-                            key="wishlist_creation"
-                            component={WishlistCreation}
-                            hideNavBar={false}
-                        />
-                        <Scene
-                            title="Listas de deseos"
-                            key="wishlist_items"
-                            component={WishlistItems}
-                            hideNavBar={false}
-                        />
-                        <Scene
-                            title="Agregar a la lista"
-                            key="wishlist_add_items"
-                            component={WishlistAddItems}
-                            hideNavBar={false}
-                        />
+                        
                     </Stack>
-
-                </Stack>
                 
             </Stack>
 

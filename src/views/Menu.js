@@ -89,7 +89,7 @@ export default class Menu extends React.Component{
                 <MenuCard
                   style={this.style.menu_card}
                   image={IMAGES.placeholder}
-                  onPress={()=>{Actions.wishlists()}}
+                  onPress={()=>{Actions.wishlist_tray()}}
                   name="Wishlist"/>
        
                 <MenuCard
