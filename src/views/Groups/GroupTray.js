@@ -19,7 +19,7 @@ import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
-
+import {setFamilyId} from '../../../res/redux/actions/set_familyid';
   export class GroupTray extends Component{
 
     constructor(props){
@@ -92,6 +92,8 @@ import commonStyles from '../../../res/commonStyles';
         });
 
         let onClick = ()=>{
+            
+            setFamilyId(id);
             
             Actions.main();
 

@@ -24,6 +24,7 @@ import {WishlistItems} from './views/Wishlists/WishlistItems';
 import {WishlistAddItems} from './views/Wishlists/WishlistAddItems';
 
 import COLORS from '../res/colors';
+import { GroupsQr } from './views/GroupsQr/GroupsQr';
 export default class RouterComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -134,6 +135,12 @@ export default class RouterComponent extends React.Component {
                     key="join_group"
                     component={JoinGroup}
                 />
+
+                <Scene
+                    hideNavBar={false}
+                    title="QR del grupo"
+                    key="group_qr"
+                    component={GroupsQr} />
 
                 <Stack
                     key="main"
