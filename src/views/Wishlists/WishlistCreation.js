@@ -34,6 +34,7 @@ import COLORS from '../../../res/colors';
         this.state ={
 
             name:"",
+            description:"",
             loading:false
 
         }
@@ -48,32 +49,37 @@ import COLORS from '../../../res/colors';
 
             },
 
-
-            list_view:{
-
-                height:this.height,
-                padding:this.padding,
-                width:this.width,
-                alignContent:"center"
-
-            },
             textfield:{
 
-                paddingLeft:20,
-                paddingRight:20,
-                paddingTop: 2,
-                paddingBottom: 2,
-                width: this.width*0.6,
+                width: this.width*0.8,
                 height: this.height*0.07,
-                backgroundColor:"white",
-                elevation:7,
-                borderRadius:13,
-                marginTop:7,
-                marginBottom:10,
-                marginLeft:this.width*0.2,
-                textAlign: "center"
+                backgroundColor:COLORS.secondary,
+                borderRadius:0,
+                marginTop:60,
+                marginBottom:2,
+                marginLeft:2,
+                textAlign: "justify",
+                padding:10,
+                fontSize:18
 
             },
+
+            textfield_dsc:{
+
+                width: this.width*0.8,
+                height: this.height*0.14,
+                backgroundColor:COLORS.secondary,
+                borderRadius:0,
+                marginTop:10,
+                marginBottom:2,
+                marginLeft:2,
+                textAlign: "justify",
+                padding:10,
+                fontSize:16
+
+            },
+
+
 
             button:{
 
@@ -85,24 +91,61 @@ import COLORS from '../../../res/colors';
                 color:"white",
                 borderRadius:10,
                 alignSelf:"center",
-                width: this.width*0.5
+                width: this.width*0.5,
+                textAlign:"center",
                 
 
             },
-
+            /*
             text:{
-
                 fontSize:20,
                 color:"white",
                 textAlign:"center",
                 fontWeight: "bold"
+            },
+            */
+            cont:{
 
+                width:width*0.9,
+                height:height*0.30,
+                backgroundColor:"white",
+                borderRadius:0,
+                elevation:10,
+                //marginLeft: this.width*0.06 - this.padding,
+                //marginRight: this.width*0.06 - this.padding,
+                marginBottom:10,          
+                backgroundColor: COLORS.primary,
+                padding: 5,
+                alignSelf:"center",
+            },
+
+            text_cont:{
+                marginTop: 20,      
+                width:this.width*0.9,
+                height:this.height*0.13,
+                justifyContent:"center",
+                alignContent:"center",
+                color:"white",
+                padding:10
+            },
+
+            text_button:{
+                color:"white",
+                fontSize: 18,
+                fontWeight:"bold",
+                textAlign: "center"
+            },
+
+            text_dsc:{
+                color:"white",
+                fontSize: 16,
+                textAlign: "justify"
             }
 
         });
 
     }
-/*
+
     verificarCampos(){
         if(this.state.name){
             this.crearGrupo();
@@ -111,9 +154,8 @@ import COLORS from '../../../res/colors';
             Alert.alert("Atención", message);
         }
     }
-
+/*
     crearGrupo(){
-
         NetInfo.fetch().then(connection => {
             if (connection.isInternetReachable) {
              
@@ -163,25 +205,42 @@ import COLORS from '../../../res/colors';
                     <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
 
                 </Overlay>
-                <TextInput
-                    style={this.style.textfield}
-                    placeholder="Nombre de wishlist"
-                    placeholderTextColor="gray"
-                    onChangeText={(name)=>this.setState({name})}
-                    value={this.state.name} />
+                
+                <View
+                //onPress={onClick.bind(this)} 
+                style={this.style.cont}>
+
+                    <View style={this.style.text_cont}>
+
+                        <TextInput
+                            style={this.style.textfield}
+                            placeholder="Nombre de wishlist"
+                            placeholderTextColor="gray"
+                            onChangeText={(name)=>this.setState({name})}
+                            value={this.state.name} />
+
+                        <TextInput
+                            style={this.style.textfield_dsc}
+                            placeholder="Descripcion de wishlist"
+                            placeholderTextColor="gray"
+                            onChangeText={(description)=>this.setState({description})}
+                            value={this.state.description} />
+
+                    </View> 
+
+                </View> 
 
                 <TouchableOpacity style={this.style.button}
                     //onPress={()=>this.verificarCampos()}
-                
                 >
-
-                    <Text style={this.style.text} >
+                    <Text style={this.style.text_button} >
 
                         Crear wishlist
 
                     </Text>
 
                 </TouchableOpacity>
+
             </View>
 
         );

@@ -37,7 +37,10 @@ import commonStyles from '../../../res/commonStyles';
 
             loading:true,
             hasInternet: true,
-            grupos:[],
+            grupos:[{
+                "name": "Lista para santana 2",
+                "description": "Es secreta, no la vean si no son santa >:C. "
+            }],
 
         }
         //*************************Estilo*******
@@ -56,24 +59,41 @@ import commonStyles from '../../../res/commonStyles';
                 padding:this.padding,                
                 alignContent:"center"
 
+            },
+
+            cont:{
+
+                width: height*0.25,
+                height: width*0.8,
+                backgroundColor:"white",
+                borderRadius:14,
+                elevation:10,
+                marginBottom:10,                
+                backgroundColor: COLORS.primary,
+
+            },
+
+            text:{
+                
+                justifyContent:"center",
+                alignContent:"center",
+                padding:10
             }
 
         });
         
-        let onClick = ()=>{
-            
-            Actions.wishlists();
-
-        }
+        //let onClick = ()=>{
+        //    Actions.wishlists();
+        //}
     }
 
     //******************Renderers *************************
-//    renderList(id, name){
+    renderList(name, description){
 
         //Sirve para renderear la lista
-        /*
+        
         let elementWidth = this.width * 0.9;
-        let elementHeight = this.height * 0.07;
+        let elementHeight = this.height * 0.13;
         let marginLeft = this.width*0.05 - this.padding;
 
         let style = StyleSheet.create({
@@ -83,36 +103,61 @@ import commonStyles from '../../../res/commonStyles';
                 width:elementWidth,
                 height:elementHeight,
                 backgroundColor:"white",
-                borderRadius:14,
+                borderRadius:0,
                 elevation:10,
                 marginLeft:marginLeft,
                 marginBottom:10,                
+                backgroundColor: COLORS.primary,
 
             },
 
-            text:{
+            text_cont:{
                 width:elementWidth,
                 height:elementHeight,
                 justifyContent:"center",
                 alignContent:"center",
+                color:"white",
                 padding:10
+            },
+
+            text:{
+                color:"white",
+                fontSize: 18,
+                fontWeight:"bold",
+                textAlign: "justify"
+            },
+
+            text_dsc:{
+                color:"white",
+                fontSize: 16,
+                textAlign: "justify"
             }
 
         });
         
-        //aqui algo
+        let onClick = ()=>{
+            
+            Actions.wishlist_items();
+
+        }
 
         return(
 
-            <TouchableOpacity onPress={onClick.bind(this)} style={style.cont}>
+            <TouchableOpacity 
+            onPress={onClick.bind(this)} 
+            style={style.cont}>
 
-                <View style={style.text}>
+                <View style={style.text_cont}>
 
-                    <Text style={{fontSize: 18}}>
+                    <Text style={style.text}>
 
-                        Nombre
+                        {name}
 
                     </Text>
+                    <Text style={style.text_dsc}>
+                        {description}
+                    </Text>
+
 
                 </View>                
 
@@ -121,7 +166,7 @@ import commonStyles from '../../../res/commonStyles';
         )
 
     }
-    */
+    
 
     renderActions(){
 
@@ -139,7 +184,7 @@ import commonStyles from '../../../res/commonStyles';
         return(
 
             <>
-                {/* TEMP: ONPRESS lleva a wishlistitems */}
+
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
@@ -162,10 +207,9 @@ import commonStyles from '../../../res/commonStyles';
 
     }
 
+    /*
     renderListEmpty(){
-
         return(
-
             this.state.loading ? <Text style={{alignSelf:"center"}}>Cargando...</Text> : 
             <View style={{alignSelf:"center"}}>
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
@@ -174,43 +218,37 @@ import commonStyles from '../../../res/commonStyles';
                     No hay grupos.
                 </Text>
             </View>
-
         );
-
     }
-
+*/
     //****************** Data loading  ***********/
-
-    loadGroups() {
-        if (hasInternetConnection(this)) {
-            this.setState({
-                // loading: true
-                loading: false
-            })
-            //get_user_groups().then((res)=>{
-             //   if(res["status"] == OK){
-            //        if(!res.detail){
-                        
-                        //this.setState({
-        
-                            //grupos:res.groups
-        
-                        //})
-                        //if (res.groups.length == 0) {
-                          //  Actions.groupcreation()
-                        //}
-    
-            //        } else {
-            //            Alert.alert("Error",res.detail);
-            //        }
-    
-    
-            //    }
-            //    this.setState({loading:false});
-            //});    
+/*
+        loadWishlists() {
+            if (hasInternetConnection(this)) {
+                this.setState({
+                    loading: true
+                })
+                get_user_groups().then((res)=>{
+                    if(res["status"] == OK){
+                        if(!res.detail){
+                            
+                            this.setState({
+            
+                                grupos:res.groups
+            
+                            })
+                            if (res.groups.length == 0) {
+                                Actions.groupcreation()
+                            }
+                        } else {
+                            Alert.alert("Error",res.detail);
+                        }
+                    }
+                    this.setState({loading:false});
+                });    
+            }
         }
-    }
-
+*/
     //************************Métodos de lifecycle que no son render */
     componentWillMount(){
         //this.loadGroups()
@@ -218,29 +256,36 @@ import commonStyles from '../../../res/commonStyles';
     
     render(){
         // global.rol = 'COLLABORATOR'
-        //let dataToRender = this.state.grupos;
+        let dataToRender = this.state.grupos;
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
-          //      onRetry={this.loadGroups.bind(this)}
+                //onRetry={this.loadGroups.bind(this)}
             >
                 <View style={this.style.main}>
-                    <Overlay isVisible={false}
-                        overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
-                    >
-
-                        <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
-
-                    </Overlay>
                     
-                  <Text>ola</Text>
+                    <View style={this.style.list_view}>
 
-                  </View>  
-            
-            
+                        <FlatList
+                            data={dataToRender}
+                            //ListEmptyComponent={this.renderListEmpty()}
+                            renderItem={({item})=>{
+                                
+                                let name = item.name;
+                                let description = item.description;
+                                return this.renderList(name, description);
+
+                            }}
+                            keyExtractor={item => item.name}
+                            extraData={this.state.dataToRender}
+                            ListFooterComponent={() => <View></View>}
+                            ListFooterComponentStyle={{height: 30}} />
+
+                    </View>
+
                     {this.renderActions()}
 
-                
+                </View>
             </ConnectionWrapper>
         );
 
