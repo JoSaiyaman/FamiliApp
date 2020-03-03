@@ -147,7 +147,7 @@ import COLORS from '../../../res/colors';
                             //TODO: GUARDAR EN REDUX
                             Alert.alert("Elemento agregado con éxito");
                             Actions.wishlist_items();
-        
+    
                         } else {
                             Alert.alert("Error",res.message);
                         }
