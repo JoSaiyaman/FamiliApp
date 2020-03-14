@@ -221,6 +221,7 @@ export default class RouterComponent extends React.Component {
                             title="Mandar aviso"
                             key="send_announcement"
                             component={SendAnnouncement}
+                            
                         />
 
                     </Stack>
