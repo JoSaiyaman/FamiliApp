@@ -23,7 +23,7 @@ import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
 
-  export class WishlistTray extends Component{
+  export class WishlistUserTray extends Component{
 
     constructor(props){
 
@@ -38,7 +38,7 @@ import commonStyles from '../../../res/commonStyles';
             loading:true,
             hasInternet: true,
             grupos:[{
-                "name": "Lista para santana 2",
+                "name": "Lista para santana de usuario",
                 "description": "Es secreta, no la vean si no son santa >:C. "
             }],
 
@@ -107,7 +107,7 @@ import commonStyles from '../../../res/commonStyles';
                 elevation:10,
                 marginLeft:marginLeft,
                 marginBottom:10,                
-                backgroundColor: COLORS.primary,
+                backgroundColor: "#ffb499",
 
             },
 
@@ -137,7 +137,7 @@ import commonStyles from '../../../res/commonStyles';
         
         let onClick = ()=>{
             
-            Actions.wishlist_items();
+            Actions.user_wishlist_items();
 
         }
 
@@ -189,25 +189,9 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.wishlist_items()}}
+                    onPress={()=>{Actions.user_wishlist_items()}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
-
-                <TheCircle
-                    width={commonStyles(this).actionButtonWidth}
-                    height={commonStyles(this).actionButtonHeight}
-                    name="ios-add"
-                    onPress={()=>{Actions.wishlist_creation()}}
-                    color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
-
-                <TheCircle
-                    width={commonStyles(this).actionButtonWidth}
-                    height={commonStyles(this).actionButtonHeight}
-                    name="ios-contacts"
-                    onPress={()=>{Actions.users_wishlists()}}
-                    color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />                        
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                 
 
             </>
 

@@ -22,6 +22,11 @@ import {WishlistTray} from './views/Wishlists/WishlistTray';
 import {WishlistCreation} from './views/Wishlists/WishlistCreation';
 import {WishlistItems} from './views/Wishlists/WishlistItems';
 import {WishlistAddItems} from './views/Wishlists/WishlistAddItems';
+import {WishlistUsers} from './views/Wishlists/WishlistUsers';
+import {WishlistUserTray} from './views/Wishlists/WishlistUserTray';
+import {WishlistUserItems} from './views/Wishlists/WishlistUserItems';
+
+import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
@@ -179,6 +184,24 @@ export default class RouterComponent extends React.Component {
                         component={WishlistAddItems}
                         hideNavBar={false}
                     />
+                    <Scene
+                        title="Ver listas de otros usuarios"
+                        key="users_wishlists"
+                        component={WishlistUsers}
+                        hideNavBar={false}
+                    />
+                    <Scene
+                        title="Listas de usuario"
+                        key="user_wishlist_list"
+                        component={WishlistUserTray}
+                        hideNavBar={false}
+                    />
+                    <Scene
+                        title="Contenido de lista de usuario"
+                        key="user_wishlist_items"
+                        component={WishlistUserItems}
+                        hideNavBar={false}
+                    />
 
                     <Stack key="join_group" hideNavBar={true}>
 
@@ -191,6 +214,18 @@ export default class RouterComponent extends React.Component {
 
                     </Stack>
                         
+                    <Stack key="send_announcement" hideNavBar={true}>
+
+                        <Scene
+                            hideNavBar={true}
+                            title="Mandar aviso"
+                            key="send_announcement"
+                            component={SendAnnouncement}
+                        />
+
+                    </Stack>
+                    
+
                     </Stack>
                 
             </Stack>

@@ -23,7 +23,7 @@ import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
 
-  export class WishlistTray extends Component{
+  export class WishlistUsers extends Component{
 
     constructor(props){
 
@@ -38,8 +38,10 @@ import commonStyles from '../../../res/commonStyles';
             loading:true,
             hasInternet: true,
             grupos:[{
-                "name": "Lista para santana 2",
-                "description": "Es secreta, no la vean si no son santa >:C. "
+                "name": "Papa P. Luche"
+                //"description": "Es secreta, no la vean si no son santa >:C. "
+            },{
+                "name": "Elliot Alderson"
             }],
 
         }
@@ -69,8 +71,8 @@ import commonStyles from '../../../res/commonStyles';
                 borderRadius:14,
                 elevation:10,
                 marginBottom:10,                
-                backgroundColor: COLORS.primary,
-
+//                backgroundColor: COLORS.primary,
+                backgroundColor: "#b5e2fa"
             },
 
             text:{
@@ -88,12 +90,12 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(name, description){
+    renderList(name){
 
         //Sirve para renderear la lista
         
         let elementWidth = this.width * 0.9;
-        let elementHeight = this.height * 0.13;
+        let elementHeight = this.height * 0.07;
         let marginLeft = this.width*0.05 - this.padding;
 
         let style = StyleSheet.create({
@@ -103,11 +105,12 @@ import commonStyles from '../../../res/commonStyles';
                 width:elementWidth,
                 height:elementHeight,
                 backgroundColor:"white",
-                borderRadius:0,
+                borderRadius:10,
                 elevation:10,
                 marginLeft:marginLeft,
                 marginBottom:10,                
-                backgroundColor: COLORS.primary,
+//                backgroundColor: COLORS.primary,
+                backgroundColor: "#ffb499"
 
             },
 
@@ -137,7 +140,7 @@ import commonStyles from '../../../res/commonStyles';
         
         let onClick = ()=>{
             
-            Actions.wishlist_items();
+            Actions.user_wishlist_list();
 
         }
 
@@ -154,11 +157,6 @@ import commonStyles from '../../../res/commonStyles';
                         {name}
 
                     </Text>
-                    <Text style={style.text_dsc}>
-                        {description}
-                    </Text>
-
-
                 </View>                
 
             </TouchableOpacity>            
@@ -189,25 +187,9 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.wishlist_items()}}
+                    onPress={()=>{}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
-
-                <TheCircle
-                    width={commonStyles(this).actionButtonWidth}
-                    height={commonStyles(this).actionButtonHeight}
-                    name="ios-add"
-                    onPress={()=>{Actions.wishlist_creation()}}
-                    color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
-
-                <TheCircle
-                    width={commonStyles(this).actionButtonWidth}
-                    height={commonStyles(this).actionButtonHeight}
-                    name="ios-contacts"
-                    onPress={()=>{Actions.users_wishlists()}}
-                    color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />                        
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                         
 
             </>
 
@@ -280,8 +262,8 @@ import commonStyles from '../../../res/commonStyles';
                             renderItem={({item})=>{
                                 
                                 let name = item.name;
-                                let description = item.description;
-                                return this.renderList(name, description);
+                                
+                                return this.renderList(name);
 
                             }}
                             keyExtractor={item => item.name}

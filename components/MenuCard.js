@@ -56,7 +56,7 @@ export class MenuCard extends Component{
         fontSize: width*0.05,
         overflow:"hidden",
         fontWeight: 'bold',
-        color: 'white'
+        color: 'black'
       }
 
     });
