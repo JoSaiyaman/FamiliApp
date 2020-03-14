@@ -217,7 +217,7 @@ export default class RouterComponent extends React.Component {
                     <Stack key="send_announcement" hideNavBar={true}>
 
                         <Scene
-                            hideNavBar={true}
+                            hideNavBar={false}
                             title="Mandar aviso"
                             key="send_announcement"
                             component={SendAnnouncement}
