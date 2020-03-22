@@ -7,11 +7,14 @@ import {
 } from 'react-native-router-flux';
 import { 
     StyleSheet,
-    StatusBar 
+    StatusBar,
+    Text
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Menu from './views/Menu';
+// import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
@@ -30,6 +33,31 @@ import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
+
+const ListIcon = ({focused}) => {
+    let iconColor;
+    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
+    return(
+        <Icon name="clipboard-list" size={30} color= {iconColor} />
+    );
+} 
+
+const BoardIcon = ({focused}) => {
+    let iconColor;
+    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
+    return(
+        <Icon name="chalkboard" size={30} color= {iconColor} />
+    );
+} 
+
+const OldIcon = ({focused}) => {
+    let iconColor;
+    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
+    return(
+        <Icon name="blackberry" size={30} color= {iconColor} />
+    );
+} 
+
 export default class RouterComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -153,78 +181,154 @@ export default class RouterComponent extends React.Component {
                     hideNavBar={true}
                     style={style.titleStyle}
                 >
-                    <Scene
-                        hideNavBar
-                        title=""
-                        key="home_screen"
-                        component={Menu}
-                        initial                        
-                    />
+                    <Scene 
+                        key="tabbar"
+                        tabs
+                        tabBarStyle = {{backgroundColor:'#FFFFFF'}}
+                    >
+                        <Scene key = "wishlist" title = "Wishlists" icon = {ListIcon} >
+                            <Scene
+                                title="Wishlists"
+                                key="wishlist_tray"
+                                component={WishlistTray}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                key="wishlist_creation"
+                                component={WishlistCreation}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Listas de deseos"
+                                key="wishlist_items"
+                                component={WishlistItems}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Agregar a la lista"
+                                key="wishlist_add_items"
+                                component={WishlistAddItems}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Ver listas de otros usuarios"
+                                key="users_wishlists"
+                                component={WishlistUsers}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Listas de usuario"
+                                key="user_wishlist_list"
+                                component={WishlistUserTray}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Contenido de lista de usuario"
+                                key="user_wishlist_items"
+                                component={WishlistUserItems}
+                                hideNavBar={false}
+                            />
+                        </Scene>
 
-                    <Scene
-                        title="Wishlists"
-                        key="wishlist_tray"
-                        component={WishlistTray}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        key="wishlist_creation"
-                        component={WishlistCreation}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        title="Listas de deseos"
-                        key="wishlist_items"
-                        component={WishlistItems}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        title="Agregar a la lista"
-                        key="wishlist_add_items"
-                        component={WishlistAddItems}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        title="Ver listas de otros usuarios"
-                        key="users_wishlists"
-                        component={WishlistUsers}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        title="Listas de usuario"
-                        key="user_wishlist_list"
-                        component={WishlistUserTray}
-                        hideNavBar={false}
-                    />
-                    <Scene
-                        title="Contenido de lista de usuario"
-                        key="user_wishlist_items"
-                        component={WishlistUserItems}
-                        hideNavBar={false}
-                    />
+                        <Scene key = "announcements" title = "Announcements" icon = {BoardIcon} >
+                            <Stack key="send_announcement" hideNavBar={true}>
 
-                    <Stack key="join_group" hideNavBar={true}>
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Mandar aviso"
+                                    key="send_announcement"
+                                    component={SendAnnouncement}
+                                    
+                                />
+                            </Stack>
 
-                        <Scene
-                            hideNavBar={true}
-                            title=""
-                            key="join_group"
-                            component={JoinGroup}
-                        />
+                        </Scene>
 
-                    </Stack>
-                        
-                    <Stack key="send_announcement" hideNavBar={true}>
+                        <Scene key = "prev_menu" title = "Old Menu" icon = {OldIcon} >
 
-                        <Scene
-                            hideNavBar={false}
-                            title="Mandar aviso"
-                            key="send_announcement"
-                            component={SendAnnouncement}
-                            
-                        />
+                            <Scene
+                                hideNavBar
+                                title=""
+                                key="home_screen"
+                                component={Menu}
+                                initial                        
+                            />
 
-                    </Stack>
+                            {/* <Scene
+                                hideNavBar
+                                title=""
+                                key="main_menu"
+                                component={MainMenu}
+                                initial                        
+                            /> */}
+
+                            <Scene
+                                title="Wishlists"
+                                key="wishlist_tray"
+                                component={WishlistTray}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                key="wishlist_creation"
+                                component={WishlistCreation}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Listas de deseos"
+                                key="wishlist_items"
+                                component={WishlistItems}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Agregar a la lista"
+                                key="wishlist_add_items"
+                                component={WishlistAddItems}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Ver listas de otros usuarios"
+                                key="users_wishlists"
+                                component={WishlistUsers}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Listas de usuario"
+                                key="user_wishlist_list"
+                                component={WishlistUserTray}
+                                hideNavBar={false}
+                            />
+                            <Scene
+                                title="Contenido de lista de usuario"
+                                key="user_wishlist_items"
+                                component={WishlistUserItems}
+                                hideNavBar={false}
+                            />
+
+                            <Stack key="join_group" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={true}
+                                    title=""
+                                    key="join_group"
+                                    component={JoinGroup}
+                                />
+
+                            </Stack>
+                                
+                            <Stack key="send_announcement" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Mandar aviso"
+                                    key="send_announcement"
+                                    component={SendAnnouncement}
+                                    
+                                />
+
+                            </Stack>
+                        </Scene>
+
+                    </Scene>
                     
 
                     </Stack>
