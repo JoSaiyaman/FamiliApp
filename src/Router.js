@@ -312,7 +312,7 @@ export default class RouterComponent extends React.Component {
 
                                 <Scene
                                     hideNavBar={true}
-                                    title=""
+                                    title="Eventos próximos"
                                     key="upcoming_events"
                                     component={UpcomingEvents}
                                 />
@@ -326,7 +326,7 @@ export default class RouterComponent extends React.Component {
 
                                 <Scene
                                     hideNavBar={false}
-                                    title=""
+                                    title="Datos de evento"
                                     key="event_detail"
                                     component={EventDetail}
                                 />
