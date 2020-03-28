@@ -32,6 +32,8 @@ import {WishlistUserItems} from './views/Wishlists/WishlistUserItems';
 import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 
 import {GroupEvents} from './views/Events/GroupEvents';
+import {UpcomingEvents} from './views/Events/UpcomingEvents';
+import {EventDetail} from './views/Events/EventDetail';
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
@@ -306,13 +308,27 @@ export default class RouterComponent extends React.Component {
                                 hideNavBar={false}
                             />
 
-                            <Stack key="group_events" hideNavBar={true}>
+                            <Stack key="upcoming_events" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={true}
+                                    title=""
+                                    key="upcoming_events"
+                                    component={UpcomingEvents}
+                                />
 
                                 <Scene
                                     hideNavBar={true}
                                     title=""
                                     key="group_events"
                                     component={GroupEvents}
+                                />
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title=""
+                                    key="event_detail"
+                                    component={EventDetail}
                                 />
 
                             </Stack>
