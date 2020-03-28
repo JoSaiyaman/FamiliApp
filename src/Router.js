@@ -31,6 +31,8 @@ import {WishlistUserItems} from './views/Wishlists/WishlistUserItems';
 
 import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 
+import {GroupEvents} from './views/Events/GroupEvents';
+
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
 
@@ -303,6 +305,17 @@ export default class RouterComponent extends React.Component {
                                 component={WishlistUserItems}
                                 hideNavBar={false}
                             />
+
+                            <Stack key="group_events" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={true}
+                                    title=""
+                                    key="group_events"
+                                    component={GroupEvents}
+                                />
+
+                            </Stack>
 
                             <Stack key="join_group" hideNavBar={true}>
 

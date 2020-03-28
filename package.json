@@ -18,6 +18,8 @@
     "react-native": "0.61.5",
     "react-native-camera": "^3.19.0",
     "react-native-elements": "^1.2.7",
+    "react-native-event-calendar-customized": "^1.0.19",
+    "react-native-events-calendar": "^1.0.8",
     "react-native-form-auto-next": "^1.0.4",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-qrcode-svg": "^6.0.3",
