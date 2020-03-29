@@ -33,6 +33,9 @@ import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
+import { AlbumDetail } from './views/Album/AlbumDetail';
+import { AlbumList } from './views/Album/AlbumList';
+import { AlbumCreation } from './views/Album/AlbumCreation';
 
 const ListIcon = ({focused}) => {
     let iconColor;
@@ -243,6 +246,35 @@ export default class RouterComponent extends React.Component {
                             </Stack>
 
                         </Scene>
+
+
+                        <Scene key = "album" title = "Albums" icon = {BoardIcon} >
+                            <Stack key="albums" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Álbum"
+                                    key="album_detail"
+                                    component={AlbumDetail}
+                                />
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Álbumes"
+                                    key="album_list"
+                                    component={AlbumList}
+                                    initial
+                                />
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Nuevo Álbum"
+                                    key="album_creation"
+                                    component={AlbumCreation}
+                                />
+                            </Stack>
+
+                        </Scene>
+
+
 
                         <Scene key = "prev_menu" title = "Old Menu" icon = {OldIcon} >
 
