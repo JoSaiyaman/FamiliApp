@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
+    "@react-native-community/datetimepicker": "^2.3.1",
     "@react-native-community/netinfo": "^5.5.1",
     "axios": "^0.19.2",
+    "datetimepicker": "^0.1.39",
     "node-modules": "^1.0.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
@@ -22,6 +24,7 @@
     "react-native-events-calendar": "^1.0.8",
     "react-native-form-auto-next": "^1.0.4",
     "react-native-gesture-handler": "^1.6.0",
+    "react-native-modal-datetime-picker": "^8.5.2",
     "react-native-qrcode-svg": "^6.0.3",
     "react-native-reanimated": "^1.7.0",
     "react-native-router-flux": "^4.2.0",

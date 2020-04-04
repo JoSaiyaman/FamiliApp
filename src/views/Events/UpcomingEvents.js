@@ -17,7 +17,7 @@ import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-//import {get_user_groups} from '../../../res/api/calls/groups';
+import {get_user_events} from '../../../res/api/calls/events';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -37,6 +37,8 @@ import commonStyles from '../../../res/commonStyles';
 
             loading:true,
             hasInternet: true,
+            eventos:[],
+            /*,
             eventos:[{
                 "date":"24/12/2020",
                 "day":"24",
@@ -52,7 +54,7 @@ import commonStyles from '../../../res/commonStyles';
                 "year":"2020",
                 "name": "FIESTA VISPERA 2021",
                 "description": "Es secreta, no la vean si no son santa >:C. "
-            }],
+            }],*/
 
         }
         //*************************Estilo*******
@@ -100,7 +102,7 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(name, description){
+    renderList(name, description, starts_at, ends_at, location){
 
         //Sirve para renderear la lista
         
@@ -171,7 +173,7 @@ import commonStyles from '../../../res/commonStyles';
             <View style={{flexDirection:"row"}}>
                 <View style={style.daymark_cont}>
                     <Text style={style.daymark_num}>
-                        24 Dic.
+                        Hola
                     </Text>
                 </View>
                     <TouchableOpacity 
@@ -183,6 +185,15 @@ import commonStyles from '../../../res/commonStyles';
                             </Text>
                             <Text style={style.text_dsc}>
                                 {description}
+                            </Text>
+                            <Text style={style.text_dsc}>
+                                {starts_at}
+                            </Text>
+                            <Text style={style.text_dsc}>
+                                {ends_at}
+                            </Text>
+                            <Text style={style.text_dsc}>
+                                {location}
                             </Text>
                         </View>
                     </TouchableOpacity>
@@ -229,7 +240,7 @@ import commonStyles from '../../../res/commonStyles';
 
     }
 
-    /*
+    
     renderListEmpty(){
         return(
             this.state.loading ? <Text style={{alignSelf:"center"}}>Cargando...</Text> : 
@@ -237,30 +248,30 @@ import commonStyles from '../../../res/commonStyles';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay grupos.
+                    No hay eventos
                 </Text>
             </View>
         );
     }
-*/
+
     //****************** Data loading  ***********/
-/*
-        loadWishlists() {
+
+        loadEvents() {
             if (hasInternetConnection(this)) {
                 this.setState({
                     loading: true
                 })
-                get_user_groups().then((res)=>{
+                get_user_events().then((res)=>{
                     if(res["status"] == OK){
                         if(!res.detail){
                             
                             this.setState({
             
-                                grupos:res.groups
+                                eventos: res.events
             
                             })
-                            if (res.groups.length == 0) {
-                                Actions.groupcreation()
+                            if (res.events.length == 0) {
+                                Actions.event_detail()
                             }
                         } else {
                             Alert.alert("Error",res.detail);
@@ -270,10 +281,10 @@ import commonStyles from '../../../res/commonStyles';
                 });    
             }
         }
-*/
-    //************************Métodos de lifecycle que no son render */
+
+    //************************Métodos de lifecycle que no son render 
     componentWillMount(){
-        //this.loadGroups()
+        this.loadEvents()
     }
     
     render(){
@@ -282,7 +293,7 @@ import commonStyles from '../../../res/commonStyles';
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
-                //onRetry={this.loadGroups.bind(this)}
+                onRetry={this.loadEvents.bind(this)}
             >
                 <View style={this.style.main}>
                     
@@ -290,12 +301,15 @@ import commonStyles from '../../../res/commonStyles';
 
                         <FlatList
                             data={dataToRender}
-                            //ListEmptyComponent={this.renderListEmpty()}
+                            ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
                                 let name = item.name;
                                 let description = item.description;
-                                return this.renderList(name, description);
+                                let starts_at = item.starts_at;
+                                let ends_at = item.ends_at;
+                                let location = item.location;
+                                return this.renderList(name, description, starts_at, ends_at, location);
 
                             }}
                             keyExtractor={item => item.name}
