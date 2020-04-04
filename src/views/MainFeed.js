@@ -14,18 +14,16 @@ import {Actions} from 'react-native-router-flux';
 import {Overlay} from 'react-native-elements';
 
 // Connection related importss
-import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
-import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
-import {TheCircle} from '../../../components/TheCircle';
-import {get_user_events} from '../../../res/api/calls/events';
-import {OK, FAIL} from '../../../res/api/hostInfo';
-import COLORS from '../../../res/colors';
-import IMAGES from '../../../res/images';
-import commonStyles from '../../../res/commonStyles';
+import { ConnectionWrapper } from '../../connectionHelpers/ConnectionWrapper';
+import { hasInternetConnection } from '../../connectionHelpers/hasInternetConnection';
+import {TheCircle} from '../../components/TheCircle';
+import {get_group_announcements} from '../../res/api/calls/announcements';
+import {OK, FAIL} from '../../res/api/hostInfo';
+import COLORS from '../../res/colors';
+import IMAGES from '../../res/images';
+import commonStyles from '../../res/commonStyles';
 
-import moment from 'moment';
-
-  export class UpcomingEvents extends Component{
+  export class MainFeed extends Component{
 
     constructor(props){
 
@@ -39,24 +37,7 @@ import moment from 'moment';
 
             loading:true,
             hasInternet: true,
-            eventos:[],
-            /*,
-            eventos:[{
-                "date":"24/12/2020",
-                "day":"24",
-                "month":"12",
-                "year":"2020",
-                "name": "FIESTA NOCHE BUENA",
-                "description": "Es secreta, no la vean si no son santa >:C. "
-            },
-            {
-                "date":"31/12/2020",
-                "day":"31",
-                "month":"12",
-                "year":"2020",
-                "name": "FIESTA VISPERA 2021",
-                "description": "Es secreta, no la vean si no son santa >:C. "
-            }],*/
+            announements:[],
 
         }
         //*************************Estilo*******
@@ -68,13 +49,10 @@ import moment from 'moment';
 
             },
 
-
             list_view:{
-
                 flex:1,
                 padding:this.padding,                
                 alignContent:"center"
-
             },
 
             cont:{
@@ -85,7 +63,7 @@ import moment from 'moment';
                 borderRadius:14,
                 elevation:10,
                 marginBottom:10,                
-                backgroundColor: COLORS.primary,
+                backgroundColor: COLORS.secondary,
 
             },
 
@@ -104,37 +82,19 @@ import moment from 'moment';
     }
 
     //******************Renderers *************************
-
-    renderList(name, description, starts_at, ends_at, location){
+    renderList(message){
 
         //Sirve para renderear la lista
         
         let elementWidth = this.width * 0.9;
-        let elementHeight = this.height * 0.10;
+        let elementHeight = this.height * 0.13;
         let marginLeft = this.width*0.05 - this.padding;
 
         let style = StyleSheet.create({
 
-            daymark_num:{
-                fontSize: 20,
-                color:"white",
-                fontWeight:"bold",
-                alignSelf: "center"
-            },
-
-            daymark_cont:{
-                flexDirection: "row",
-                width:elementWidth * 0.2,
-                height: elementHeight,
-                alignItems:"center",
-                alignContent:"center",
-                backgroundColor: COLORS.primary,
-                borderRadius: 40,
-            },
-
             cont:{
 
-                width:elementWidth * 0.8,
+                width:elementWidth,
                 height:elementHeight,
                 backgroundColor:"white",
                 borderRadius:0,
@@ -142,7 +102,6 @@ import moment from 'moment';
                 marginLeft:marginLeft,
                 marginBottom:10,                
                 backgroundColor: COLORS.primary,
-                
 
             },
 
@@ -172,38 +131,37 @@ import moment from 'moment';
         
         let onClick = ()=>{
             
-            Actions.event_detail();
+            
 
         }
 
-        
-
         return(
-            <View style={{flexDirection:"row"}}>
-                <View style={style.daymark_cont}>
-                    <Text style={style.daymark_num}>
-                        {moment({starts_at}).format("DD MMM")} 
+
+            <TouchableOpacity 
+            onPress={onClick.bind(this)} 
+            style={style.cont}>
+
+                <View style={style.text_cont}>
+
+                    <Text style={style.text}>
+
+                        Aviso
+
                     </Text>
-                </View>
-                    <TouchableOpacity 
-                    onPress={onClick.bind(this)} 
-                    style={style.cont}>
-                        <View style={style.text_cont}>
-                            <Text style={style.text}>
-                                {name}
-                            </Text>
-                            <Text style={style.text_dsc}>
-                                {description}
-                            </Text>
-                            <Text style={style.text_dsc}>
-                                {location}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-            </View>   
+                    <Text style={style.text_dsc}>
+                        {message}
+                    </Text>
+
+
+                </View>                
+
+            </TouchableOpacity>            
+
         )
+
     }
     
+
     renderActions(){
 
         //Renderea los botones flotantes para las acciones
@@ -225,7 +183,7 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.event_detail()}}
+                    onPress={()=>{this.loadAnnouncements()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
@@ -233,9 +191,9 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{Actions.event_detail()}}
+                    onPress={()=>{Actions.send_announcement()}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                 
 
             </>
 
@@ -251,7 +209,7 @@ import moment from 'moment';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay eventos
+                    No hay avisos
                 </Text>
             </View>
         );
@@ -259,22 +217,22 @@ import moment from 'moment';
 
     //****************** Data loading  ***********/
 
-        loadEvents() {
+        loadAnnouncements() {
             if (hasInternetConnection(this)) {
                 this.setState({
                     loading: true
                 })
-                get_user_events().then((res)=>{
+                get_group_announcements().then((res)=>{
                     if(res["status"] == OK){
                         if(!res.detail){
                             
                             this.setState({
             
-                                eventos: res.events
+                                announcements:res.announcements
             
                             })
-                            if (res.events.length == 0) {
-                                Actions.event_detail()
+                            if (res.announcements.length == 0) {
+                                //Actions.groupcreation()
                             }
                         } else {
                             Alert.alert("Error",res.detail);
@@ -285,27 +243,18 @@ import moment from 'moment';
             }
         }
 
-    //************************Métodos de lifecycle que no son render 
+    //************************Métodos de lifecycle que no son render */
     componentWillMount(){
-        this.loadEvents()
+        this.loadAnnouncements()
     }
     
     render(){
         // global.rol = 'COLLABORATOR'
-        let dataToRender = this.state.eventos;
-        //let sortedCars1 = cars.sort((a, b) => new Date(...a.initialRegistration.split('/').reverse()) - new Date(...b.initialRegistration.split('/').reverse()));
-        //const sortedEvents = dataToRender.sort((a,b) => new Moment(a.starts_at).format('YYYYMMDD') - new Moment(b.starts_at).format('YYYYMMDD'))
-        /*
-        const monthList = sortedEvents.map(x=>{
-            if (x.starts_at) {
-            }else{
-            }
-        })
-        */
+        let dataToRender = this.state.announcements;
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
-                onRetry={this.loadEvents.bind(this)}
+                onRetry={this.loadAnnouncements.bind(this)}
             >
                 <View style={this.style.main}>
                     
@@ -316,15 +265,11 @@ import moment from 'moment';
                             ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
-                                let name = item.name;
-                                let description = item.description;
-                                let starts_at = item.starts_at;
-                                let ends_at = item.ends_at;
-                                let location = item.location;
-                                return this.renderList(name, description, starts_at, ends_at, location);
+                                let message = item.message;
+                                return this.renderList(message);
 
                             }}
-                            keyExtractor={item => item.name}
+                            keyExtractor={item => item.message}
                             extraData={this.state.dataToRender}
                             ListFooterComponent={() => <View></View>}
                             ListFooterComponentStyle={{height: 30}} />

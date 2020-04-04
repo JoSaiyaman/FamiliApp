@@ -100,7 +100,7 @@ export default class Menu extends React.Component{
                   <MenuCard
                     style={this.style.menu_card}
                     image={IMAGES.placeholder}
-                    onPress={()=>{Actions.send_announcement()}}
+                    onPress={()=>{Actions.view_announcements()}}
                     name="Avisos"/>
 
                   <MenuCard

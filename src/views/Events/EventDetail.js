@@ -290,8 +290,8 @@ import moment from 'moment';
     };
      
     handleDatePicked = value => {
-        this.setState({ ends_at: value });
-        this.hideDateTimePicker;
+        this.setState({ ends_at: value })
+        this.setState({ isDateTimePickerVisible: false })
     };
 
     render(){

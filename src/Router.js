@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Menu from './views/Menu';
+import {MainFeed} from './views/MainFeed'
 // import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
 import {SignUp} from './views/SignUp';
@@ -40,6 +41,8 @@ import { GroupsQr } from './views/GroupsQr/GroupsQr';
 import { AlbumDetail } from './views/Album/AlbumDetail';
 import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
+
+
 
 const ListIcon = ({focused}) => {
     let iconColor;
@@ -376,7 +379,15 @@ export default class RouterComponent extends React.Component {
 
                             </Stack>
                                 
-                            <Stack key="send_announcement" hideNavBar={true}>
+                            <Stack key="view_announcements" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Avisos"
+                                    key="view_announcements"
+                                    component={MainFeed}
+                                    
+                                />
 
                                 <Scene
                                     hideNavBar={false}
@@ -385,7 +396,6 @@ export default class RouterComponent extends React.Component {
                                     component={SendAnnouncement}
                                     
                                 />
-
                             </Stack>
                         </Scene>
 

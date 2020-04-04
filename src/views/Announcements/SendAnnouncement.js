@@ -13,8 +13,13 @@ import {
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
+import {create_announcement} from '../../../res/api/calls/announcements';
+
 // Connection related imports
 import {Overlay} from 'react-native-elements';
+import {OK, FAIL} from '../../../res/api/hostInfo';
+
+import NetInfo from "@react-native-community/netinfo";
 
 import COLORS from '../../../res/colors';
 
@@ -30,7 +35,8 @@ export class SendAnnouncement extends Component{
         this.state = {
 
             loading:false,
-            message:""
+            message:"",
+            is_important: false,
 
         }
         //************Estilo ************/
@@ -110,6 +116,51 @@ export class SendAnnouncement extends Component{
         });
 
     }
+
+    verificarCampos(){
+        if(this.state.message){
+            this.crearAviso();
+        }else{
+            let message = 'Es necesario escribir un aviso';
+            Alert.alert("Atención", message);
+        }
+    }
+
+    crearAviso(){
+        NetInfo.fetch().then(connection => {
+            if (connection.isInternetReachable) {
+             
+                this.setState({        
+                    loading:true
+                });
+                create_announcement(this.state.message, this.state.is_important).then((res)=>{
+                    console.log("resultado", res);
+                    if(res.status == OK){
+                
+                        if(!res.error_details){
+                            
+                            //Guardar en redux***************
+                            //TODO: GUARDAR EN REDUX
+                            Alert.alert("Aviso creado con éxito");
+                            Actions.view_announcements();
+        
+                        } else {
+                            Alert.alert("Error",res.message);
+                        }
+        
+        
+                    }else{
+                        Alert.alert("Ha habido un error");
+                    }
+                    this.setState({loading:false});
+                });
+            } else {
+                noInternetNotification();
+            }
+        });
+        
+    }
+
     render(){
 
         return(
@@ -141,8 +192,7 @@ export class SendAnnouncement extends Component{
                         textAlign={"justify"}/>
                     
                     <TouchableOpacity style={this.style.save_button}
-                    //onPress={()=>
-                    //this.verificarCampos()}
+                    onPress={()=>this.verificarCampos()}
                     >
                         <View>
                             <Text style={
