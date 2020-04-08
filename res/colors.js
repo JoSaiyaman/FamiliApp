@@ -1,10 +1,13 @@
 const COLORS = {
 
-    primary: "coral",
+    primary: "#08a789", //"coral",
     secondary:"#ffece6",
-    buttons:"#cc3600",
+    accent: "#83cc3d",
+    buttons: "#83cc3d", //"#cc3600",
     primaryFontColor:"white",
-    contrast:"white"
+    primaryFontColorAlt: "#1d1d1d",
+    contrast:"white",
+    blankBackground: '#f2f2f2'
   
   }
   

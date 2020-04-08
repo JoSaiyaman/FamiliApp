@@ -17,8 +17,12 @@ import Menu from './views/Menu';
 import {MainFeed} from './views/MainFeed'
 // import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
+import {PhoneRegistration} from './views/PhoneRegistration/PhoneRegistration';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
+
+import {Landing} from './views/Landing/Landing';
+
 
 import {GroupCreation} from './views/Groups/GroupCreation';
 import {GroupTray} from './views/Groups/GroupTray';
@@ -147,6 +151,17 @@ export default class RouterComponent extends React.Component {
                     />
 
                 </Stack> */}
+                <Scene
+                    key = "landing"
+                    component = {Landing}
+                    hideNavBar = {true}
+                    />
+                    
+                <Scene
+                    key = "phone_registration"
+                    component = {PhoneRegistration}
+                    hideNavBar = {true}
+                    />
 
                 <Scene
                     key="login"
