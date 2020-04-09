@@ -1,7 +1,7 @@
 const COLORS = {
 
     primary: "#08a789", //"coral",
-    secondary:"#ffece6",
+    secondary: "#e6f6f3", //"#ffece6",
     accent: "#83cc3d",
     buttons: "#83cc3d", //"#cc3600",
     primaryFontColor:"white",

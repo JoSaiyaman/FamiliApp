@@ -22,6 +22,8 @@ import IMAGES from '../../../res/images';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Overlay } from 'react-native-elements';
 import COLORS from '../../../res/colors';
+import {Actions} from 'react-native-router-flux';
+
 import {
     goToPhoneRegistration,
 } from './Landing_controller';
@@ -89,7 +91,10 @@ export class Landing extends Component{
                     <View style={{height: 24}}></View>
 
                     <TouchableOpacity
-                        onPress={() => goToPhoneRegistration(this)}>
+                        onPress={() => {
+                            Actions.grouptray()
+                            // goToPhoneRegistration(this)
+                        }}>
 
                         <Text style={[view_style.centered_paragraph, {fontSize: 16}]}>¿Ya tienes cuenta?</Text>
                     

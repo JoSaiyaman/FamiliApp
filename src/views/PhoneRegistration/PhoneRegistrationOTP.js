@@ -17,8 +17,8 @@ import PhoneInput from 'react-native-phone-input';
 import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
 import {
-    register,
-    phoneLoginAction
+    requestOtpCodeAction,
+    verifyOtpCodeAction
 } from './PhoneRegistration_controller';
 
 export class PhoneRegistrationOTP extends Component{
@@ -35,12 +35,15 @@ export class PhoneRegistrationOTP extends Component{
             phoneNumber: this.props.phoneNumber,
             otpCode: '',
             loading: false,
+            smsHasBeenSent: false,
             otpCodeInvalid: false
         };
     }
 
     componentDidMount() {
         // Call request SMS action
+        let phoneNumber = this.state.phoneNumber
+        requestOtpCodeAction(this, phoneNumber)
     }
 
 
@@ -48,8 +51,9 @@ export class PhoneRegistrationOTP extends Component{
         let otpCode = this.state.otpCode
         let otpCodeIsValid = this.validateOtpCode(otpCode)
         if (otpCodeIsValid) {
+            let phoneNumber = this.state.phoneNumber
             // Redirect to PhoneRegistrationOTP
-            console.log("*" + otpCode + "*")
+            verifyOtpCodeAction(this, phoneNumber, otpCode)
         } else {
             this.setState({
                 otpCodeInvalid: true
@@ -71,7 +75,7 @@ export class PhoneRegistrationOTP extends Component{
             height: this.height
 
         }
-
+        let smsHasBeenSent = this.state.smsHasBeenSent
         let c_style = commonStyles(c_style_context);
  
         return (
@@ -88,7 +92,7 @@ export class PhoneRegistrationOTP extends Component{
 
                 </View>
 
-                <View style={view_style.secondary_banner}>
+                <View style={[view_style.secondary_banner, smsHasBeenSent ? {}:{display: 'none'}]}>
 
                     <Text style={view_style.secondary_banner_text}>Código ha sido enviado a</Text>
                     <View style={{height: 5}}></View>

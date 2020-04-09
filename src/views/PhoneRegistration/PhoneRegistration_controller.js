@@ -11,22 +11,21 @@ export function goToPhoneConfirmationView(normalizedPhone){
 
 }
 
-export  function phoneRegistrationAction(context, username, password){
+export  function requestOtpCodeAction(context, phoneNumber){
 
-    let loginModel = new Login(username, password);
     context.setState({
 
         loading:true
 
     })
-    api.login(loginModel).then((response)=>{
-
+    api.requestOtpCode(phoneNumber).then((response)=>{
+        console.log(response)
         if(response["status"] == OK ){
 
-            Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
-
-            setLoginInfo(response["token"], username);
-            Actions.grouptray()       
+            console.log(response['message'])
+            context.setState({
+                smsHasBeenSent: true
+            })
 
         }else{
 
@@ -37,6 +36,45 @@ export  function phoneRegistrationAction(context, username, password){
         context.setState({
 
             loading:false
+
+        })
+
+    });
+
+}
+
+export function verifyOtpCodeAction(context, phoneNumber, otpCode) {
+
+    context.setState({
+
+        loading: true
+
+    })
+    api.verifyOtpCode(phoneNumber, otpCode).then((response) => {
+
+        if (response["status"] == OK) {
+            let is_complete = response['is_complete']
+
+            Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
+
+            setLoginInfo(response["token"], phoneNumber);
+            
+            // conditional redirection, dpeending on if profile is complete
+            if (is_complete) {
+                Actions.grouptray()
+            } else {
+                
+            }
+
+        } else {
+
+            Alert.alert("Ha habido un error");
+
+        }
+
+        context.setState({
+
+            loading: false
 
         })
 
