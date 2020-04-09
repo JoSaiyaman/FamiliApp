@@ -38,7 +38,7 @@ export const style = (context)=>{
             color: COLORS.accent
         },
         paragraph: {
-            paddingHorizontal: 25,
+            paddingHorizontal: 30,
             fontFamily: commonStyles(context).primaryFont,
             color: COLORS.primaryFontColorAlt,
             fontSize: 18,
@@ -63,6 +63,32 @@ export const style = (context)=>{
             color: COLORS.primaryFontColor,
             fontSize: 20,
             fontFamily: commonStyles(context).secondaryFont,
+        },
+        input_error: {
+            color: 'red',
+            fontFamily: commonStyles(context).primaryFont,
+            fontSize: 16,
+            marginHorizontal: 25,
+            padding: 8,
+            borderColor: 'red',
+            backgroundColor: '#EDD',
+            borderRadius: 10,
+            borderWidth: 1
+        },
+        phone_input: {
+            paddingVertical: 30,
+            paddingHorizontal: 20,
+            height: 30,
+            borderRadius: 10,
+            marginHorizontal: 25,
+            borderColor: 'grey',
+            borderWidth: 1
+        },
+        phone_input_text: {
+            fontFamily: commonStyles(context).secondaryFont,
+            marginTop: 2,
+            fontSize: 20,
+            height: 20,
         },
         row: {
             flexDirection: "row"

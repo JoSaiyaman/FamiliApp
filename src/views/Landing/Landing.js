@@ -42,7 +42,6 @@ export class Landing extends Component{
     }
 
     render(){
-        
 
         let view_style = style(this);
 
