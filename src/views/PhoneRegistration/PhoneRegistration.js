@@ -2,17 +2,9 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  ImageBackground,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  Image,
-  ToastAndroid,
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
-  TouchableHighlight,
-  Alert
 } from 'react-native';
 import { Form } from 'react-native-form-auto-next';
 import {style, COMMON_BORDER_RADIUS, COMMON_PADDING, COMMON_ELEVATION} from './PhoneRegistration_style';
@@ -24,8 +16,7 @@ import PhoneInput from 'react-native-phone-input';
 import CountryPicker, {getAllCountries} from 'react-native-country-picker-modal';
 
 import {
-    register,
-    phoneLoginAction
+    goToPhoneConfirmationView
 } from './PhoneRegistration_controller';
 
 export class PhoneRegistration extends Component{
@@ -54,7 +45,7 @@ export class PhoneRegistration extends Component{
             pickerData: this.phone.getPickerData(),
             phoneNumber: '+' + this.phone.getCountryCode(),
         });
-
+        this.phone.focus()
     }
 
     selectCountry(country) {
@@ -73,6 +64,7 @@ export class PhoneRegistration extends Component{
             let normalizedPhone = this.state.phoneNumber.replace(" ", "")
             // Redirect to PhoneRegistrationOTP
             console.log("*" + normalizedPhone + "*")
+            goToPhoneConfirmationView(normalizedPhone)
         } else {
             this.setState({
                 phoneNumberInvalid: true
@@ -125,6 +117,8 @@ export class PhoneRegistration extends Component{
                         })
                     }
                     }
+                    autoFocus={true}
+                    focus={true}
                     style={view_style.phone_input}
                     textStyle={view_style.phone_input_text}
                     withCallingCode={true}

@@ -6,6 +6,7 @@ const COLORS = {
     buttons: "#83cc3d", //"#cc3600",
     primaryFontColor:"white",
     primaryFontColorAlt: "#1d1d1d",
+    primaryFontColorAltLight: "#999",
     contrast:"white",
     blankBackground: '#f2f2f2'
   

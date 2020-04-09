@@ -11,9 +11,13 @@ export default function commonStyles(context){
 
   return {
     //********************* Fonts *******************
-    specialFont: 'PermanentMarker-Regular', // Special titles
-    primaryFont: 'NanumGothic-Regular',     // Paragraphs
-    secondaryFont: 'Nunito-Regular',        // Titles, subtitles, and buttons
+    specialFont: 'PermanentMarker-Regular',         // Special titles
+    primaryFont: 'NanumGothic-Regular',             // Paragraphs
+    primaryFontBold: 'NanumGothic-Bold',            // 
+    primaryFontExtraBold: 'NanumGothic-ExtraBold',  // 
+    secondaryFont: 'Nunito-Regular',                // Titles, subtitles, and buttons
+    secondaryFontBold: 'Nunito-Bold',                   // 
+    secondaryFontExtraBold: 'Nunito-ExtraBold',              // 
 
     //*********************interfaces****************
     

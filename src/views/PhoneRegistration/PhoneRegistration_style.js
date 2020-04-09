@@ -23,6 +23,26 @@ export const style = (context)=>{
             alignItems: "center",
             backgroundColor: COLORS.primary,
         },
+        secondary_banner: {
+            height: 90,
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: '#DDD',
+            backgroundColor: '#DED'
+        },
+        secondary_banner_text: {
+            fontFamily: commonStyles(context).primaryFont,
+            fontSize: 20,
+            color: COLORS.primaryFontColorAlt,
+            textAlign: 'center'
+        },
+        primary_bold: {
+            fontFamily: commonStyles(context).primaryFontExtraBold,
+            color: COLORS.primaryFontColorAlt,
+            fontSize: 20,
+            textAlign: 'center'
+        },
         main: {
             flex: 1,
             justifyContent: "flex-start",
@@ -44,6 +64,13 @@ export const style = (context)=>{
             fontSize: 18,
             textAlign: "left"
         },
+        centered_paragraph: {
+            width: 200,
+            fontFamily: commonStyles(context).primaryFont,
+            color: COLORS.primaryFontColor,
+            fontSize: 20,
+            textAlign: "center"
+        },
         large_call_to_action: {
             width: 250,
             fontFamily: commonStyles(context).secondaryFont,
@@ -62,7 +89,7 @@ export const style = (context)=>{
         tile_button_text: {
             color: COLORS.primaryFontColor,
             fontSize: 20,
-            fontFamily: commonStyles(context).secondaryFont,
+            fontFamily: commonStyles(context).secondaryFontBold,
         },
         input_error: {
             color: 'red',
@@ -90,6 +117,21 @@ export const style = (context)=>{
             fontSize: 20,
             height: 20,
         },
+        otp_code_input: {
+            fontFamily: commonStyles(context).primaryFontBold,
+            height: 60,
+            borderColor: 'gray',
+            borderWidth: 1,
+            borderRadius: 10,
+            width: 200,
+            fontSize: 26,
+            padding: 2
+        },
+        resend_caption: {
+            fontFamily: commonStyles(context).primaryFont,
+            fontSize: 18,
+            color: COLORS.primaryFontColorAltLight
+        },  
         row: {
             flexDirection: "row"
         },

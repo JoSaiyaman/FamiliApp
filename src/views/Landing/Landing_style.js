@@ -59,7 +59,7 @@ export const style = (context)=>{
         tile_button_text: {
             color: COLORS.primaryFontColor,
             fontSize: 20,
-            fontFamily: commonStyles(context).secondaryFont,
+            fontFamily: commonStyles(context).secondaryFontBold,
         },
         row: {
             flexDirection: "row"

@@ -5,9 +5,9 @@ import {Login} from '../../../res/api/models/Login';
 import {setLoginInfo} from '../../../res/redux/actions/set_login';
 import {Alert} from 'react-native';
 
-export function register(){
+export function goToPhoneConfirmationView(normalizedPhone){
 
-    Actions.signup();
+    Actions.phone_registration_otp({phoneNumber: normalizedPhone});
 
 }
 

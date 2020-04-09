@@ -17,7 +17,8 @@ import Menu from './views/Menu';
 import {MainFeed} from './views/MainFeed'
 // import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
-import {PhoneRegistration} from './views/PhoneRegistration/PhoneRegistration';
+import { PhoneRegistration } from './views/PhoneRegistration/PhoneRegistration';
+import { PhoneRegistrationOTP } from './views/PhoneRegistration/PhoneRegistrationOTP';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
 
@@ -160,6 +161,12 @@ export default class RouterComponent extends React.Component {
                 <Scene
                     key = "phone_registration"
                     component = {PhoneRegistration}
+                    hideNavBar = {true}
+                    />
+
+                <Scene
+                    key = "phone_registration_otp"
+                    component = {PhoneRegistrationOTP}
                     hideNavBar = {true}
                     />
 
