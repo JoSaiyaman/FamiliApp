@@ -55,15 +55,15 @@ export function verifyOtpCodeAction(context, phoneNumber, otpCode) {
         if (response["status"] == OK) {
             let is_complete = response['is_complete']
 
-            Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
+            // Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
 
             setLoginInfo(response["token"], phoneNumber);
             
             // conditional redirection, dpeending on if profile is complete
             if (is_complete) {
-                Actions.grouptray()
+                Actions.groups()
             } else {
-                
+                Actions.profile_completion_stack()
             }
 
         } else {

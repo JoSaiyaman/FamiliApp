@@ -45,7 +45,8 @@ export class PhoneRegistration extends Component{
             pickerData: this.phone.getPickerData(),
             phoneNumber: '+' + this.phone.getCountryCode(),
         });
-        this.phone.focus()
+        
+        setTimeout(() => this.phone.focus(), 500)
     }
 
     selectCountry(country) {
@@ -117,7 +118,6 @@ export class PhoneRegistration extends Component{
                         })
                     }
                     }
-                    autoFocus={true}
                     focus={true}
                     style={view_style.phone_input}
                     textStyle={view_style.phone_input_text}

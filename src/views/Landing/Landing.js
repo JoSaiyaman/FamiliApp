@@ -92,7 +92,8 @@ export class Landing extends Component{
 
                     <TouchableOpacity
                         onPress={() => {
-                            Actions.grouptray()
+                            // Actions.profile_completion()
+                            Actions.groups()
                             // goToPhoneRegistration(this)
                         }}>
 

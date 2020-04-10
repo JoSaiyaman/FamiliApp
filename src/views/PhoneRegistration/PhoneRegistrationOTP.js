@@ -41,9 +41,11 @@ export class PhoneRegistrationOTP extends Component{
     }
 
     componentDidMount() {
+        setTimeout(() => this.otpCodeField.focus(), 500)
         // Call request SMS action
         let phoneNumber = this.state.phoneNumber
         requestOtpCodeAction(this, phoneNumber)
+        
     }
 
 
@@ -107,9 +109,9 @@ export class PhoneRegistrationOTP extends Component{
                 <View style={{height: 10}}></View>               
 
                 <TextInput
+                    ref={(ref) => {this.otpCodeField = ref;}}
                     style={view_style.otp_code_input}
                     textAlign='center'
-                    autoFocus={true}
                     maxlength={6}
                     multiline={false}
                     autoComplete="off"

@@ -19,6 +19,7 @@ import {MainFeed} from './views/MainFeed'
 import {SignIn} from './views/SignIn/SignIn';
 import { PhoneRegistration } from './views/PhoneRegistration/PhoneRegistration';
 import { PhoneRegistrationOTP } from './views/PhoneRegistration/PhoneRegistrationOTP';
+import { ProfileCompletion } from './views/ProfileCompletion/ProfileCompletion';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
 
@@ -134,43 +135,69 @@ export default class RouterComponent extends React.Component {
         return (
         <Router tintColor='white' navigationBarStyle={[style.navBar, {backgroundColor: COLORS.primary}]} titleStyle={{color: "white"}}>
             <Stack hideNavBar key="root">
-                {/* <Stack
+                <Stack
                     key="auth"
                     type="reset"
                     style={style.navBarStyle}
                 > 
                     <Scene
-                        hideNavBar
-                        title="Inicio de sesión"
-                        key="login"
-                        component={Login}
+                        key = "landing"
+                        component = {Landing}
+                        hideNavBar = {true}
                         initial
-                        style={style.sceneStyle}
-                        on={() => global.skip === true}
-                        success={()=>this.handle_mode_change()}  
-                        failure="login"
-                    />
+                        type = 'reset'
+                        />
+                        
+                    <Scene
+                        key = "phone_registration"
+                        component = {PhoneRegistration}
+                        hideNavBar = {true}
+                        />
 
-                </Stack> */}
-                <Scene
-                    key = "landing"
-                    component = {Landing}
-                    hideNavBar = {true}
-                    />
-                    
-                <Scene
-                    key = "phone_registration"
-                    component = {PhoneRegistration}
-                    hideNavBar = {true}
-                    />
+                    <Scene
+                        key = "phone_registration_otp"
+                        component = {PhoneRegistrationOTP}
+                        hideNavBar = {true}
+                        />
 
-                <Scene
-                    key = "phone_registration_otp"
-                    component = {PhoneRegistrationOTP}
-                    hideNavBar = {true}
-                    />
+                </Stack>
 
-                <Scene
+                <Stack
+                    key="profile_completion_stack"
+                    type="reset"
+                    style={style.navBarStyle}
+                > 
+                    <Scene
+                        key = "profile_completion"
+                        component = {ProfileCompletion}
+                        hideNavBar = {true}
+                        />
+                </Stack>
+
+                <Stack
+                    key="groups"
+                    type="reset"
+                    style={style.navBarStyle}
+                > 
+                    <Scene
+                        key="grouptray"
+                        component={GroupTray}
+                        hideNavBar={false}
+                        />
+                    <Scene
+                        key="groupcreation"
+                        component={GroupCreation}
+                        hideNavBar={false}
+                        />
+                    <Scene
+                        hideNavBar={true}
+                        title=""
+                        key="join_group"
+                        component={JoinGroup}
+                    />
+                </Stack>
+
+                {/* <Scene
                     key="login"
                     component={SignIn}
                     hideNavBar={true}
@@ -180,26 +207,7 @@ export default class RouterComponent extends React.Component {
                     key="signup"                    
                     hideNavBar={false}
                     component={SignUp}              
-                    />
-
-                <Scene
-                    key="groupcreation"
-                    component={GroupCreation}
-                    hideNavBar={false}
-                    />
-
-                <Scene
-                    key="grouptray"
-                    component={GroupTray}
-                    hideNavBar={false}
-                    />
-                
-                <Scene
-                    hideNavBar={true}
-                    title=""
-                    key="join_group"
-                    component={JoinGroup}
-                />
+                    /> */}
 
                 <Scene
                     hideNavBar={false}

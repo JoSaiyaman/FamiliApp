@@ -131,7 +131,7 @@ export default class Menu extends React.Component{
                       ...c_style.rounded_button
 
                     }}
-                    onPress={()=>Actions.push("login")}
+                    onPress={()=>Actions.auth()}
                     //onPress={()=>this.refs['DRAWER'].openDrawer()}
                   >
 
