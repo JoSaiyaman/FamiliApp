@@ -17,7 +17,7 @@ import {noInternetNotification} from '../../../connectionHelpers/noInternetToast
 
 import {Overlay} from 'react-native-elements';
 
-import {create_group} from '../../../res/api/calls/groups';
+import {create_album} from '../../../res/api/calls/albums';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 
@@ -106,7 +106,7 @@ import COLORS from '../../../res/colors';
         if(this.state.name){
             this.crearGrupo();
         }else{
-            let message = 'El campo de Nombre del grupo está vacío';
+            let message = 'El campo de Nombre del album está vacío';
             Alert.alert("Atención", message);
         }
     }
@@ -119,7 +119,7 @@ import COLORS from '../../../res/colors';
                 this.setState({        
                     loading:true
                 });
-                create_group(this.state.name).then((res)=>{
+                create_album(this.state.name).then((res)=>{
                     console.log("resultado", res);
                     if(res.status == OK){
                 
@@ -128,8 +128,8 @@ import COLORS from '../../../res/colors';
                             
                             //Guardar en redux***************
                             //TODO: GUARDAR EN REDUX
-                            Alert.alert("Grupo creado con éxito");
-                            Actions.grouptray();
+                            Alert.alert("Album creado con éxito");
+                            Actions.album_list();
         
                         } else {
                             Alert.alert("Error",res.message);
@@ -163,7 +163,7 @@ import COLORS from '../../../res/colors';
                 </Overlay>
                 <TextInput
                     style={this.style.textfield}
-                    placeholder="Nombre del grupo"
+                    placeholder="Nombre del album"
                     placeholderTextColor="gray"
                     onChangeText={(name)=>this.setState({name})}
                     value={this.state.name} />

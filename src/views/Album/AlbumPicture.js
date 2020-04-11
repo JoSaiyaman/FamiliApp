@@ -14,7 +14,7 @@ export class AlbumPicture extends Component{
     render(){
     
         return(
-            <Image source={this.props.imgsource} style={styles.image}></Image>
+            <Image source={{uri: this.props.imgsource}} style={styles.image}></Image>
         );
 
     }

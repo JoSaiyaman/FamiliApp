@@ -14,7 +14,7 @@ import {Actions} from 'react-native-router-flux';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-import {get_user_groups} from '../../../res/api/calls/groups';
+import {get_group_albums} from '../../../res/api/calls/albums';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -34,7 +34,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
 
             loading:true,
             hasInternet: true,
-            grupos:[],
+            albumes:[],
 
         }
         //*************************Estilo*******
@@ -60,7 +60,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
     }
 
     //******************Renderers *************************
-    renderList(id, name){
+    renderList(id, name, photos){
 
         //Sirve para renderear la lista
         let elementWidth = this.width * 0.9;
@@ -93,7 +93,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
 
         let onClick = ()=>{
             
-            Actions.album_detail()
+            Actions.album_detail({id, name, photos})
 
         }
 
@@ -125,11 +125,11 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
             right: commonStyles(this).distanceRight,
         };
 
-        let onSave = (state)=>{
+        // let onSave = (state)=>{
 
-            console.log(state);
+        //     console.log(state);
 
-        }
+        // }
         return(
 
             <>
@@ -138,7 +138,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{this.loadGroups()}}
+                    onPress={()=>{this.loadAlbums()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
@@ -165,7 +165,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay grupos.
+                    No hay álbumes.
                 </Text>
             </View>
 
@@ -175,22 +175,22 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
 
     //****************** Data loading  ***********/
 
-    loadGroups() {
+    loadAlbums() {
         if (hasInternetConnection(this)) {
             this.setState({
                 loading: true
             })
-            get_user_groups().then((res)=>{
+            get_group_albums().then((res)=>{
                 if(res["status"] == OK){
                     if(!res.detail){
                         
                         this.setState({
         
-                            grupos:res.groups
+                            albumes:res.albums
         
                         })
-                        if (res.groups.length == 0) {
-                            Actions.groupcreation()
+                        if (res.albums.length == 0) {
+                            Actions.album_creation()
                         }
     
                     } else {
@@ -206,16 +206,16 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
 
     //************************Métodos de lifecycle que no son render */
     componentWillMount(){
-        this.loadGroups()
+        this.loadAlbums()
     }
     
     render(){
         // global.rol = 'COLLABORATOR'
-        let dataToRender = this.state.grupos;
+        let dataToRender = this.state.albumes;
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
-                onRetry={this.loadGroups.bind(this)}
+                onRetry={this.loadAlbums.bind(this)}
             >
                 <View style={this.style.main}>
                     
@@ -227,8 +227,9 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                             renderItem={({item})=>{
                                 
                                 let id = item.id;
-                                let name = item.family_group.name;
-                                return this.renderList(id, name);
+                                let name = item.name;
+                                let photos = item.family_photos;
+                                return this.renderList(id, name, photos);
 
                             }}
                             keyExtractor={item => item.id}

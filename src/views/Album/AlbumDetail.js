@@ -9,59 +9,111 @@ import {
     Modal,
     AppRegistry
   } from 'react-native';
+import {TheCircle} from '../../../components/TheCircle';
 
 import {AlbumPicture} from './AlbumPicture';
+import commonStyles from '../../../res/commonStyles';
+import COLORS from '../../../res/colors';
 
 export class AlbumDetail extends Component{
 
-    state = {
-        modalVisible: false,
-        modalImage: require('../../../img/img1.jpg'),
-        images: [
-            require('../../../img/img1.jpg'),
-            require('../../../img/img2.jpg'),
-            require('../../../img/img3.jpg'),
-            require('../../../img/img4.jpg'),
-            require('../../../img/img5.jpg'),
-            require('../../../img/img6.jpg'),
-        ]
+    constructor(props){
+        super(props);
+        const {height, width} = Dimensions.get("window");
+        this.height = height;
+        this.width = width;
+        this.padding = 9;
+
+        this.state = {
+            modalVisible: false,
+            modalImage: props.photos[0].image,
+            modalTitle: props.photos[0].description,
+            modalUser: props.photos[0].user_fullname,
+            images: props.photos
+        }
     }
 
     setModalVisible(visible, imageKey) {
-        this.setState({ modalImage: this.state.images[imageKey] });
+        console.log("imageKey",imageKey);
+        let key;
+        imageKey >= 0 ? key = imageKey : key = 0;
+        this.setState({ modalImage: this.state.images[key].image });
+        this.setState({ modalUser: this.state.images[key].user_fullname });
+        this.setState({ modalTitle: this.state.images[key].description });
         this.setState({ modalVisible: visible });
     }
 
     getImage() {
         return this.state.modalImage;
     }
+
+    renderActions(){
+
+        //Renderea los botones flotantes para las acciones
+        let circleStyle = {
+            position:"absolute",
+            right: commonStyles(this).distanceRight,
+        };
+
+        // let onSave = (state)=>{
+
+        //     console.log(state);
+
+        // }
+        return(
+
+            <>                          
+                <TheCircle
+                    width={commonStyles(this).actionButtonWidth}
+                    height={commonStyles(this).actionButtonHeight}
+                    name="ios-add"
+                    onPress={()=>{console.log("PRESIÓN")}}
+                    color_background={COLORS.primary}                    
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                                
+            </>
+
+        );
+
+    }
   
     render(){
         
         let images = this.state.images.map((val, key) => {
+            console.log("val", val.image)
+            let img_source=val.image;
             return <TouchableWithoutFeedback key={key} 
                     onPress={() => {this.setModalVisible(true, key)}}>
                         <View style={styles.imagewrap}>
-                            <AlbumPicture imgsource={val}></AlbumPicture>
+                            <AlbumPicture imgsource={img_source}></AlbumPicture>
                         </View>
                     </TouchableWithoutFeedback>
         });
         return(
             <View style={styles.container}>
 
-                <Modal style={styles.modal} animationType={'fade'}
-                        transparent = {true} visible={this.state.modalVisible}
-                        onRequestClose={() => {}}>
-                    
-                    <View style={styles.modal}>
-                        <Text style={styles.text}
-                            onPress={() => {this.setModalVisible(false)}}>Back</Text>
-                        <AlbumPicture imgsource={this.state.modalImage}></AlbumPicture>
-                    </View>
+                <View >
 
-                </Modal>
+                    <Modal style={styles.modal} animationType={'fade'}
+                            transparent = {true} visible={this.state.modalVisible}
+                            onRequestClose={() => {}}>
+                        
+                        <View style={styles.modal}>
+                            <Text style={styles.text}
+                                onPress={() => {this.setModalVisible(false)}}>Back</Text>
+                            <AlbumPicture imgsource={this.state.modalImage}></AlbumPicture>
+                            <Text style={styles.textDescription}> 
+                                <Text style={styles.textUser}> {this.state.modalUser}: </Text>
+                                {this.state.modalTitle} 
+                            </Text>
+                        </View>
 
-                {images}
+                    </Modal>
+
+                    {images}
+                </View>
+
+                {this.renderActions()}
+
             </View>
         );
 
@@ -74,14 +126,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        backgroundColor: '#eee',
+        backgroundColor: COLORS.blankBackground,
     },
     imagewrap: {
         margin: 2,
         padding: 2,
         height: (Dimensions.get('window').height/4) - 12,
         width: (Dimensions.get('window').width / 2) - 4,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.blankBackground,
     },
     modal: {
         flex: 1,
@@ -89,8 +141,19 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0, 0.9)'
     },
     text: {
-        color: '#fff'
-    }
+        color: COLORS.secondary
+    },
+    textDescription: {
+        color: COLORS.secondary,        
+        fontSize: 14,
+        textAlign: "justify"
+    },
+    textUser: {
+        color: COLORS.secondary,        
+        fontSize: 14,
+        fontWeight:"bold",
+        textAlign: "justify"
+    },
 });
 
 // AppRegistry.registerComponent('AlbumDetail', () => AlbumDetail);
