@@ -90,7 +90,47 @@ export async function get_user_events(){
 
     }
     return json;
+}
+
+export async function get_event_data(id){
+
+    let url = `${HOST}familiapp/family_group/${store.getState().familyid}/event/${id}/`;
+    console.log("URL",url)
+    let requestParams = {
+
+        headers:{
+
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+
+        },
+        method:"GET"
+
+    };
+    //console.log("Parametrosos",requestParams)
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        if(response.status == 400){
+
+            json["status"] = FAIL;
+            return json;
+
+        }
+
+        json = await response.json();
 
 
+        json["status"] = OK;
 
+
+    }catch(err){
+
+        json["status"] = FAIL;
+
+    }
+    return json;
 }

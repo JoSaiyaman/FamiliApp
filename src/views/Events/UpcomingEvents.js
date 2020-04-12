@@ -105,7 +105,7 @@ import moment from 'moment';
 
     //******************Renderers *************************
 
-    renderList(name, description, starts_at, ends_at, location){
+    renderList(id, name, description, starts_at, ends_at, location){
 
         //Sirve para renderear la lista
         
@@ -171,8 +171,12 @@ import moment from 'moment';
         });
         
         let onClick = ()=>{
+
+            let params = {
+                id:id
+            };
             
-            Actions.event_detail();
+            Actions.event_detail(params);
 
         }
 
@@ -315,13 +319,13 @@ import moment from 'moment';
                             data={dataToRender}
                             ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
-                                
+                                let id = item.id;
                                 let name = item.name;
                                 let description = item.description;
                                 let starts_at = item.starts_at;
                                 let ends_at = item.ends_at;
                                 let location = item.location;
-                                return this.renderList(name, description, starts_at, ends_at, location);
+                                return this.renderList(id, name, description, starts_at, ends_at, location);
 
                             }}
                             keyExtractor={item => item.name}

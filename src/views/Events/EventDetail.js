@@ -21,23 +21,28 @@ import {Overlay} from 'react-native-elements';
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
-import {create_event} from '../../../res/api/calls/events';
+import {create_event, get_event_data} from '../../../res/api/calls/events';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import moment from 'moment';
 
   export class EventDetail extends Component{
-
+    
     constructor(props){
-
+        
         super(props);
         const {height, width} = Dimensions.get("window");
         this.height = height;
         this.width = width;
         this.padding = 10;
+
+        this.event = {
+            id: props.id
+        }
+
         //***************Test data ************/
         this.state ={
-
+            sel: "N",
             name:"",
             description:"",
             starts_at:"",
@@ -45,6 +50,8 @@ import moment from 'moment';
             location: "",
             loading:false,
             isDateTimePickerVisible: false,
+            isDateTimePicker2Visible: false,
+            //id: id,
 
         }
         //*************************Estilo*******
@@ -281,6 +288,47 @@ import moment from 'moment';
         
     }
 
+    consigueDatosEvento(){
+        NetInfo.fetch().then(connection => {
+            if (connection.isInternetReachable) {
+             
+                this.setState({        
+                    loading:true
+                });
+                get_event_data(this.event.id).then((res)=>{
+                    console.log("resultado", res);
+                    if(res.status == OK){
+                
+                        if(!res.error_details){
+                            
+                            //Guardar en redux***************
+                            //TODO: GUARDAR EN REDUX
+                            Alert.alert("Datos recuperados");
+                            this.setState({
+                                name:res.name,
+                                description:res.description,
+                                starts_at: res.starts_at,
+                                ends_at: res.ends_at,
+                                location: res.location,
+
+                            })
+        
+                        } else {
+                            Alert.alert("Error",res.message);
+                        }
+        
+        
+                    }else{
+                        Alert.alert("Ha habido un error");
+                    }
+                    this.setState({loading:false});
+                });
+            } else {
+                noInternetNotification();
+            }
+        });   
+    }
+
     showDateTimePicker = () => {
         this.setState({ isDateTimePickerVisible: true });
     };
@@ -289,13 +337,38 @@ import moment from 'moment';
         this.setState({ isDateTimePickerVisible: false });
     };
      
-    handleDatePicked = value => {
-        this.setState({ ends_at: value })
+    handleDatePicked = (value) => {
+        
+            this.setState({ starts_at: value })
+        
         this.setState({ isDateTimePickerVisible: false })
+    };
+
+    showDateTimePicker2 = () => {
+        this.setState({ isDateTimePicker2Visible: true });
+    };
+     
+    hideDateTimePicker2 = () => {
+        this.setState({ isDateTimePicker2Visible: false });
+    };
+     
+    handleDatePicked2 = (value) => {
+    
+            this.setState({ ends_at: value })
+        
+        this.setState({ isDateTimePicker2Visible: false })
     };
 
     render(){
         const ends_at = this.state
+        let eventid = this.event.id
+
+        if(eventid){
+            this.consigueDatosEvento(eventid);
+        } else {
+            
+        }
+
         return(
 
             <View style={this.style.main}>
@@ -313,6 +386,16 @@ import moment from 'moment';
                     onConfirm={this.handleDatePicked}
                     //onConfirm={(date)=>this.setState({ends_at: })}
                     onCancel={this.hideDateTimePicker}
+                    mode='datetime'
+                    />
+
+                <DateTimePicker
+                    //date={ends_at ? new Date(ends_at) : new Date()}
+                    isVisible={this.state.isDateTimePicker2Visible}
+                    onConfirm={this.handleDatePicked2}
+                    //onConfirm={(date)=>this.setState({ends_at: })}
+                    onCancel={this.hideDateTimePicker2}
+                    mode='datetime'
                     />
 
                 <TextInput
@@ -331,7 +414,7 @@ import moment from 'moment';
                         placeholder="Fecha en que empieza"
                         placeholderTextColor="gray"
                         onChangeText={(starts_at)=>this.setState({starts_at})}
-                        value={moment(this.state.starts_at).format('DD/MM/YYYY')}
+                        value={moment(this.state.starts_at).format()}
                          />
 
                     <TouchableOpacity style={this.style.date_button}
@@ -353,11 +436,11 @@ import moment from 'moment';
                         placeholder="Fecha en que acaba"
                         placeholderTextColor="gray"
                         onChangeText={(ends_at)=>this.setState({ends_at})}
-                        value={moment(this.state.ends_at).format('DD/MM/YYYY')}
+                        value={moment(this.state.ends_at).format()}
                          />
 
                     <TouchableOpacity style={this.style.date_button}
-                        onPress={this.showDateTimePicker}
+                        onPress={this.showDateTimePicker2}
                     >
                         <Text style={this.style.text_button} >
                             S
