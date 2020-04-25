@@ -49,7 +49,7 @@ export class ConnectionWrapper extends Component{
                         <TouchableOpacity
                             style={{
                                 padding: 7,
-                                backgroundColor: COLORS.navbar,
+                                backgroundColor: COLORS.primary,
                                 borderRadius: 5,
                                 elevation: 3
 

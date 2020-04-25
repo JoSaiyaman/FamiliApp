@@ -228,7 +228,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                             ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
-                                let id = item.id;
+                                let id = item.family_group.id;
                                 let name = item.family_group.name;
                                 return this.renderList(id, name);
 

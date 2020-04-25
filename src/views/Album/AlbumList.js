@@ -7,6 +7,7 @@ import {
     FlatList,    
     TouchableOpacity,
     Image,
+    Alert
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -182,7 +183,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
             })
             get_group_albums().then((res)=>{
                 if(res["status"] == OK){
-                    if(!res.detail){
+                    if(res.detail != null){
                         
                         this.setState({
         
@@ -194,7 +195,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                         }
     
                     } else {
-                        Alert.alert("Error",res.detail);
+                        // Alert.alert("Error",res.detail);
                     }
     
     
@@ -211,6 +212,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
     
     render(){
         // global.rol = 'COLLABORATOR'
+        console.log(this.state.albumes)
         let dataToRender = this.state.albumes;
         return(
             <ConnectionWrapper
