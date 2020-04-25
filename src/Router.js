@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
     Scene,
     Stack,
@@ -8,7 +8,8 @@ import {
 import { 
     StyleSheet,
     StatusBar,
-    Text
+    Text,
+    View,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -17,15 +18,13 @@ import Menu from './views/Menu';
 import {MainFeed} from './views/MainFeed'
 // import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
-import { PhoneRegistration } from './views/PhoneRegistration/PhoneRegistration';
-import { PhoneRegistrationOTP } from './views/PhoneRegistration/PhoneRegistrationOTP';
-import { ProfileCompletion } from './views/ProfileCompletion/ProfileCompletion';
+import {PhoneRegistration} from './views/PhoneRegistration/PhoneRegistration';
+import {PhoneRegistrationOTP} from './views/PhoneRegistration/PhoneRegistrationOTP';
+import {ProfileCompletion} from './views/ProfileCompletion/ProfileCompletion';
+import {Locations} from './views/Locations/Locations';
 import {SignUp} from './views/SignUp';
 import {JoinGroup} from './views/JoinGroup/JoinGroup';
-
 import {Landing} from './views/Landing/Landing';
-
-
 import {GroupCreation} from './views/Groups/GroupCreation';
 import {GroupTray} from './views/Groups/GroupTray';
 import {WishlistTray} from './views/Wishlists/WishlistTray';
@@ -35,9 +34,7 @@ import {WishlistAddItems} from './views/Wishlists/WishlistAddItems';
 import {WishlistUsers} from './views/Wishlists/WishlistUsers';
 import {WishlistUserTray} from './views/Wishlists/WishlistUserTray';
 import {WishlistUserItems} from './views/Wishlists/WishlistUserItems';
-
 import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
-
 import {GroupEvents} from './views/Events/GroupEvents';
 import {UpcomingEvents} from './views/Events/UpcomingEvents';
 import {EventDetail} from './views/Events/EventDetail';
@@ -48,31 +45,23 @@ import { AlbumDetail } from './views/Album/AlbumDetail';
 import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
 
+// Class that will manage the tabBar icon
+class TabIcon extends Component {
+    constructor(props) {
+        super(props);
+    }
 
+  render() {
+    var color = this.props.focused ? COLORS.primary : '#757575';
 
-const ListIcon = ({focused}) => {
-    let iconColor;
-    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
-    return(
-        <Icon name="clipboard-list" size={30} color= {iconColor} />
+    return (
+      <View style={{flex:1, flexDirection:'column', alignItems:'center', alignSelf:'center', justifyContent: 'center'}}>
+        <Icon style={{color: color}} name={this.props.iconName || "circle"} size={20}/>
+        <Text numberOfLines={1} style={{color: color, fontSize: 12}}>{this.props.title}</Text>
+      </View>
     );
-} 
-
-const BoardIcon = ({focused}) => {
-    let iconColor;
-    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
-    return(
-        <Icon name="chalkboard" size={30} color= {iconColor} />
-    );
-} 
-
-const OldIcon = ({focused}) => {
-    let iconColor;
-    focused ? iconColor = 'rgb(0,0,220)' : 'rgb(0,0,0)'
-    return(
-        <Icon name="blackberry" size={30} color= {iconColor} />
-    );
-} 
+  }
+}
 
 export default class RouterComponent extends React.Component {
     constructor(props) {
@@ -224,9 +213,10 @@ export default class RouterComponent extends React.Component {
                     <Scene 
                         key="tabbar"
                         tabs
-                        tabBarStyle = {{backgroundColor:'#FFFFFF'}}
+                        showLabel={false}
+                        tabBarStyle = {{backgroundColor:'#FFFFFF', color: 'red'}}
                     >
-                        <Scene key = "wishlist" title = "Wishlists" icon = {ListIcon} >
+                        <Scene key = "wishlist"  title = "Wishlists" icon={TabIcon} iconName="gift">
                             <Scene
                                 title="Wishlists"
                                 key="wishlist_tray"
@@ -270,7 +260,7 @@ export default class RouterComponent extends React.Component {
                             />
                         </Scene>
 
-                        <Scene key = "announcements" title = "Announcements" icon = {BoardIcon} >
+                        <Scene key = "announcements" title = "Anuncios" icon={TabIcon} iconName="bullhorn">
                             <Stack key="send_announcement" hideNavBar={true}>
 
                                 <Scene
@@ -285,7 +275,7 @@ export default class RouterComponent extends React.Component {
                         </Scene>
 
 
-                        <Scene key = "album" title = "Albums" icon = {BoardIcon} >
+                        <Scene key = "album" title = "Albums" icon={TabIcon} iconName="image">
                             <Stack key="albums" hideNavBar={true}>
 
                                 <Scene
@@ -311,9 +301,16 @@ export default class RouterComponent extends React.Component {
 
                         </Scene>
 
+                        <Scene
+                            key="location_module"
+                            title="Ubicaciones" 
+                            component={Locations}
+                            hideNavBar={true}
+                            icon={TabIcon}
+                            iconName="map"
+                        />
 
-
-                        <Scene key = "prev_menu" title = "Old Menu" icon = {OldIcon} >
+                        <Scene key="prev_menu" title="Old Menu" icon={TabIcon} iconName="blackberry">
 
                             <Scene
                                 hideNavBar
