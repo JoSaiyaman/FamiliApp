@@ -44,6 +44,7 @@ import { GroupsQr } from './views/GroupsQr/GroupsQr';
 import { AlbumDetail } from './views/Album/AlbumDetail';
 import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
+import { PictureUpload } from './views/Album/PictureUpload';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -296,6 +297,12 @@ export default class RouterComponent extends React.Component {
                                     title="Nuevo Álbum"
                                     key="album_creation"
                                     component={AlbumCreation}
+                                />
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Nueva imágen"
+                                    key="picture_upload"
+                                    component={PictureUpload}
                                 />
                             </Stack>
 

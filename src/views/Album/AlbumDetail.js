@@ -14,6 +14,7 @@ import {TheCircle} from '../../../components/TheCircle';
 import {AlbumPicture} from './AlbumPicture';
 import commonStyles from '../../../res/commonStyles';
 import COLORS from '../../../res/colors';
+import { Actions } from 'react-native-router-flux';
 
 export class AlbumDetail extends Component{
 
@@ -67,7 +68,7 @@ export class AlbumDetail extends Component{
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{console.log("PRESIÓN")}}
+                    onPress={()=>{ Actions.picture_upload() }}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                                
             </>
@@ -108,8 +109,10 @@ export class AlbumDetail extends Component{
                         </View>
 
                     </Modal>
+                    <View style={{marginBottom:30}}>
+                        {images}
 
-                    {images}
+                    </View>
                 </View>
 
                 {this.renderActions()}
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        backgroundColor: COLORS.blankBackground,
+        backgroundColor: COLORS.blankBackground
     },
     imagewrap: {
         margin: 2,
