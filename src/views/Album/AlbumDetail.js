@@ -7,7 +7,8 @@ import {
     Image,
     Dimensions,
     Modal,
-    AppRegistry
+    AppRegistry,
+    ScrollView 
   } from 'react-native';
 import {TheCircle} from '../../../components/TheCircle';
 
@@ -154,10 +155,13 @@ export class AlbumDetail extends Component{
                         </View>
 
                     </Modal>
+                <ScrollView style={styles.scrollView}>
+
                     <View style={{marginBottom:30}}>
                         {images}
 
                     </View>
+                </ScrollView>
                 </View>
 
                 {this.renderActions()}
@@ -179,8 +183,8 @@ const styles = StyleSheet.create({
     imagewrap: {
         margin: 2,
         padding: 2,
-        height: (Dimensions.get('window').height/4) - 12,
-        width: (Dimensions.get('window').width / 2) - 4,
+        height: (Dimensions.get('window').height/2) - 12,
+        width: (Dimensions.get('window').width ) - 40,
         backgroundColor: COLORS.blankBackground,
     },
     modal: {
@@ -201,6 +205,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight:"bold",
         textAlign: "justify"
+    },
+    scrollView: {
+        // backgroundColor: 'pink',
+        marginHorizontal: 10,
     },
 });
 
