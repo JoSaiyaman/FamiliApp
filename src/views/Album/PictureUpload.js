@@ -37,7 +37,8 @@ import COLORS from '../../../res/colors';
 
             descripcion:"",
             loading:false,
-            foto: null
+            foto: null,
+            albumId: this.props.albumID
 
         }
         //*************************Estilo*******
@@ -116,14 +117,14 @@ import COLORS from '../../../res/colors';
     }
 
     subirFoto(){
-        console.log("#########Foto Subida")
+        console.log("#########Foto en proceso de subir");
         NetInfo.fetch().then(connection => {
             if (connection.isInternetReachable) {
              
                 this.setState({        
                     loading:true
                 });
-                upload_picture(this.state.foto, this.state.descripcion).then((res)=>{
+                upload_picture(this.state.albumId, this.state.foto, this.state.descripcion).then((res)=>{
                     console.log("resultado", res);
                     if(res.status == OK){
 
@@ -132,7 +133,7 @@ import COLORS from '../../../res/colors';
                             //Guardar en redux***************
                             //TODO: GUARDAR EN REDUX
                             Alert.alert("Foto subida con éxito");
-                            Actions.pop();
+                            Actions.pop({refresh: {test:Math.random()}});
         
                         } else {
                             Alert.alert("Error",res.message);
@@ -169,7 +170,7 @@ import COLORS from '../../../res/colors';
             photo = <View style={{ alignItems: "center", justifyContent: "center", paddingBottom: 5}}>
                 <Image
                     source={{ uri: foto.uri }}
-                    style={{ width: foto.width / 4 , height: foto.height / 4}}
+                    style= {{ width: 300, height: 400}}
                 />
             </View> :
             photo = 
