@@ -182,8 +182,9 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                 loading: true
             })
             get_group_albums().then((res)=>{
+                console.log("########### LoadAlbums AlbumList", res);
                 if(res["status"] == OK){
-                    if(res.detail != null){
+                    if(res.detail == null){
                         
                         this.setState({
         
@@ -195,7 +196,7 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
                         }
     
                     } else {
-                        // Alert.alert("Error",res.detail);
+                        Alert.alert("Error",res.detail);
                     }
     
     
@@ -212,8 +213,8 @@ import {setFamilyId} from '../../../res/redux/actions/set_familyid';
     
     render(){
         // global.rol = 'COLLABORATOR'
-        console.log(this.state.albumes)
         let dataToRender = this.state.albumes;
+        console.log("######## DATA TO RENDER AlbumList", dataToRender);
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
