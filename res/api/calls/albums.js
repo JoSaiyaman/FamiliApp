@@ -137,9 +137,8 @@ export async function get_album(albumId){
 
 }
 
-export async function upload_picture(image, description){
-    const albumId = 1;
-    let url = `${HOST}familiapp/family_group/${store.getState().familyid}/family_album/1/photo/`;
+export async function upload_picture(albumId, image, description){
+    let url = `${HOST}familiapp/family_group/${store.getState().familyid}/family_album/${albumId}/photo/`;
     console.log("#####imagen recibida por la api ", image)
     const data = new FormData();
     data.append('description', description);

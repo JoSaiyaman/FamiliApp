@@ -15,6 +15,9 @@ import {AlbumPicture} from './AlbumPicture';
 import commonStyles from '../../../res/commonStyles';
 import COLORS from '../../../res/colors';
 import { Actions } from 'react-native-router-flux';
+import {OK, FAIL} from '../../../res/api/hostInfo';
+import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
+import {get_album} from '../../../res/api/calls/albums';
 
 export class AlbumDetail extends Component{
 
@@ -27,10 +30,12 @@ export class AlbumDetail extends Component{
 
         this.state = {
             modalVisible: false,
-            modalImage: props.photos[0].image,
-            modalTitle: props.photos[0].description,
-            modalUser: props.photos[0].user_fullname,
-            images: props.photos
+            modalImage: '',
+            modalTitle: '',
+            modalUser: '',
+            images: props.photos,
+            albumId: props.id,
+            albumTitle: props.name
         }
     }
 
@@ -48,6 +53,33 @@ export class AlbumDetail extends Component{
         return this.state.modalImage;
     }
 
+    loadImages(){
+        if (hasInternetConnection(this)) {
+            this.setState({
+                loading: true
+            })
+            get_album(this.state.albumId).then((res)=>{
+                console.log("############### Resultado AlbumDetail", res);
+                if(res["status"] == OK){
+                    if(!res.detail){
+                        
+                        this.setState({
+        
+                            images:res.album.family_photos
+        
+                        })
+    
+                    } else {
+                        Alert.alert("Error",res.detail);
+                    }
+    
+    
+                }
+                this.setState({loading:false});
+            });    
+        }
+    }
+
     renderActions(){
 
         //Renderea los botones flotantes para las acciones
@@ -61,14 +93,24 @@ export class AlbumDetail extends Component{
         //     console.log(state);
 
         // }
+
+        let albumID = this.state.albumId;
         return(
 
-            <>                          
+            <>      
+            
+            <TheCircle
+                    width={commonStyles(this).actionButtonWidth}
+                    height={commonStyles(this).actionButtonHeight}
+                    name="ios-refresh"
+                    onPress={()=>{this.loadImages()}}
+                    color_background={COLORS.primary}                    
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                        
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{ Actions.picture_upload() }}
+                    onPress={()=>{ Actions.picture_upload( {albumID} ) }}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                                
             </>
@@ -76,9 +118,12 @@ export class AlbumDetail extends Component{
         );
 
     }
+
+    componentDidMount(){
+        this.loadImages();
+    }
   
     render(){
-        
         let images = this.state.images.map((val, key) => {
             console.log("val", val.image)
             let img_source=val.image;
