@@ -42,6 +42,8 @@ import { AlbumDetail } from './views/Album/AlbumDetail';
 import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
 
+import {EcardTray} from './views/Ecards/EcardTray'
+
 
 
 const ListIcon = ({focused}) => {
@@ -200,7 +202,7 @@ export default class RouterComponent extends React.Component {
                             <Scene
                                 title="Wishlists"
                                 key="wishlist_tray"
-                                component={WishlistTray}
+                                component={EcardTray}
                                 hideNavBar={false}
                             />
                             <Scene
