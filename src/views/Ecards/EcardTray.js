@@ -238,7 +238,7 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{console.log("Crear nueva tarjeta")}}
+                    onPress={()=>{Actions.ecard_create()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
             </>

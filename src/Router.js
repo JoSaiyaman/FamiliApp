@@ -46,6 +46,7 @@ import { AlbumDetail } from './views/Album/AlbumDetail';
 import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
 import { PictureUpload } from './views/Album/PictureUpload';
+import { EcardCreate } from './views/Ecards/EcardCreate';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -284,6 +285,15 @@ export default class RouterComponent extends React.Component {
                                     title="Bandeja de tarjetas"
                                     key="ecard_tray"
                                     component={EcardTray}
+                                />
+
+                                <Scene
+
+                                    hideNavBar={false}
+                                    title="Enviar tarjeta"
+                                    key="ecard_create"
+                                    component={EcardCreate}
+
                                 />
                                 
                             </Stack>

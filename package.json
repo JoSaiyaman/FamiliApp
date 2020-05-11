@@ -13,6 +13,7 @@
     "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/datetimepicker": "^2.3.1",
     "@react-native-community/netinfo": "^5.5.1",
+    "@react-native-community/picker": "^1.4.0",
     "axios": "^0.19.2",
     "datetimepicker": "^0.1.39",
     "node-modules": "^1.0.1",
