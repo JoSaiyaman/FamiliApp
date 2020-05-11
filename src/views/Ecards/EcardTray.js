@@ -17,7 +17,7 @@ import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-//import {get_user_groups} from '../../../res/api/calls/groups';
+import {get_sent_ecards} from '../../../res/api/calls/ecards';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -40,39 +40,39 @@ import moment from 'moment';
             loading:true,
             hasInternet: true,
             ecards:[
-                {
-                  "id": 1,
-                  "sender_fullname": "Oscar Abrego",
-                  "receiver_fullname": "Thein 3000",
-                  "sent_by_requester": false,
-                  "title": "¡Felicidades nuevamente, Tony!",
-                  "body": "Espero tengas un muy memorable cumpleaños xd",
-                  "receiver": 5,
-                  "sent_at": "2020-04-29T15:34:36.359353-05:00",
-                  "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_X3gifAn.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=cJw2uqddTdS89KJusgzzoXcK63g%3D&Expires=1589065897"
-                },
-                {
-                  "id": 3,
-                  "sender_fullname": "Oscar Abrego",
-                  "receiver_fullname": "Thein 3000",
-                  "sent_by_requester": false,
-                  "title": "¡Felicidades , aTony!",
-                  "body": "Espero tengas un muy memorable cumpleaños xd",
-                  "receiver": 5,
-                  "sent_at": "2020-04-29T15:36:01.795576-05:00",
-                  "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_m4BNcdF.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=2%2BUl1U9Bk%2FG1u0Oj13Lbt2OVWik%3D&Expires=1589065897"
-                },
-                {
-                  "id": 4,
-                  "sender_fullname": "Oscar Abrego",
-                  "receiver_fullname": "Thein 3000",
-                  "sent_by_requester": false,
-                  "title": "¡Felicidades , Tony!",
-                  "body": "Espero tengas un muy memorable cumpleaños xd",
-                  "receiver": 5,
-                  "sent_at": "2020-04-29T15:41:47.596508-05:00",
-                  "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_gbpfPeS.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=3y4nztceHGyvvX5dlids2EgIxck%3D&Expires=1589065897"
-                }
+                // {
+                //   "id": 1,
+                //   "sender_fullname": "Oscar Abrego",
+                //   "receiver_fullname": "Thein 3000",
+                //   "sent_by_requester": false,
+                //   "title": "¡Felicidades nuevamente, Tony!",
+                //   "body": "Espero tengas un muy memorable cumpleaños xd",
+                //   "receiver": 5,
+                //   "sent_at": "2020-04-29T15:34:36.359353-05:00",
+                //   "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_X3gifAn.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=cJw2uqddTdS89KJusgzzoXcK63g%3D&Expires=1589065897"
+                // },
+                // {
+                //   "id": 3,
+                //   "sender_fullname": "Oscar Abrego",
+                //   "receiver_fullname": "Thein 3000",
+                //   "sent_by_requester": false,
+                //   "title": "¡Felicidades , aTony!",
+                //   "body": "Espero tengas un muy memorable cumpleaños xd",
+                //   "receiver": 5,
+                //   "sent_at": "2020-04-29T15:36:01.795576-05:00",
+                //   "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_m4BNcdF.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=2%2BUl1U9Bk%2FG1u0Oj13Lbt2OVWik%3D&Expires=1589065897"
+                // },
+                // {
+                //   "id": 4,
+                //   "sender_fullname": "Oscar Abrego",
+                //   "receiver_fullname": "Thein 3000",
+                //   "sent_by_requester": false,
+                //   "title": "¡Felicidades , Tony!",
+                //   "body": "Espero tengas un muy memorable cumpleaños xd",
+                //   "receiver": 5,
+                //   "sent_at": "2020-04-29T15:41:47.596508-05:00",
+                //   "image": "https://e-order-media.s3.amazonaws.com/media/private/2020-03-27_20_30_10-Window_gbpfPeS.png?AWSAccessKeyId=AKIA4NMROYONZUM4NCOB&Signature=3y4nztceHGyvvX5dlids2EgIxck%3D&Expires=1589065897"
+                // }
               ],
 
         }
@@ -179,7 +179,7 @@ import moment from 'moment';
         });
         
         let onClick = ()=>{
-            Actions.wishlist_items();
+            Actions.ecard(id, sender_fullname, receiver_fullname, sent_by_requester, title, body, receiver, sent_at, image);
         }
 
         return(
@@ -260,36 +260,32 @@ import moment from 'moment';
     }
 
     //****************** Data loading  ***********/
-/*
-        loadWishlists() {
-            if (hasInternetConnection(this)) {
-                this.setState({
-                    loading: true
-                })
-                get_user_groups().then((res)=>{
-                    if(res["status"] == OK){
-                        if(!res.detail){
-                            
-                            this.setState({
-            
-                                grupos:res.groups
-            
-                            })
-                            if (res.groups.length == 0) {
-                                Actions.groupcreation()
-                            }
-                        } else {
-                            Alert.alert("Error",res.detail);
-                        }
+    loadEcards() {
+        if (hasInternetConnection(this)) {
+            this.setState({
+                loading: true
+            })
+            get_sent_ecards().then((res)=>{
+                if(res["status"] == OK){
+                    if(!res.detail){
+                        
+                        this.setState({
+        
+                            ecards:res.ecards
+        
+                        })
+                    } else {
+                        Alert.alert("Error",res.detail);
                     }
-                    this.setState({loading:false});
-                });    
-            }
+                }
+                this.setState({loading:false});
+            });    
         }
-*/
+    }
+    
     //************************Métodos de lifecycle que no son render */
     componentWillMount(){
-        //this.loadGroups()
+        this.loadEcards()
     }
     
     render(){
