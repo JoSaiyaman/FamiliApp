@@ -132,7 +132,7 @@ export default class RouterComponent extends React.Component {
                     type="reset"
                     style={style.navBarStyle}
                 > 
-                    <Scene
+                    {/* <Scene
                         key = "landing"
                         component = {Landing}
                         hideNavBar = {true}
@@ -150,7 +150,20 @@ export default class RouterComponent extends React.Component {
                         key = "phone_registration_otp"
                         component = {PhoneRegistrationOTP}
                         hideNavBar = {true}
-                        />
+                        /> */}
+
+                        
+                <Scene
+                    key="login"
+                    component={SignIn}
+                    hideNavBar={true}
+                    />
+
+                <Scene
+                    key="signup"                    
+                    hideNavBar={false}
+                    component={SignUp}              
+                    />
 
                 </Stack>
 
@@ -175,6 +188,7 @@ export default class RouterComponent extends React.Component {
                         key="grouptray"
                         component={GroupTray}
                         hideNavBar={false}
+                        initial
                         />
                     <Scene
                         key="groupcreation"
