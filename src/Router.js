@@ -38,6 +38,7 @@ import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 import {GroupEvents} from './views/Events/GroupEvents';
 import {UpcomingEvents} from './views/Events/UpcomingEvents';
 import {EventDetail} from './views/Events/EventDetail';
+import {EcardTray} from './views/Ecards/EcardTray'
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
@@ -273,6 +274,19 @@ export default class RouterComponent extends React.Component {
                                 />
                             </Stack>
 
+                        </Scene>
+
+                        <Scene key = "card" title = "Tarjetas" icon = {TabIcon} iconName="image">
+                            <Stack key = "cards" hideNavBar={true}>
+                                
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Bandeja de tarjetas"
+                                    key="ecard_tray"
+                                    component={EcardTray}
+                                />
+                                
+                            </Stack>
                         </Scene>
 
 

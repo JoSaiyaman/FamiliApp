@@ -222,25 +222,25 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.wishlist_items()}}
+                    onPress={()=>{console.log("recargar")}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
-                    name="ios-add"
-                    onPress={()=>{Actions.wishlist_creation()}}
+                    name="ios-contacts"
+                    onPress={()=>{console.log("Pantalla de destinatarios")}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />                        
 
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
-                    name="ios-contacts"
-                    onPress={()=>{Actions.users_wishlists()}}
+                    name="ios-add"
+                    onPress={()=>{console.log("Crear nueva tarjeta")}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />                        
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
             </>
         );
     }
