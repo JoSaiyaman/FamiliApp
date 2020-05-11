@@ -57,16 +57,16 @@ import { ScrollView } from 'react-native-gesture-handler';
         //*************************Estilo*******
         this.style = StyleSheet.create({
 
-            main:{
-                flex: 1,
+            main:{                
                 alignItems:"center",
-                padding:9
+                padding:9,
+                flexGrow:1
             },
             
             image:{
 
                 width:0.8*this.width,
-                height:600,
+                height:200,
                 backgroundColor:"blue"
 
             },
@@ -214,11 +214,12 @@ import { ScrollView } from 'react-native-gesture-handler';
                             onChangeText={(message_body)=>this.setState({message_body})}
                         />
 
-                        <TouchableHighlight style={{width:this.width*0.5, 
-                                marginLeft:this.width*0.25 - 13,                            
+                        <TouchableHighlight style={{width:this.width*0.5,                                 
                                 padding:13, 
                                 marginTop:10,
+                                textAlign:"center",
                                 marginBottom:15,
+                                backgroundColor:COLORS.buttons,
                                 ...c_style.rounded_button
                             }}
                                 onPress={() => this.verificar()}
