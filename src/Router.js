@@ -38,7 +38,8 @@ import {SendAnnouncement} from './views/Announcements/SendAnnouncement';
 import {GroupEvents} from './views/Events/GroupEvents';
 import {UpcomingEvents} from './views/Events/UpcomingEvents';
 import {EventDetail} from './views/Events/EventDetail';
-import {EcardTray} from './views/Ecards/EcardTray'
+import {EcardTray} from './views/Ecards/EcardTray';
+import {Ecard} from './views/Ecards/Ecard';
 
 import COLORS from '../res/colors';
 import { GroupsQr } from './views/GroupsQr/GroupsQr';
@@ -284,6 +285,13 @@ export default class RouterComponent extends React.Component {
                                     title="Bandeja de tarjetas"
                                     key="ecard_tray"
                                     component={EcardTray}
+                                    initial
+                                />
+                                <Scene
+                                    hideNavBar={false}
+                                    title="E-card"
+                                    key="ecard"
+                                    component={Ecard}
                                 />
                                 
                             </Stack>
