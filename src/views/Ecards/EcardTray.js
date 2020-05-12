@@ -225,7 +225,7 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{console.log("recargar")}}
+                    onPress={()=>{this.loadEcards()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
