@@ -135,7 +135,7 @@ export default class RouterComponent extends React.Component {
                 > 
                     {/* <Scene
                         key = "landing"
-                        component = {Landing}
+                        component = {EcardCreate}
                         hideNavBar = {true}
                         initial
                         type = 'reset'

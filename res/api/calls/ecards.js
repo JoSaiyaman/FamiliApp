@@ -45,5 +45,63 @@ export async function get_sent_ecards(){
     return json;
 
 
+}
+
+/**
+ * 
+ * @param {*} form_data.image It is an object:
+ * {
+ * uri,
+ * type,
+ * name
+ *  
+ * } 
+ * @param form_data.title It is the title of the card
+ * @param form_data.body The body
+ * @param form_data.receiver An id that identifies the member that receives the card
+ */
+export async function post_ecard(form_data){
+
+    let url = `${HOST}familiapp/family_group/${store.getState().familyid}/card/`;
+    console.log("URL",url)
+    let requestParams = {
+
+        headers:{
+            
+            'Accept': 'application/json',
+            'Authorization':"Token " + store.getState().token
+
+        },
+        method:"POST",
+        body:form_data
+
+    };
+    console.log("Parametrosos",requestParams)
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+        console.log(response);
+        if(response.status == 400){
+
+            json["status"] = FAIL;
+            return json;
+
+        }
+        
+        json = await response.json();
+
+        console.log(json);
+        json["status"] = OK;
+
+
+    }catch(err){
+
+        console.log(err);
+        json["status"] = FAIL;
+
+    }
+    return json;
 
 }
