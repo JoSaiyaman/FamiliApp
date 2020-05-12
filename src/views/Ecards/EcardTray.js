@@ -179,7 +179,10 @@ import moment from 'moment';
         });
         
         let onClick = ()=>{
-            Actions.ecard(id, sender_fullname, receiver_fullname, sent_by_requester, title, body, receiver, sent_at, image);
+            Actions.ecard(
+                {id: id, sender_fullname: sender_fullname, receiver_fullname: receiver_fullname, 
+                    sent_by_requester:sent_by_requester, title:title, body:body, receiver:receiver, 
+                    sent_at: sent_at, image: image});
         }
 
         return(

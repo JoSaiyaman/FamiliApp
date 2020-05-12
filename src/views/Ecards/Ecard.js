@@ -3,12 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableWithoutFeedback,
     Image,
     Dimensions,
-    Modal,
-    AppRegistry,
-    ScrollView 
   } from 'react-native';
 import {TheCircle} from '../../../components/TheCircle';
 
@@ -27,70 +23,81 @@ export class Ecard extends Component{
         this.width = width;
         this.padding = 9;
 
-        // this.state = {
-        //     images: props.photos,
-        //     albumId: props.id,
-        //     albumTitle: props.name
-        // }
+        this.state = {
+            image: props.image,
+            body: props.body,
+            sender_fullname: props.sender_fullname
+        }
+
+        //*************************Estilo*******
+        this.styles = StyleSheet.create({
+
+            container: {
+                height: '100%',
+                flexDirection: 'column',
+                flexWrap: 'wrap',
+                backgroundColor: COLORS.blankBackground,
+                justifyContent: 'center',
+                alignItems: 'center',
+            },
+            absoluteText: {
+                position: 'absolute', 
+                top: 60, 
+                // left: 0, 
+                // right: 0, 
+                // bottom: 0, 
+                justifyContent: 'center', 
+                alignItems: 'center'
+            },
+            absoluteRemitente: {
+                position: 'absolute', 
+                top: 10, 
+                justifyContent: 'flex-start', 
+                alignItems: 'flex-start'
+            },
+            text: {
+                color: COLORS.secondary,     
+                fontSize: 18,
+                fontWeight:"bold",
+                textAlign: "justify",
+                marginHorizontal: 15,
+                borderWidth: 1,
+                borderColor: COLORS.primary,
+                backgroundColor: 'rgba(0,55,55, 0.4)',
+                padding: 10
+            },
+            
+            image: {
+                // flex: 1,
+                paddingTop: 50,
+                width: this.width,
+                height: this.height / 1.24,
+                justifyContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
+            }
+
+        });
     }
   
     render(){
-        console.log("????????? props on Ecards", this.props);
+        console.log("????????? props on Ecards", this.state.image);
         return(
-            <View style={styles.container}>
+            <View style={this.styles.container}>
+                <View >
 
-                <Image source={{uri: this.props.image}} style={styles.image}></Image>
+                    <Image source={{uri: this.state.image}} style={this.styles.image}></Image>
 
+                </View>
+                <View style={this.styles.absoluteRemitente}>
+                    <Text style={this.styles.text}>De: {this.state.sender_fullname}</Text>
+                </View>
+                <View style={this.styles.absoluteText}>
+                    <Text style={this.styles.text}>{this.state.body}</Text>
+                </View>
             </View>
         );
 
     }
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        backgroundColor: COLORS.blankBackground
-    },
-    imagewrap: {
-        margin: 2,
-        padding: 2,
-        height: (Dimensions.get('window').height/2) - 12,
-        width: (Dimensions.get('window').width ) - 40,
-        backgroundColor: COLORS.blankBackground,
-    },
-    modal: {
-        flex: 1,
-        padding: 40,
-        backgroundColor: 'rgba(0,0,0, 0.9)'
-    },
-    text: {
-        color: COLORS.secondary
-    },
-    textDescription: {
-        color: COLORS.secondary,        
-        fontSize: 14,
-        textAlign: "justify"
-    },
-    textUser: {
-        color: COLORS.secondary,        
-        fontSize: 14,
-        fontWeight:"bold",
-        textAlign: "justify"
-    },
-    scrollView: {
-        // backgroundColor: 'pink',
-        marginHorizontal: 10,
-    },
-    
-    image: {
-        flex: 1,
-        width: null,
-        alignSelf: 'stretch',
-    }
-});
-
-// AppRegistry.registerComponent('AlbumDetail', () => AlbumDetail);
