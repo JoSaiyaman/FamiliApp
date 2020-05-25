@@ -29,6 +29,13 @@ import commonStyles from '../../../res/commonStyles';
         this.height = height;
         this.width = width;
         this.padding = 9;
+
+        if(this.props.wishlist_id == null){
+
+            throw new Error("WishlistItems: wishlist_id is not defined");
+
+        }
+
         //***************Test data ************/
         this.state ={
 
@@ -144,7 +151,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-add"
-                    onPress={()=>{Actions.wishlist_add_items()}}
+                    onPress={()=>{Actions.wishlist_add_items({wishlist_id:this.props.wishlist_id})}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                                
 
@@ -178,10 +185,10 @@ import commonStyles from '../../../res/commonStyles';
             this.setState({
                 loading: true
             })
-            get_wishlist_items().then((res)=>{
-                console.log("Resultado",res);
-                console.log("Endpoint", res.items);
-                console.log("Items", res.items.wishlistitem_set);
+            get_wishlist_items(this.props.wishlist_id).then((res)=>{
+                // console.log("Resultado",res);
+                // console.log("Endpoint", res.items);
+                // console.log("Items", res.items.wishlistitem_set);
                 if(res["status"] == OK){
                     if(!res.detail){
                         
@@ -190,9 +197,9 @@ import commonStyles from '../../../res/commonStyles';
                             items:res.items.wishlistitem_set
         
                         })
-                        if (res.groups.length == 0) {
-                            Actions.groupcreation()
-                        }
+                        // if (res.groups.length == 0) {
+                        //     Actions.groupcreation()
+                        // }
     
                     } else {
                         Alert.alert("Error",res.detail);

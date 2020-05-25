@@ -30,6 +30,12 @@ import COLORS from '../../../res/colors';
         this.height = height;
         this.width = width;
         this.padding = 10;
+        
+        if(this.props.wishlist_id == null){
+
+            throw new Error("WishlistAddItems: wishlist_id is not defined");
+
+        }
         //***************Test data ************/
         this.state ={
 
@@ -136,7 +142,7 @@ import COLORS from '../../../res/colors';
                 this.setState({        
                     loading:true
                 });
-                add_item(this.state.name, this.state.description).then((res)=>{
+                add_item(this.state.name, this.state.description, this.props.wishlist_id).then((res)=>{
                     console.log("resultado", res);
                     if(res.status == OK){
                 
@@ -145,7 +151,7 @@ import COLORS from '../../../res/colors';
                             //Guardar en redux***************
                             //TODO: GUARDAR EN REDUX
                             Alert.alert("Elemento agregado con éxito");
-                            Actions.wishlist_items();
+                            Actions.pop();
     
                         } else {
                             Alert.alert("Error",res.message);

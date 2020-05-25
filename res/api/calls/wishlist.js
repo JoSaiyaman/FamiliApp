@@ -1,10 +1,11 @@
 import {HOST, OK, FAIL} from '../hostInfo';
 import {store} from '../../../res/redux/main_store'
 
-export async function add_item(wishlist_id ,name, description){
+export async function add_item(name, description, wishlist_id){
     //TODO: user dinámico y recibir id de la wishlist
     let wishlistId = wishlist_id;
-    let url = `${HOST}familiapp/family_group/1/wishlist/item/`;
+    let family_id = store.getState().familyid;
+    let url = `${HOST}familiapp/family_group/${family_id}/wishlist/item/`;
     let parm = {
         "wishlist": wishlistId,
         "name": name,
@@ -31,10 +32,18 @@ export async function add_item(wishlist_id ,name, description){
 
         let response = await fetch(url, requestParams);
 
-        json = await response.json();
+        if(response.status == 400 || response.status == 404){
 
+            json["status"] = FAIL;
+            json["messages"] = "Error al crear grupo";
+            return json;
+
+        }
+
+        json = await response.json();
+        
         //El usuario introdujo credenciales incorrectas
-        if(json["error_details"]){
+        if(json["error_details"] ){
 
             json["status"] = FAIL;
             json["messages"] = "Error al crear grupo";
@@ -52,9 +61,10 @@ export async function add_item(wishlist_id ,name, description){
 
 }
 
-export async function get_wishlist_items(){
+export async function get_wishlist_items(wishlist_id){
     //TODO: user dinámico y recibir id de lista
-    let url = `${HOST}familiapp/family_group/1/wishlist/1`;
+    let family_id = store.getState().familyid;
+    let url = `${HOST}familiapp/family_group/${family_id}/wishlist/${wishlist_id}`;
     console.log("URL",url)
     let requestParams = {
 
@@ -99,7 +109,7 @@ export async function create_wishlist(name, description){
         name, description
 
     }    
-
+    
     let requestParams = {
 
         headers:{
@@ -117,7 +127,7 @@ export async function create_wishlist(name, description){
 
         let response = await fetch(url, requestParams);
 
-        if(response.status == 400){
+        if(response.status == 400 || response.status == 404){
             json["status"] = FAIL;
             return json;
         }

@@ -87,7 +87,7 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(name, description){
+    renderList(name, description, wishlist_id){
 
         //Sirve para renderear la lista
         
@@ -136,7 +136,7 @@ import commonStyles from '../../../res/commonStyles';
         
         let onClick = ()=>{
             
-            Actions.wishlist_items();
+            Actions.wishlist_items({wishlist_id});
 
         }
 
@@ -309,7 +309,8 @@ import commonStyles from '../../../res/commonStyles';
                                 
                                 let name = item.name;
                                 let description = item.description;
-                                return this.renderList(name, description);
+                                let wishlist_id = item.id;
+                                return this.renderList(name, description, wishlist_id);
 
                             }}
                             keyExtractor={item => item.name}
