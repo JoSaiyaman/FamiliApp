@@ -10,21 +10,22 @@ import {
     Input,
     Alert,
     Button,
+    Picker
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-
+import {Overlay} from 'react-native-elements';
+import moment from 'moment';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 // Connection related imports
 import NetInfo from "@react-native-community/netinfo";
 import {noInternetNotification} from '../../../connectionHelpers/noInternetToast';
 
-import {Overlay} from 'react-native-elements';
-
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {create_event} from '../../../res/api/calls/events';
+import {api} from '../../../res/api/api';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
-import moment from 'moment';
 
   export class EventDetail extends Component{
 
@@ -35,14 +36,17 @@ import moment from 'moment';
         this.height = height;
         this.width = width;
         this.padding = 10;
+        let event = this.props.event_info || {};
+        console.log(this.props);
         //***************Test data ************/
         this.state ={
 
-            name:"",
-            description:"",
-            starts_at:"",
-            ends_at: "",
-            location: "",
+            name: event.name ||"",
+            description: event.description || "",
+            starts_at: event.starts_at || "",
+            ends_at: event.ends_at || "",
+            location: event.location || "",
+            is_end:false,
             loading:false,
             isDateTimePickerVisible: false,
 
@@ -93,6 +97,7 @@ import moment from 'moment';
 
                 width: this.width*0.6,
                 height: this.height*0.08,
+                color:"black",
                 backgroundColor:COLORS.secondary,
                 borderRadius:0,
                 marginTop:0,
@@ -125,7 +130,8 @@ import moment from 'moment';
                 marginTop:0,
                 marginBottom:0,
                 marginLeft:0,
-                
+                justifyContent:"center",
+                alignItems:"center"                
 
             },
 
@@ -157,8 +163,7 @@ import moment from 'moment';
                 borderRadius:10,
                 alignSelf:"center",
                 width: this.width*0.5,
-                textAlign:"center",
-                
+                textAlign:"center",                                
 
             },
 
@@ -281,21 +286,55 @@ import moment from 'moment';
         
     }
 
-    showDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: true });
+    showDateTimePicker = (is_end) => {        
+        this.setState({ isDateTimePickerVisible: true, is_end });
     };
      
     hideDateTimePicker = () => {
+        console.log(this.state);
         this.setState({ isDateTimePickerVisible: false });
     };
      
-    handleDatePicked = value => {
-        this.setState({ ends_at: value })
+    handleDatePicked = (value)=> {
+        
+        if(this.state.is_end){
+
+            this.setState({ ends_at: value })            
+
+        }else{
+
+            this.setState({starts_at: value});
+
+        }
+
         this.setState({ isDateTimePickerVisible: false })
+
     };
+
+    assignDate(date_str){
+
+        if(date_str instanceof Date){
+
+            date_str = date_str.toISOString();
+
+        }
+        let date = moment.utc(date_str).format("DD/MM/YYYY");
+        if(date == "Invalid date")
+            return "";
+        else
+            return date;
+
+    }
+
+    renderIconSize(){
+
+        return this.height*0.03;
+
+    }
 
     render(){
         const ends_at = this.state
+        const icon_size = this.renderIconSize();
         return(
 
             <View style={this.style.main}>
@@ -313,57 +352,70 @@ import moment from 'moment';
                     onConfirm={this.handleDatePicked}
                     //onConfirm={(date)=>this.setState({ends_at: })}
                     onCancel={this.hideDateTimePicker}
-                    />
+                />
 
                 <TextInput
                     style={this.style.textfield}
                     placeholder="Nombre de evento"
                     placeholderTextColor="gray"
                     onChangeText={(name)=>this.setState({name})}
+                    editable={!this.props.is_not_editable}
                     value={this.state.name} />
-
+                    
                 <View
                     style={this.style.date_block}
+                    onPress={()=>this.showDateTimePicker(false)}
+                >
+
+                    <TouchableOpacity
+                        onPress={()=>{this.showDateTimePicker(false)}}
+                        activeOpacity={1}
                     >
 
-                    <TextInput
-                        style={this.style.textfield_date_selector}
-                        placeholder="Fecha en que empieza"
-                        placeholderTextColor="gray"
-                        onChangeText={(starts_at)=>this.setState({starts_at})}
-                        value={moment(this.state.starts_at).format('DD/MM/YYYY')}
-                         />
+                        <TextInput
+                            style={this.style.textfield_date_selector}
+                            placeholder="Fecha en que empieza"
+                            placeholderTextColor="gray"
+                            onChangeText={(starts_at)=>this.setState({starts_at})}
+                            value={this.assignDate(this.state.starts_at)}
+                            editable={false}                        
+                        />
+
+                    </TouchableOpacity>                    
 
                     <TouchableOpacity style={this.style.date_button}
-                        onPress={this.showDateTimePicker}>
-                        <Text style={this.style.text_button} >
-                            S
-                        </Text>
+                        onPress={()=>this.showDateTimePicker(false)}>
+                        
+                        <FontAwesome name="calendar" color="white" size={icon_size} />
+
                     </TouchableOpacity>
                     
 
                 </View>
 
                 <View
-                    style={this.style.date_block}
-                    >
-
-                    <TextInput
-                        style={this.style.textfield_date_selector}
-                        placeholder="Fecha en que acaba"
-                        placeholderTextColor="gray"
-                        onChangeText={(ends_at)=>this.setState({ends_at})}
-                        value={moment(this.state.ends_at).format('DD/MM/YYYY')}
-                         />
-
-                    <TouchableOpacity style={this.style.date_button}
-                        onPress={this.showDateTimePicker}
-                    >
-                        <Text style={this.style.text_button} >
-                            S
-                        </Text>
-                    </TouchableOpacity>
+                    style={this.style.date_block}                    
+                >
                     
+                    <TouchableOpacity 
+                        onPress={()=>{this.showDateTimePicker(true)}}
+                        activeOpacity={1}
+                    >
+
+                        <TextInput
+                            style={this.style.textfield_date_selector}
+                            placeholder="Fecha en que acaba"
+                            placeholderTextColor="gray"                        
+                            value={this.assignDate(this.state.ends_at)}
+                            editable={false}
+                        />            
+
+                    </TouchableOpacity>                    
+                    <TouchableOpacity style={this.style.date_button}
+                        onPress={()=>this.showDateTimePicker(true)}
+                    >
+                        <FontAwesome name="calendar" color="white" size={icon_size}/>
+                    </TouchableOpacity>                    
 
                 </View>
                 
@@ -373,42 +425,31 @@ import moment from 'moment';
                     placeholderTextColor="gray"
                     onChangeText={(description)=>this.setState({description})}
                     value={this.state.description}
-                    multiline = {true}/>
+                    editable={!this.props.is_not_editable}
+                    multiline = {true}
+                />
 
                 <TextInput
                     style={this.style.textfield_date}
                     placeholder="Lugar"
                     placeholderTextColor="gray"
+                    editable={!this.props.is_not_editable}
                     onChangeText={(location)=>this.setState({location})}
-                    value={this.state.location}/>
+                    value={this.state.location}
+                />
 
-                <View style={{justifyContent:"flex-start",
-                                alignItems:"center",
-                                flexDirection:"row"}}>
-                    <Text
-                    style={this.style.text_guests}
-                    >
-                        Invitados
-                    </Text>
-                    <View style={{width:this.width*0.2}}>
+                {
 
-                    </View>
-                    <TouchableOpacity style={this.style.button_right}
-                    //onPress={()=>this.verificarCampos()}
+                    !this.props.is_not_editable ?
+                    <TouchableOpacity style={this.style.button}
+                    onPress={()=>this.verificarCampos()}
                     >
                         <Text style={this.style.text_button} >
-                            Invitar
+                            Crear evento
                         </Text>
-                    </TouchableOpacity>
-                </View>
+                    </TouchableOpacity> : null
 
-                <TouchableOpacity style={this.style.button}
-                    onPress={()=>this.verificarCampos()}
-                >
-                    <Text style={this.style.text_button} >
-                        Crear evento
-                    </Text>
-                </TouchableOpacity>
+                }                
             </View>
         );
     }

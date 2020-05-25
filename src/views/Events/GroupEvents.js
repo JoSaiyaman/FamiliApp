@@ -290,6 +290,14 @@ import commonStyles from '../../../res/commonStyles';
                 hasInternet={this.state.hasInternet}
                 //onRetry={this.loadGroups.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <EventCalendar

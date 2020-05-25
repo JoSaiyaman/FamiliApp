@@ -3,13 +3,15 @@ import {
     Scene,
     Stack,
     Router,
-    Actions
+    Actions,
+    Drawer
 } from 'react-native-router-flux';
 import { 
     StyleSheet,
     StatusBar,
     Text,
     View,
+    Dimensions
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -48,6 +50,7 @@ import { AlbumList } from './views/Album/AlbumList';
 import { AlbumCreation } from './views/Album/AlbumCreation';
 import { PictureUpload } from './views/Album/PictureUpload';
 import { EcardCreate } from './views/Ecards/EcardCreate';
+import { DrawerMenu } from './views/DrawerMenu';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -71,6 +74,11 @@ export default class RouterComponent extends React.Component {
     constructor(props) {
         super(props);
     
+        let {width, height} = Dimensions.get("window");
+
+        this.width = width;
+        this.height = height;
+
         this.state = {
             loading: true,
             back_color: 'blue'
@@ -225,15 +233,19 @@ export default class RouterComponent extends React.Component {
                 <Stack
                     key="main"
                     type="reset"
+                    drawer
                     hideNavBar={true}
+                    contentComponent={DrawerMenu}
+                    drawerWidth={this.width*0.4}
                     style={style.titleStyle}
                 >
                     <Scene 
                         key="tabbar"
-                        tabs
+                        tabs                                                                        
                         showLabel={false}
                         tabBarStyle = {{backgroundColor:'#FFFFFF', color: 'red'}}
-                    >
+                    >                                            
+
                         <Scene key = "wishlist"  title = "Wishlists" icon={TabIcon} iconName="gift">
                             <Scene
                                 title="Wishlists"
@@ -363,7 +375,66 @@ export default class RouterComponent extends React.Component {
                             iconName="map"
                         />
 
-                        <Scene key="prev_menu" title="Old Menu" icon={TabIcon} iconName="blackberry">
+                        <Scene key="events" title="Eventos" icon={TabIcon} iconName="image">
+
+                            <Stack key="upcoming_events" hideNavBar={true}>
+
+                                <Scene
+                                    hideNavBar={true}
+                                    title="Eventos próximos"
+                                    key="upcoming_events"
+                                    component={UpcomingEvents}
+                                />
+
+                                <Scene
+                                    hideNavBar={true}
+                                    title=""
+                                    key="group_events"
+                                    component={GroupEvents}
+                                />
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Datos de evento"
+                                    key="event_detail"
+                                    component={EventDetail}
+                                />
+
+                            </Stack>
+
+                        </Scene>  
+
+                    </Scene>
+                    
+                </Stack>
+                
+            </Stack>
+
+        </Router>
+    )}
+};
+
+const style = StyleSheet.create({
+    navBarStyle: {
+        top: StatusBar.currentHeight,
+        backgroundColor: "#1aa6a8",
+        color: "white"
+    },
+    navBar: {
+        backgroundColor: "#1aa6a8",
+        color: "#FFF",
+        fontWeight: "normal"
+    },
+    barButtonIconStyle: {
+        tintColor: "#FFF"
+    },
+    titleStyle: {
+        flexDirection: 'row',
+        width: 200
+    }
+});  
+
+{/* <Scene key="prev_menu" title="Old Menu" icon={TabIcon} iconName="blackberry">
 
                             <Scene
                                 hideNavBar
@@ -373,13 +444,13 @@ export default class RouterComponent extends React.Component {
                                 initial                        
                             />
 
-                            {/* <Scene
+                            <Scene
                                 hideNavBar
                                 title=""
                                 key="main_menu"
                                 component={MainMenu}
                                 initial                        
-                            /> */}
+                            />
 
                             <Scene
                                 title="Wishlists"
@@ -421,32 +492,7 @@ export default class RouterComponent extends React.Component {
                                 key="user_wishlist_items"
                                 component={WishlistUserItems}
                                 hideNavBar={false}
-                            />
-
-                            <Stack key="upcoming_events" hideNavBar={true}>
-
-                                <Scene
-                                    hideNavBar={true}
-                                    title="Eventos próximos"
-                                    key="upcoming_events"
-                                    component={UpcomingEvents}
-                                />
-
-                                <Scene
-                                    hideNavBar={true}
-                                    title=""
-                                    key="group_events"
-                                    component={GroupEvents}
-                                />
-
-                                <Scene
-                                    hideNavBar={false}
-                                    title="Datos de evento"
-                                    key="event_detail"
-                                    component={EventDetail}
-                                />
-
-                            </Stack>
+                            />                            
 
                             <Stack key="join_group" hideNavBar={true}>
 
@@ -477,35 +523,4 @@ export default class RouterComponent extends React.Component {
                                     
                                 />
                             </Stack>
-                        </Scene>
-
-                    </Scene>
-                    
-
-                    </Stack>
-                
-            </Stack>
-
-        </Router>
-    )}
-};
-
-const style = StyleSheet.create({
-    navBarStyle: {
-        top: StatusBar.currentHeight,
-        backgroundColor: "#1aa6a8",
-        color: "white"
-    },
-    navBar: {
-        backgroundColor: "#1aa6a8",
-        color: "#FFF",
-        fontWeight: "normal"
-    },
-    barButtonIconStyle: {
-        tintColor: "#FFF"
-    },
-    titleStyle: {
-        flexDirection: 'row',
-        width: 200
-    }
-});  
+                        </Scene> */}

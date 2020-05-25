@@ -172,11 +172,14 @@ import moment from 'moment';
         
         let onClick = ()=>{
             
-            Actions.event_detail();
+            let event_info = {
 
-        }
+                name, description, starts_at, ends_at, location
 
-        
+            };
+            Actions.event_detail({is_not_editable: true, event_info});
+
+        }        
 
         return(
             <View style={{flexDirection:"row"}}>
@@ -259,31 +262,31 @@ import moment from 'moment';
 
     //****************** Data loading  ***********/
 
-        loadEvents() {
-            if (hasInternetConnection(this)) {
-                this.setState({
-                    loading: true
-                })
-                get_user_events().then((res)=>{
-                    if(res["status"] == OK){
-                        if(!res.detail){
-                            
-                            this.setState({
-            
-                                eventos: res.events
-            
-                            })
-                            if (res.events.length == 0) {
-                                Actions.event_detail()
-                            }
-                        } else {
-                            Alert.alert("Error",res.detail);
+    loadEvents() {
+        if (hasInternetConnection(this)) {
+            this.setState({
+                loading: true
+            })
+            get_user_events().then((res)=>{
+                if(res["status"] == OK){
+                    if(!res.detail){
+                        
+                        this.setState({
+        
+                            eventos: res.events
+        
+                        })
+                        if (res.events.length == 0) {
+                            Actions.event_detail()
                         }
+                    } else {
+                        Alert.alert("Error",res.detail);
                     }
-                    this.setState({loading:false});
-                });    
-            }
+                }
+                this.setState({loading:false});
+            });    
         }
+    }
 
     //************************Métodos de lifecycle que no son render 
     componentWillMount(){
@@ -321,6 +324,7 @@ import moment from 'moment';
                                 let starts_at = item.starts_at;
                                 let ends_at = item.ends_at;
                                 let location = item.location;
+                                console.log(item);
                                 return this.renderList(name, description, starts_at, ends_at, location);
 
                             }}
