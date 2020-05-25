@@ -14,7 +14,7 @@ import {Actions} from 'react-native-router-flux';
 // Connection related imports
 import NetInfo from "@react-native-community/netinfo";
 import {noInternetNotification} from '../../../connectionHelpers/noInternetToast';
-
+import {hasInternetConnection} from '../../../connectionHelpers/hasInternetConnection';
 import {Overlay} from 'react-native-elements';
 
 import {get_item} from '../../../res/api/calls/wishlist';
