@@ -285,6 +285,7 @@ import commonStyles from '../../../res/commonStyles';
         // global.rol = 'COLLABORATOR'
         let dataToRender = this.state.grupos;
         let eventos = this.state.events
+        console.log(eventos);
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
@@ -302,19 +303,20 @@ import commonStyles from '../../../res/commonStyles';
                     
                     <EventCalendar
          // eventTapped={this._eventTapped.bind(this)}
-                    events={eventos}
-                    width={this.width}
-                    initDate={'2017-09-08'}
-                    style={{
-                        container: {
-                            backgroundColor: 'blue'
-                        }, 
-                        event: {
-                            opacity: 0.5,
-                            backgroundColor: COLORS.primary
-                        }
-                    }}
-                    renderEvent={(event) => <Text>{event.title}</Text>}
+                        events={eventos}
+                        width={this.width}
+                        initDate={'2017-09-08'}
+                        style={{
+                            container: {
+                                backgroundColor: 'blue'
+                            }, 
+                            event: {
+                                opacity: 0.5,
+                                backgroundColor: COLORS.primary
+                            }
+                        }}
+                        renderEvent={(event) => <Text>{event.title}</Text>}
+
                     />
 
                     {this.renderActions()}

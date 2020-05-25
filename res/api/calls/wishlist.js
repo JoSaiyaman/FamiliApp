@@ -1,9 +1,9 @@
 import {HOST, OK, FAIL} from '../hostInfo';
 import {store} from '../../../res/redux/main_store'
 
-export async function add_item(name, description){
+export async function add_item(wishlist_id ,name, description){
     //TODO: user dinámico y recibir id de la wishlist
-    let wishlistId = 1;
+    let wishlistId = wishlist_id;
     let url = `${HOST}familiapp/family_group/1/wishlist/item/`;
     let parm = {
         "wishlist": wishlistId,
@@ -78,6 +78,127 @@ export async function get_wishlist_items(){
         }
 
         json["items"] = await response.json();
+        json["status"] = OK;
+
+    }catch(err){
+        console.log("ERROR", err);
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+}
+
+export async function create_wishlist(name, description){
+
+    let family_id = store.getState().familyid;
+    let url = `${HOST}/familiapp/family_group/${family_id}/wishlist/`;
+    
+    let body = {
+
+        name, description
+
+    }    
+
+    let requestParams = {
+
+        headers:{
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+        },
+        method:"POST",
+        body:JSON.stringify(body)
+
+    };
+
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        if(response.status == 400){
+            json["status"] = FAIL;
+            return json;
+        }
+
+        json["items"] = await response.json();
+        json["status"] = OK;
+
+    }catch(err){
+        console.log("ERROR", err);
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+}
+
+export async function get_family_wishlists(){
+
+    let family_id = store.getState().familyid;
+    let url = `${HOST}/familiapp/family_group/${family_id}/wishlist/family_group_list/`;
+
+    let requestParams = {
+
+        headers:{
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+        },
+        method:"GET"
+
+    };
+
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        if(response.status == 400){
+            json["status"] = FAIL;
+            return json;
+        }
+
+        json["wishlists"] = await response.json();
+        json["status"] = OK;
+
+    }catch(err){
+        console.log("ERROR", err);
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+}
+
+export async function get_user_wishlists(){
+
+    let family_id = store.getState().familyid;
+    let url = `${HOST}/familiapp/family_group/${family_id}/wishlist/list/`;
+
+    let requestParams = {
+
+        headers:{
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+        },
+        method:"GET"
+
+    };
+
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        if(response.status == 400){
+            json["status"] = FAIL;
+            return json;
+        }
+
+        json["wishlists"] = await response.json();
         json["status"] = OK;
 
     }catch(err){

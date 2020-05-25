@@ -248,7 +248,7 @@ export default class RouterComponent extends React.Component {
 
                         <Scene key = "wishlist"  title = "Wishlists" icon={TabIcon} iconName="gift">
                             <Scene
-                                title="Wishlists"
+                                title="Mis listas de deseos"
                                 key="wishlist_tray"
                                 component={WishlistTray}
                                 hideNavBar={false}
@@ -257,36 +257,44 @@ export default class RouterComponent extends React.Component {
                                 key="wishlist_creation"
                                 component={WishlistCreation}
                                 hideNavBar={false}
+                                drawer={false}
+                                back
+                                drawerLockMode="locked-close"
                             />
                             <Scene
                                 title="Listas de deseos"
                                 key="wishlist_items"
                                 component={WishlistItems}
                                 hideNavBar={false}
+                                back
                             />
                             <Scene
                                 title="Agregar a la lista"
                                 key="wishlist_add_items"
                                 component={WishlistAddItems}
                                 hideNavBar={false}
+                                back
                             />
                             <Scene
                                 title="Ver listas de otros usuarios"
                                 key="users_wishlists"
                                 component={WishlistUsers}
                                 hideNavBar={false}
+                                back
                             />
                             <Scene
                                 title="Listas de usuario"
                                 key="user_wishlist_list"
                                 component={WishlistUserTray}
                                 hideNavBar={false}
+                                back
                             />
                             <Scene
                                 title="Contenido de lista de usuario"
                                 key="user_wishlist_items"
                                 component={WishlistUserItems}
                                 hideNavBar={false}
+                                back
                             />
                         </Scene>
 

@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Image,
+    Alert,
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -17,12 +18,13 @@ import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-//import {get_user_groups} from '../../../res/api/calls/groups';
+import {api} from '../../../res/api/api';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
 
+//This component shows the current user lists
   export class WishlistTray extends Component{
 
     constructor(props){
@@ -37,10 +39,7 @@ import commonStyles from '../../../res/commonStyles';
 
             loading:true,
             hasInternet: true,
-            grupos:[{
-                "name": "Lista para santana 2",
-                "description": "Es secreta, no la vean si no son santa >:C. "
-            }],
+            grupos:[],
 
         }
         //*************************Estilo*******
@@ -189,7 +188,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.wishlist_items()}}
+                    onPress={()=>{this.loadWishlists()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
@@ -213,9 +212,7 @@ import commonStyles from '../../../res/commonStyles';
 
         );
 
-    }
-
-    /*
+    }    
     renderListEmpty(){
         return(
             this.state.loading ? <Text style={{alignSelf:"center"}}>Cargando...</Text> : 
@@ -223,12 +220,12 @@ import commonStyles from '../../../res/commonStyles';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay grupos.
+                    No hay listas de deseo.
                 </Text>
             </View>
         );
     }
-*/
+
     //****************** Data loading  ***********/
 /*
         loadWishlists() {
@@ -258,25 +255,56 @@ import commonStyles from '../../../res/commonStyles';
         }
 */
     //************************Métodos de lifecycle que no son render */
-    componentWillMount(){
-        //this.loadGroups()
+
+    loadWishlists(){
+
+        this.setState({loading:true});
+        api.getUserWishlists().then(response=>{
+
+            if(response["status"] == OK){
+
+                this.setState({groups:response["wishlists"]})
+                console.log(this.state);
+
+            }else{
+
+                Alert.alert("Error", "Ha habido un error al obtener las listas de deseo");                
+
+            }
+
+            this.setState({loading:false});
+
+        });
+
+    }
+
+    componentWillMount(){        
+        this.loadWishlists();
     }
     
     render(){
         // global.rol = 'COLLABORATOR'
-        let dataToRender = this.state.grupos;
+        let dataToRender = this.state.groups;
         return(
             <ConnectionWrapper
                 hasInternet={this.state.hasInternet}
                 //onRetry={this.loadGroups.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>
 
                         <FlatList
                             data={dataToRender}
-                            //ListEmptyComponent={this.renderListEmpty()}
+                            ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
                                 let name = item.name;

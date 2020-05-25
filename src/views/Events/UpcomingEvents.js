@@ -185,7 +185,7 @@ import moment from 'moment';
             <View style={{flexDirection:"row"}}>
                 <View style={style.daymark_cont}>
                     <Text style={style.daymark_num}>
-                        {moment({starts_at}).format("DD MMM")} 
+                        {moment.utc(starts_at).format("DD MMM")} 
                     </Text>
                 </View>
                     <TouchableOpacity 
@@ -228,7 +228,7 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.event_detail()}}
+                    onPress={()=>{this.loadEvents()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom2nd}} />                                
 
@@ -310,6 +310,14 @@ import moment from 'moment';
                 hasInternet={this.state.hasInternet}
                 onRetry={this.loadEvents.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>
@@ -324,7 +332,8 @@ import moment from 'moment';
                                 let starts_at = item.starts_at;
                                 let ends_at = item.ends_at;
                                 let location = item.location;
-                                console.log(item);
+                                console.log(starts_at);
+                                console.log(moment.utc(starts_at).format("DD/MM"));
                                 return this.renderList(name, description, starts_at, ends_at, location);
 
                             }}

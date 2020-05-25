@@ -3,6 +3,8 @@ import {register_user} from './calls/register_user';
 import {get_groups_qr} from './calls/get_groups_qr';
 import {get_user_groups} from './calls/groups';
 import {post_ecard} from './calls/ecards';
+import {create_wishlist} from './calls/wishlist';
+import {get_user_wishlists} from './calls/wishlist';
 import {updateOwnUserData, getGroupsMembers} from './calls/users';
 import {getGroupMemberLocations} from './calls/locations';
 export const api = {
@@ -16,6 +18,8 @@ export const api = {
     getGroupMemberLocations: getGroupMemberLocations,
     getGroupsMembers,
     post_ecard,
-    getUserGroups: get_user_groups
+    getUserGroups: get_user_groups,
+    getUserWishlists: get_user_wishlists,
+    createWishlist: create_wishlist
 
 };

@@ -80,6 +80,14 @@ export async function get_user_events(){
 
         json["events"] = await response.json();
 
+        json["events"] = json["events"].map((value, index)=>{
+
+            value["start"] = value["starts_at"];
+            value["end"] = value["ends_at"];
+
+            return value;
+
+        });
 
         json["status"] = OK;
 

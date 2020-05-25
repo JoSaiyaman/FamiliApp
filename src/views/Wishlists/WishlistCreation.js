@@ -17,7 +17,7 @@ import {noInternetNotification} from '../../../connectionHelpers/noInternetToast
 
 import {Overlay} from 'react-native-elements';
 
-//import {create_group} from '../../../res/api/calls/groups';
+import {api} from '../../../res/api/api';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 
@@ -74,6 +74,9 @@ import COLORS from '../../../res/colors';
                 marginBottom:2,
                 marginLeft:2,
                 textAlign: "justify",
+                textAlignVertical:"top",
+                justifyContent:"center",
+                alignItems:"center",
                 padding:10,
                 fontSize:16
 
@@ -146,51 +149,39 @@ import COLORS from '../../../res/colors';
 
     }
 
-    verificarCampos(){
-        if(this.state.name){
-            this.crearGrupo();
-        }else{
-            let message = 'El campo de Nombre del grupo está vacío';
-            Alert.alert("Atención", message);
+    verifyFields(){
+
+        if(this.state.name == "" || this.state.description == ""){
+
+            Alert.alert("Alerta", "Los campos no pueden estar vacíos");
+            return;
+
         }
+        this.createWishlist();
+
     }
-/*
-    crearGrupo(){
-        NetInfo.fetch().then(connection => {
-            if (connection.isInternetReachable) {
-             
-                this.setState({        
-                    loading:true
-                });
-                create_group(this.state.name).then((res)=>{
-                    console.log("resultado", res);
-                    if(res.status == OK){
-                
-                
-                        if(!res.error_details){
-                            
-                            //Guardar en redux***************
-                            //TODO: GUARDAR EN REDUX
-                            Alert.alert("Grupo creado con éxito");
-                            Actions.grouptray();
-        
-                        } else {
-                            Alert.alert("Error",res.message);
-                        }
-        
-        
-                    }else{
-                        Alert.alert("Ha habido un error");
-                    }
-                    this.setState({loading:false});
-                });
-            } else {
-                noInternetNotification();
-            }
+
+    createWishlist(){
+
+        this.setState({loading:true});
+        api.createWishlist(this.state.name, this.state.description).then(response=>{
+
+            if(response["status"] == OK){
+
+                Alert.alert("Éxito", "La lista se ha creado con éxito");
+                this.setState({loading:false});
+                Actions.pop();
+
+            }else{
+
+                Alert.alert("Error", "Ha habido un error");
+                this.setState({loading:false});
+
+            }            
+
         });
-        
-    }
-    */
+
+    }    
 
     render(){
         
@@ -223,6 +214,8 @@ import COLORS from '../../../res/colors';
                             style={this.style.textfield_dsc}
                             placeholder="Descripcion de wishlist"
                             placeholderTextColor="gray"
+                            multiline={true}
+                            numberOfLines={-1}
                             onChangeText={(description)=>this.setState({description})}
                             value={this.state.description} />
 
@@ -231,7 +224,7 @@ import COLORS from '../../../res/colors';
                 </View> 
 
                 <TouchableOpacity style={this.style.button}
-                    //onPress={()=>this.verificarCampos()}
+                    onPress={()=>this.verifyFields()}
                 >
                     <Text style={this.style.text_button} >
 
