@@ -219,3 +219,41 @@ export async function get_user_wishlists(){
     return json;
 
 }
+
+export async function get_item(item_id){
+    //TODO: user dinámico y recibir id de lista
+    let family_id = store.getState().familyid;
+    let url = `${HOST}familiapp/family_group/${family_id}/wishlist/item/${item_id}`;
+    console.log("URL",url)
+    let requestParams = {
+
+        headers:{
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+        },
+        method:"GET"
+
+    };
+
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        if(response.status == 400){
+            json["status"] = FAIL;
+            return json;
+        }
+
+        json["item"] = await response.json();
+        json["status"] = OK;
+
+    }catch(err){
+        console.log("ERROR", err);
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+}

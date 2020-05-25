@@ -101,6 +101,7 @@ import commonStyles from '../../../res/commonStyles';
         let onClick = ()=>{
             
             console.log("ID", id);
+            Actions.wishlist_item_detail({item_id:id})
 
         }
 

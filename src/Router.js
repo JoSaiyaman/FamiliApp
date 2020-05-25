@@ -51,6 +51,7 @@ import { AlbumCreation } from './views/Album/AlbumCreation';
 import { PictureUpload } from './views/Album/PictureUpload';
 import { EcardCreate } from './views/Ecards/EcardCreate';
 import { DrawerMenu } from './views/DrawerMenu';
+import { WishlistItemDetail } from './views/Wishlists/WishlistItemDetail';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -293,6 +294,13 @@ export default class RouterComponent extends React.Component {
                                 title="Contenido de lista de usuario"
                                 key="user_wishlist_items"
                                 component={WishlistUserItems}
+                                hideNavBar={false}
+                                back
+                            />
+                            <Scene
+                                title="Item"
+                                key="wishlist_item_detail"
+                                component={WishlistItemDetail}
                                 hideNavBar={false}
                                 back
                             />
