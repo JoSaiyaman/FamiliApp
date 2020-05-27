@@ -19,6 +19,7 @@ import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper'
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
 import {api} from '../../../res/api/api';
+import {get_firebase_token} from '../../../res/firebase/get_firebase_token';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -33,13 +34,14 @@ import commonStyles from '../../../res/commonStyles';
         const {height, width} = Dimensions.get("window");
         this.height = height;
         this.width = width;
-        this.padding = 9;
+        this.padding = 9;        
         //***************Test data ************/
         this.state ={
 
             loading:true,
             hasInternet: true,
             grupos:[],
+            firebase_token: null,
 
         }
         //*************************Estilo*******
@@ -278,8 +280,24 @@ import commonStyles from '../../../res/commonStyles';
 
     }
 
-    componentWillMount(){        
+    componentWillMount(){
         this.loadWishlists();
+        get_firebase_token().then((fire_token)=>{
+
+            if(fire_token){
+
+                console.log("Got firebase token:");
+                console.log(fire_token);
+                this.setState({firebase_token:fire_token});
+
+            }else{
+
+                console.log("Couldnt get firebase token");
+
+            }
+
+        });
+
     }
     
     render(){
