@@ -24,6 +24,7 @@ import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
+import firebase from '@react-native-firebase/app';
 
 //This component shows the current user lists
   export class WishlistTray extends Component{
