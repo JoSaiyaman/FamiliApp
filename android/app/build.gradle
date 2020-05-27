@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -190,8 +190,17 @@ dependencies {
     implementation project(':react-native-image-picker')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    compile(project(':react-native-firebase')) {   
+       transitive = false
+    }
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    // implementation ("com.google.firebase:firebase-messaging:20.0.0"){
+    //     exclude group: 'com.google.firebase', module: 'firebase-iid'
+    // }
+    // implementation 'com.google.firebase:firebase-iid:20.0.0'
+    // implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation "com.google.firebase:firebase-messaging:20.2.0"
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'    
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")

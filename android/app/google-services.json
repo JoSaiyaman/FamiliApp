@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "176811181180",
+    "firebase_url": "https://familiapp-45f24.firebaseio.com",
+    "project_id": "familiapp-45f24",
+    "storage_bucket": "familiapp-45f24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176811181180:android:aaecd3ec6b26df46da35f9",
+        "android_client_info": {
+          "package_name": "com.familiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176811181180-6en8ctk4kuks5hfng9trbdt3l3gbfudc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.familiapp",
+            "certificate_hash": "0716a6e99a4fef5e53ffd3065df0a8cfc71686a1"
+          }
+        },
+        {
+          "client_id": "176811181180-419jorlln66ctujph0qnpmg8drt2af5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe89vzMvpBBNTT6MKyGtZB4gPffRZ5sdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176811181180-419jorlln66ctujph0qnpmg8drt2af5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

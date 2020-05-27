@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "shake": "adb shell input keyevent 82"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
@@ -24,6 +25,7 @@
     "react-native-elements": "^1.2.7",
     "react-native-event-calendar-customized": "^1.0.19",
     "react-native-events-calendar": "^1.0.8",
+    "react-native-firebase": "^5.6.0",
     "react-native-form-auto-next": "^1.0.4",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-image-picker": "^2.3.1",
