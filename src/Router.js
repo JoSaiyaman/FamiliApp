@@ -52,6 +52,7 @@ import { PictureUpload } from './views/Album/PictureUpload';
 import { EcardCreate } from './views/Ecards/EcardCreate';
 import { DrawerMenu } from './views/DrawerMenu';
 import { WishlistItemDetail } from './views/Wishlists/WishlistItemDetail';
+import { GroupCode } from './views/GroupCode/GroupCode';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -211,6 +212,12 @@ export default class RouterComponent extends React.Component {
                         key="join_group"
                         component={JoinGroup}
                     />
+                    <Scene
+                        hideNavBar={false}
+                        title="Ingresar código del grupo"
+                        key="group_code"
+                        component={GroupCode}
+                    />
                 </Stack>
 
                 {/* <Scene
@@ -229,7 +236,7 @@ export default class RouterComponent extends React.Component {
                     hideNavBar={false}
                     title="QR del grupo"
                     key="group_qr"
-                    component={GroupsQr} />
+                    component={GroupsQr} />                
 
                 <Stack
                     key="main"
@@ -246,7 +253,7 @@ export default class RouterComponent extends React.Component {
                         showLabel={false}
                         tabBarStyle = {{backgroundColor:'#FFFFFF', color: 'red'}}
                     >                                            
-
+                        
                         <Scene key = "wishlist"  title = "Wishlists" icon={TabIcon} iconName="gift">
                             <Scene
                                 title="Mis listas de deseos"

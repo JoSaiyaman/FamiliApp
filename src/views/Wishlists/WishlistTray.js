@@ -24,7 +24,8 @@ import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
-import firebase from '@react-native-firebase/app';
+import {firebase} from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
 
 //This component shows the current user lists
   export class WishlistTray extends Component{
@@ -296,6 +297,23 @@ import firebase from '@react-native-firebase/app';
                 console.log("Couldnt get firebase token");
 
             }
+
+        });
+
+        firebase.messaging().onMessage((message)=>{
+
+            console.log("Received message");
+
+        });
+
+        firebase.messaging().setBackgroundMessageHandler((message)=>{
+
+            console.log("Received background message");
+            PushNotification.localNotification({
+
+                message:"Hello"
+
+            });
 
         });
 

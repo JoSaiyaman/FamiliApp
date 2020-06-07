@@ -5,6 +5,7 @@ import {get_user_groups} from './calls/groups';
 import {post_ecard} from './calls/ecards';
 import {create_wishlist} from './calls/wishlist';
 import {get_user_wishlists} from './calls/wishlist';
+import {get_family_members} from './calls/get_family_members';
 import {updateOwnUserData, getGroupsMembers} from './calls/users';
 import {getGroupMemberLocations} from './calls/locations';
 export const api = {
@@ -20,6 +21,7 @@ export const api = {
     post_ecard,
     getUserGroups: get_user_groups,
     getUserWishlists: get_user_wishlists,
-    createWishlist: create_wishlist
+    createWishlist: create_wishlist,
+    getFamilyMembers:get_family_members
 
 };

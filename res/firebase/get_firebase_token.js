@@ -1,8 +1,8 @@
-import firebase from 'react-native-firebase';
+import {firebase} from '@react-native-firebase/messaging';
+
 import {AsyncStorage} from 'react-native';
-
 export async function get_firebase_token(){
-
+    
     const enabled = firebase.messaging().hasPermission();
     let token = null;
     if(!enabled){
