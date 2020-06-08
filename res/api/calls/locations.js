@@ -89,3 +89,58 @@ export async function getGroupMemberLocations(){
     return json;
 
 }
+
+export async function createLocation(latitude, longitude){
+
+    let url = `${HOST}familiapp/family_group/${store.getState().familyid}/location/`;
+
+    let body = {
+
+        "latitude": latitude,
+	    "longitude": longitude
+
+    }
+
+    console.log(body);
+
+    let requestParams = {
+
+        headers:{
+
+            'Content-Type':"application/json",
+            'Authorization':"Token " + store.getState().token
+
+        },
+        method:"POST",
+        body: JSON.stringify(body)
+
+    };
+ 
+    let json = {};
+
+    try{
+
+        let response = await fetch(url, requestParams);
+        console.log(response)
+        console.log((await response.json()));
+        if(response.status == 400){
+
+            json["status"] = FAIL;
+            return json;
+
+        }
+
+        // json["member_locations"] = await response.json();
+
+
+        json["status"] = OK;
+
+
+    }catch(err){
+
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+}

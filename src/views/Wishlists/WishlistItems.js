@@ -111,8 +111,7 @@ import commonStyles from '../../../res/commonStyles';
 
                 <View style={style.text}>
                     <Text>
-                        <Text style={{fontSize: 18}}>{name} </Text>
-                        - {description}
+                        <Text style={{fontSize: 18}}>{name} </Text>                        
                     </Text>
 
                 </View>                

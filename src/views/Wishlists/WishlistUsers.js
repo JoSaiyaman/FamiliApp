@@ -216,7 +216,12 @@ import commonStyles from '../../../res/commonStyles';
 
             if(response["status"] == OK){
 
-                this.setState({grupos:response["family"]});
+                let all_except_me = response["family"].filter((value, index)=>{
+
+                    return !value.is_self;
+
+                });
+                this.setState({grupos:all_except_me});
                 console.log(response);
 
             }else{

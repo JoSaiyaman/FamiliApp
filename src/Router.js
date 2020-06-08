@@ -289,7 +289,7 @@ export default class RouterComponent extends React.Component {
                                 drawerLockMode="locked-close"
                             />
                             <Scene
-                                title="Listas de deseos"
+                                title="Artículos"
                                 key="wishlist_items"
                                 component={WishlistItems}
                                 hideNavBar={false}
@@ -324,7 +324,7 @@ export default class RouterComponent extends React.Component {
                                 back
                             />
                             <Scene
-                                title="Item"
+                                title="Artículo"
                                 key="wishlist_item_detail"
                                 component={WishlistItemDetail}
                                 hideNavBar={false}

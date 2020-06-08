@@ -8,6 +8,7 @@ import {
     ActivityIndicator,
     TextInput,
     Alert,
+    Linking
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -16,10 +17,11 @@ import NetInfo from "@react-native-community/netinfo";
 import {noInternetNotification} from '../../../connectionHelpers/noInternetToast';
 import {hasInternetConnection} from '../../../connectionHelpers/hasInternetConnection';
 import {Overlay} from 'react-native-elements';
-
+import {commonStyles} from '../../../res/styles/commonStyles';
 import {get_item} from '../../../res/api/calls/wishlist';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
   export class WishlistItemDetail extends Component{
 
@@ -41,6 +43,7 @@ import COLORS from '../../../res/colors';
 
             name:"",
             description: "",
+            links:[],
             loading:false
 
         }
@@ -50,8 +53,7 @@ import COLORS from '../../../res/colors';
             main:{
 
                 flex: 1,
-                justifyContent:"center",
-                alignContent:"center"
+            
 
             },
 
@@ -67,33 +69,36 @@ import COLORS from '../../../res/colors';
             textfield:{
 
                 paddingLeft:20,
+                color:"black",
                 paddingRight:20,
                 paddingTop: 2,
                 paddingBottom: 2,
-                width: this.width*0.6,
+                width: this.width*0.8,
                 height: this.height*0.07,
                 backgroundColor:"white",
                 elevation:7,
                 borderRadius:13,
                 marginTop:7,
                 marginBottom:10,
-                marginLeft:this.width*0.2   
+                marginLeft:this.width*0.1
 
             },
             descriptionField:{
 
                 paddingLeft:20,
                 paddingRight:20,
-                paddingTop: 2,
+                color:"black",
+                paddingTop: 8,
+                textAlignVertical:"top",
                 paddingBottom: 2,
-                width: this.width*0.6,
-                height: this.state.height,
+                width: this.width*0.8,
+                height: this.height*0.5,
                 backgroundColor:"white",
                 elevation:7,
                 borderRadius:13,
                 marginTop:7,
                 marginBottom:10,
-                marginLeft:this.width*0.2   
+                marginLeft:this.width*0.1                
 
             },
 
@@ -124,6 +129,38 @@ import COLORS from '../../../res/colors';
         });
 
     }
+    
+    renderLink(url){
+
+        let c_styles = commonStyles(this);
+
+        let openUrl = async ()=>{
+
+            let supported = await Linking.canOpenURL(url);
+
+            if(supported){
+
+                Linking.openURL(url);
+
+            }else{
+
+                Alert.alert("URL", "La URL no es un formato válido");
+
+            }
+
+        }
+
+        return(
+
+            <TouchableOpacity style={{...c_styles.rounded_button, width:this.width*0.6, marginLeft:this.width*0.2, marginBottom:20}} onPress={()=>openUrl()}>
+
+                <Text>{url}</Text>
+
+            </TouchableOpacity>
+
+        );
+
+    }
 
     //****************** Data loading  ***********/
 
@@ -143,7 +180,8 @@ import COLORS from '../../../res/colors';
                         this.setState({
         
                             name:res.item.name,
-                            description:res.item.description
+                            description:res.item.description,
+                            links:res.item.wishlistitemlink_set
         
                         })
                         // if (res.groups.length == 0) {
@@ -179,20 +217,38 @@ import COLORS from '../../../res/colors';
                     <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
 
                 </Overlay>
-                <TextInput
-                    style={this.style.textfield}
-                    placeholder="Nombre del artículo"
-                    placeholderTextColor="gray"
-                    onChangeText={(name)=>this.setState({name})}
-                    value={this.state.name} />
 
-                <TextInput
-                    multiline
-                    style={this.style.descriptionField}
-                    placeholder="Descripción"
-                    placeholderTextColor="gray"
-                    onChangeText={(description)=>this.setState({description})}
-                    value={this.state.description} />
+                <ScrollView style={{flex:1}}>
+
+                    <TextInput
+                        style={this.style.textfield}
+                        placeholder="Nombre del artículo"
+                        placeholderTextColor="gray"
+                        editable={false}
+                        onChangeText={(name)=>this.setState({name})}
+                        value={this.state.name} />
+
+                    <TextInput
+                        multiline
+                        style={this.style.descriptionField}
+                        placeholder="Descripción"
+                        placeholderTextColor="gray"
+                        editable={false}
+                        onChangeText={(description)=>this.setState({description})}
+                        value={this.state.description} />
+
+                    {
+
+                        this.state.links.map((value, index)=>{
+
+                            let url = value.url;
+                            return this.renderLink(url);
+
+                        })
+
+                    }
+
+                </ScrollView>                
 
             </View>
 

@@ -7,7 +7,8 @@ export async function updateOwnUserData(userData){
     let parm = {}
     if (userData.first_name != null) parm.first_name = userData.first_name
     if (userData.tracking_enabled != null) parm.tracking_enabled = userData.tracking_enabled
-
+    if (userData.fcm_token != null) parm.fcm_token = userData.fcm_token;
+    
     console.log("Diccionario", JSON.stringify(parm));
 
     let token;

@@ -8,6 +8,7 @@ import {get_user_wishlists} from './calls/wishlist';
 import {get_family_wishlists} from './calls/wishlist';
 import {get_family_members} from './calls/get_family_members';
 import {updateOwnUserData, getGroupsMembers} from './calls/users';
+import {createLocation} from './calls/locations';
 import {getGroupMemberLocations} from './calls/locations';
 export const api = {
 
@@ -24,6 +25,7 @@ export const api = {
     getUserWishlists: get_user_wishlists,
     createWishlist: create_wishlist,
     getFamilyMembers:get_family_members,
-    getFamilyWishlists: get_family_wishlists
+    getFamilyWishlists: get_family_wishlists,
+    createLocation
 
 };

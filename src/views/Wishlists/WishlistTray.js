@@ -9,6 +9,7 @@ import {
     ActivityIndicator,
     Image,
     Alert,
+    PermissionsAndroid
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -25,6 +26,7 @@ import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
 import {firebase} from '@react-native-firebase/messaging';
+import Geolocation from '@react-native-community/geolocation';
 import PushNotification from 'react-native-push-notification';
 
 //This component shows the current user lists
@@ -283,7 +285,40 @@ import PushNotification from 'react-native-push-notification';
     }
 
     componentWillMount(){
-        this.loadWishlists();
+        this.loadWishlists();        
+
+        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+
+            title: "Familiapp",
+            message:"Familiapp necesita acceder a su ubicación para que sus familiares puedan ver dónde está",
+            buttonNeutral: "Preguntarme después",
+            buttonNegative: "Cancelar",
+            buttonPositive: "OK"
+
+        }).then((granted)=>{
+
+            if(PermissionsAndroid.RESULTS.GRANTED == granted){
+
+                Geolocation.watchPosition((res)=>{
+                    let latitude = res.coords.latitude.toFixed(6);
+                    let longitude = res.coords.longitude.toFixed(6);
+                    console.log("Triggered watch position");
+                    console.log(res.coords);
+                    api.createLocation(latitude, longitude).then((response)=>{
+        
+                        if(response["status"] == OK){
+        
+                            console.log("Success registering location");
+        
+                        }
+        
+                    });
+        
+                }, (err)=>console.log(err), {distanceFilter:1});
+
+            }
+
+        });
         get_firebase_token().then((fire_token)=>{
 
             if(fire_token){
@@ -291,6 +326,7 @@ import PushNotification from 'react-native-push-notification';
                 console.log("Got firebase token:");
                 console.log(fire_token);
                 this.setState({firebase_token:fire_token});
+                api.updateOwnUserData({fcm_token:fire_token});
 
             }else{
 
@@ -303,17 +339,24 @@ import PushNotification from 'react-native-push-notification';
         firebase.messaging().onMessage((message)=>{
 
             console.log("Received message");
+            let noti = message.notification;
+            PushNotification.localNotification({
+
+                title: noti.title,
+                message: noti.body
+
+            });
 
         });
 
         firebase.messaging().setBackgroundMessageHandler((message)=>{
 
-            console.log("Received background message");
-            PushNotification.localNotification({
+            console.log(message);            
+            // PushNotification.localNotification({
 
-                message:"Hello"
+            //     message:"Hello"
 
-            });
+            // });
 
         });
 
