@@ -7,10 +7,12 @@ import {
     FlatList,    
     TouchableOpacity,
     Image,
+    ActivityIndicator
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 // Connection related importss
+import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
@@ -73,7 +75,7 @@ import commonStyles from '../../../res/commonStyles';
 
                 width:elementWidth,
                 height:elementHeight,
-                backgroundColor:"white",
+                backgroundColor:"#ffb499",
                 borderRadius:14,
                 elevation:10,
                 marginLeft:marginLeft,
@@ -93,7 +95,8 @@ import commonStyles from '../../../res/commonStyles';
 
         let onClick = ()=>{
             
-            console.log("ID", id);
+            console.log(id);
+            Actions.wishlist_item_detail({item_id:id});
 
         }
 
@@ -103,8 +106,7 @@ import commonStyles from '../../../res/commonStyles';
 
                 <View style={style.text}>
                     <Text>
-                        <Text style={{fontSize: 18}}>{name} </Text>
-                        - {description}
+                        <Text style={{fontSize: 18}}>{name} </Text>                        
                     </Text>
 
                 </View>                
@@ -123,9 +125,10 @@ import commonStyles from '../../../res/commonStyles';
             right: commonStyles(this).distanceRight,
         };
 
-        let onSave = (state)=>{
+        let onSave = ()=>{
 
-            console.log(state);
+            this.setState({loading:true});
+            this.loadItems();
 
         }
         return(
@@ -136,7 +139,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{this.loadItems()}}
+                    onPress={()=>{onSave()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                              
 
@@ -170,7 +173,7 @@ import commonStyles from '../../../res/commonStyles';
             this.setState({
                 loading: true
             })
-            get_wishlist_items().then((res)=>{
+            get_wishlist_items(this.props.wishlist_id).then((res)=>{
                 console.log("Resultado",res);
                 console.log("Endpoint", res.items);
                 console.log("Items", res.items.wishlistitem_set);
@@ -181,10 +184,7 @@ import commonStyles from '../../../res/commonStyles';
         
                             items:res.items.wishlistitem_set
         
-                        })
-                        if (res.groups.length == 0) {
-                            Actions.groupcreation()
-                        }
+                        })                        
     
                     } else {
                         Alert.alert("Error",res.detail);
@@ -195,10 +195,11 @@ import commonStyles from '../../../res/commonStyles';
                 this.setState({loading:false});
             });    
         }
-    }
+}
 
     //************************Métodos de lifecycle que no son render */
-    componentWillMount(){
+    componentWillMount(){        
+        
         this.loadItems()
     }
     
@@ -210,6 +211,14 @@ import commonStyles from '../../../res/commonStyles';
                 hasInternet={this.state.hasInternet}
                 onRetry={this.loadItems.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>

@@ -17,7 +17,7 @@ import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-import {get_sent_ecards} from '../../../res/api/calls/ecards';
+import {get_received_ecards} from '../../../res/api/calls/ecards';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -25,7 +25,7 @@ import commonStyles from '../../../res/commonStyles';
 
 import moment from 'moment';
 
-  export class EcardTray extends Component{
+  export class EcardTrayReceived extends Component{
 
     constructor(props){
 
@@ -223,7 +223,7 @@ import moment from 'moment';
         }
         return(
             <>
-                {/* <TheCircle
+                <TheCircle
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
@@ -235,9 +235,9 @@ import moment from 'moment';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-contacts"
-                    onPress={()=>{console.log("Pantalla de destinatarios")}}
+                    onPress={()=>{Actions.ecard_tray_sent()}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom3rd}} />                        
 
                 <TheCircle
                     width={commonStyles(this).actionButtonWidth}
@@ -245,7 +245,7 @@ import moment from 'moment';
                     name="ios-add"
                     onPress={()=>{Actions.ecard_create()}}
                     color_background={COLORS.primary}                    
-                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} /> */}
+                    style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />          
             </>
         );
     }
@@ -270,7 +270,7 @@ import moment from 'moment';
             this.setState({
                 loading: true
             })
-            get_sent_ecards().then((res)=>{
+            get_received_ecards().then((res)=>{
                 if(res["status"] == OK){
                     if(!res.detail){
                         

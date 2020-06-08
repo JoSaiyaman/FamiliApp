@@ -10,7 +10,8 @@ import{
 
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import IMAGES from '../../res/images';
 import commonStyles from "../../res/commonStyles";
 import { Actions } from 'react-native-router-flux';
@@ -88,7 +89,7 @@ export class DrawerMenu extends Component{
 
                 lead: <FontAwesome name="group" size={this.width*0.04} color="green" />,
                 text:"Miembros",
-                on_press:()=>console.log("Miembros"),
+                on_press:()=>Actions.family_members(),
                 is_last_tile:false
 
             },
@@ -109,12 +110,30 @@ export class DrawerMenu extends Component{
 
             {
 
+                lead: <Entypo name="log-out" size={this.width*0.04} color="green" />,
+                text: "Salir",
+                on_press: ()=>Actions.login({type:"reset"}),
+                is_last_tile:true
+
+            },
+
+            {
+
+                lead: <Ionicons name="ios-exit" size={this.width*0.04} color="green" />,
+                text:"Elegir otro grupo",
+                on_press:()=>Actions.groups({type:"reset"}),
+                is_last_tile:true
+
+            },
+
+            {
+
                 lead: <FontAwesome name="close" size={this.width*0.04} color="green" />,
                 text:"Cerrar",
                 on_press:()=>Actions.pop(),
                 is_last_tile:true
 
-            }
+            }            
 
         ]
 

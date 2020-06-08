@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Image,
+    Alert,
   } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
@@ -22,6 +23,7 @@ import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
 import commonStyles from '../../../res/commonStyles';
+import { api } from '../../../res/api/api';
 
   export class WishlistUserTray extends Component{
 
@@ -32,15 +34,20 @@ import commonStyles from '../../../res/commonStyles';
         this.height = height;
         this.width = width;
         this.padding = 9;
+        this.users_id = this.props.users_id;
+        this.users_name = this.props.users_name;
+        console.log(this.props);
+        if(this.users_id == null || this.users_name == null){
+
+            throw new Error("WishlistUserTray: users_id nor users_name cannot be null");
+
+        }
         //***************Test data ************/
         this.state ={
 
             loading:true,
             hasInternet: true,
-            grupos:[{
-                "name": "Lista para santana de usuario",
-                "description": "Es secreta, no la vean si no son santa >:C. "
-            }],
+            grupos:[],
 
         }
         //*************************Estilo*******
@@ -88,7 +95,7 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(name, description){
+    renderList(name, description, id){
 
         //Sirve para renderear la lista
         
@@ -137,7 +144,7 @@ import commonStyles from '../../../res/commonStyles';
         
         let onClick = ()=>{
             
-            Actions.user_wishlist_items();
+            Actions.user_wishlist_items({wishlist_id:id, title:name});
 
         }
 
@@ -176,9 +183,10 @@ import commonStyles from '../../../res/commonStyles';
             right: commonStyles(this).distanceRight,
         };
 
-        let onSave = (state)=>{
+        let onSave = ()=>{
 
-            console.log(state);
+            this.setState({loading:true});
+            this.getUserWishlists();
 
         }
         return(
@@ -189,7 +197,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{Actions.user_wishlist_items()}}
+                    onPress={()=>{onSave()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                 
 
@@ -199,7 +207,7 @@ import commonStyles from '../../../res/commonStyles';
 
     }
 
-    /*
+    
     renderListEmpty(){
         return(
             this.state.loading ? <Text style={{alignSelf:"center"}}>Cargando...</Text> : 
@@ -212,38 +220,37 @@ import commonStyles from '../../../res/commonStyles';
             </View>
         );
     }
-*/
+
     //****************** Data loading  ***********/
-/*
-        loadWishlists() {
-            if (hasInternetConnection(this)) {
-                this.setState({
-                    loading: true
-                })
-                get_user_groups().then((res)=>{
-                    if(res["status"] == OK){
-                        if(!res.detail){
-                            
-                            this.setState({
-            
-                                grupos:res.groups
-            
-                            })
-                            if (res.groups.length == 0) {
-                                Actions.groupcreation()
-                            }
-                        } else {
-                            Alert.alert("Error",res.detail);
-                        }
-                    }
-                    this.setState({loading:false});
-                });    
+
+    getUserWishlists(){
+
+        api.getFamilyWishlists().then((response)=>{
+
+            if(response["status"] == OK){
+
+                let wishlists = response["wishlists"].filter((value, index)=>{
+
+                    return value.creator_fullname == this.users_name;
+
+                });
+
+                this.setState({grupos: wishlists});
+
+            }else{
+
+                Alert.alert("Error", "Ha habido un error");
+
             }
-        }
-*/
+            this.setState({loading:false});
+
+        });
+
+    }
+
     //************************Métodos de lifecycle que no son render */
-    componentWillMount(){
-        //this.loadGroups()
+    componentWillMount(){        
+        this.getUserWishlists();
     }
     
     render(){
@@ -254,18 +261,27 @@ import commonStyles from '../../../res/commonStyles';
                 hasInternet={this.state.hasInternet}
                 //onRetry={this.loadGroups.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>
 
                         <FlatList
                             data={dataToRender}
-                            //ListEmptyComponent={this.renderListEmpty()}
+                            ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
                                 let name = item.name;
                                 let description = item.description;
-                                return this.renderList(name, description);
+                                let id = item.id;
+                                return this.renderList(name, description, id);
 
                             }}
                             keyExtractor={item => item.name}

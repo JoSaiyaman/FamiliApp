@@ -141,9 +141,8 @@ export class SendAnnouncement extends Component{
                             
                             //Guardar en redux***************
                             //TODO: GUARDAR EN REDUX
-                            Alert.alert("Aviso creado con éxito");
-                            Actions.view_announcements();
-        
+                            Alert.alert("Éxito", "La familia recibirá una notificación en los siguientes instantes");                            
+                            Actions.pop()
                         } else {
                             Alert.alert("Error",res.message);
                         }
@@ -194,17 +193,16 @@ export class SendAnnouncement extends Component{
                     <TouchableOpacity style={this.style.save_button}
                     onPress={()=>this.verificarCampos()}
                     >
-                        <View>
-                            <Text style={
+                        <Text style={
                             {textAlignVertical:"center", 
                             textAlign:"center", 
                             color:"white",
                             fontWeight:"bold",
                             fontSize: 18}}>
                                 Enviar aviso
-                            </Text>
-                        </View>
-                    </TouchableOpacity>                    
+                        </Text>
+                    </TouchableOpacity>
+                            
                 </ScrollView>
             </View>
         );

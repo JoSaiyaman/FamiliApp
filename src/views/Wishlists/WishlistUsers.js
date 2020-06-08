@@ -17,7 +17,7 @@ import {Overlay} from 'react-native-elements';
 import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
 import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
 import {TheCircle} from '../../../components/TheCircle';
-//import {get_user_groups} from '../../../res/api/calls/groups';
+import {api} from '../../../res/api/api';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
 import IMAGES from '../../../res/images';
@@ -37,12 +37,7 @@ import commonStyles from '../../../res/commonStyles';
 
             loading:true,
             hasInternet: true,
-            grupos:[{
-                "name": "Papa P. Luche"
-                //"description": "Es secreta, no la vean si no son santa >:C. "
-            },{
-                "name": "Elliot Alderson"
-            }],
+            grupos:[],
 
         }
         //*************************Estilo*******
@@ -90,7 +85,7 @@ import commonStyles from '../../../res/commonStyles';
     }
 
     //******************Renderers *************************
-    renderList(name){
+    renderList(full_name, id){
 
         //Sirve para renderear la lista
         
@@ -140,7 +135,7 @@ import commonStyles from '../../../res/commonStyles';
         
         let onClick = ()=>{
             
-            Actions.user_wishlist_list();
+            Actions.user_wishlist_list({users_id:id, users_name:full_name});
 
         }
 
@@ -154,7 +149,7 @@ import commonStyles from '../../../res/commonStyles';
 
                     <Text style={style.text}>
 
-                        {name}
+                        {full_name}
 
                     </Text>
                 </View>                
@@ -174,9 +169,11 @@ import commonStyles from '../../../res/commonStyles';
             right: commonStyles(this).distanceRight,
         };
 
-        let onSave = (state)=>{
+        let onSave = ()=>{
 
-            console.log(state);
+            console.log("Clicked on refresh")
+            this.setState({loading:true});
+            this.getFamilyMembers();
 
         }
         return(
@@ -187,7 +184,7 @@ import commonStyles from '../../../res/commonStyles';
                     width={commonStyles(this).actionButtonWidth}
                     height={commonStyles(this).actionButtonHeight}
                     name="ios-refresh"
-                    onPress={()=>{}}
+                    onPress={()=>{onSave()}}
                     color_background={COLORS.primary}                    
                     style={{...circleStyle, bottom: commonStyles(this).distanceBottom1st}} />                         
 
@@ -197,7 +194,7 @@ import commonStyles from '../../../res/commonStyles';
 
     }
 
-    /*
+    
     renderListEmpty(){
         return(
             this.state.loading ? <Text style={{alignSelf:"center"}}>Cargando...</Text> : 
@@ -205,43 +202,37 @@ import commonStyles from '../../../res/commonStyles';
                 <Image source={IMAGES.emptylist} resizeMode="contain" style={{flex:1, borderRadius: 8, height:200, width: undefined, marginTop:100}}>
                 </Image>
                 <Text style={{alignSelf:"center", fontSize: 16, fontWeight: "bold", color:COLORS.primary, marginLeft: 70, marginRight: 70, marginTop: 20, textAlign:"center"}}>
-                    No hay grupos.
+                    No hay otros usuarios.
                 </Text>
             </View>
         );
     }
-*/
+
     //****************** Data loading  ***********/
-/*
-        loadWishlists() {
-            if (hasInternetConnection(this)) {
-                this.setState({
-                    loading: true
-                })
-                get_user_groups().then((res)=>{
-                    if(res["status"] == OK){
-                        if(!res.detail){
-                            
-                            this.setState({
-            
-                                grupos:res.groups
-            
-                            })
-                            if (res.groups.length == 0) {
-                                Actions.groupcreation()
-                            }
-                        } else {
-                            Alert.alert("Error",res.detail);
-                        }
-                    }
-                    this.setState({loading:false});
-                });    
+
+    getFamilyMembers(){
+
+        api.getFamilyMembers().then((response)=>{
+
+            if(response["status"] == OK){
+
+                this.setState({grupos:response["family"]});
+                console.log(response);
+
+            }else{
+
+                Alert.alert("Error", "Ha habido un error");
+
             }
-        }
-*/
+            this.setState({loading:false});
+
+        });
+
+    }
+
     //************************Métodos de lifecycle que no son render */
-    componentWillMount(){
-        //this.loadGroups()
+    componentWillMount(){        
+        this.getFamilyMembers()
     }
     
     render(){
@@ -252,18 +243,27 @@ import commonStyles from '../../../res/commonStyles';
                 hasInternet={this.state.hasInternet}
                 //onRetry={this.loadGroups.bind(this)}
             >
+
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
+
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>
 
                         <FlatList
                             data={dataToRender}
-                            //ListEmptyComponent={this.renderListEmpty()}
+                            ListEmptyComponent={this.renderListEmpty()}
                             renderItem={({item})=>{
                                 
-                                let name = item.name;
-                                
-                                return this.renderList(name);
+                                let user = item.user;
+                                let full_name = user.full_name;
+                                let user_id = item.id;
+                                return this.renderList(full_name, user_id);
 
                             }}
                             keyExtractor={item => item.name}

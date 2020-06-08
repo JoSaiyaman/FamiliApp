@@ -17,8 +17,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import Menu from './views/Menu';
-import {MainFeed} from './views/MainFeed'
-// import MainMenu from './views/MainMenu';
 import {SignIn} from './views/SignIn/SignIn';
 import {PhoneRegistration} from './views/PhoneRegistration/PhoneRegistration';
 import {PhoneRegistrationOTP} from './views/PhoneRegistration/PhoneRegistrationOTP';
@@ -41,6 +39,7 @@ import {GroupEvents} from './views/Events/GroupEvents';
 import {UpcomingEvents} from './views/Events/UpcomingEvents';
 import {EventDetail} from './views/Events/EventDetail';
 import {EcardTray} from './views/Ecards/EcardTray';
+import {EcardTrayReceived  } from "./views/Ecards/EcardTrayReceived";
 import {Ecard} from './views/Ecards/Ecard';
 
 import COLORS from '../res/colors';
@@ -53,6 +52,8 @@ import { EcardCreate } from './views/Ecards/EcardCreate';
 import { DrawerMenu } from './views/DrawerMenu';
 import { WishlistItemDetail } from './views/Wishlists/WishlistItemDetail';
 import { GroupCode } from './views/GroupCode/GroupCode';
+import { FamilyMembers } from './views/FamilyMembers/FamilyMembers';
+import { MainFeed } from './views/Announcements/MainFeed';
 
 // Class that will manage the tabBar icon
 class TabIcon extends Component {
@@ -164,17 +165,17 @@ export default class RouterComponent extends React.Component {
                         /> */}
 
                         
-                <Scene
-                    key="login"
-                    component={SignIn}
-                    hideNavBar={true}
-                    />
+                    <Scene
+                        key="login"
+                        component={SignIn}
+                        hideNavBar={true}
+                        />
 
-                <Scene
-                    key="signup"                    
-                    hideNavBar={false}
-                    component={SignUp}              
-                    />
+                    <Scene
+                        key="signup"                    
+                        hideNavBar={false}
+                        component={SignUp}              
+                        />
 
                 </Stack>
 
@@ -236,7 +237,25 @@ export default class RouterComponent extends React.Component {
                     hideNavBar={false}
                     title="QR del grupo"
                     key="group_qr"
-                    component={GroupsQr} />                
+                    component={GroupsQr} />
+
+                <Scene
+                    hideNavBar={false}
+                    title="Miembros de la familia"
+                    key="family_members"
+                    component={FamilyMembers} />
+
+                <Scene
+                    key="login"
+                    component={SignIn}
+                    hideNavBar={true}
+                    />
+
+                <Scene
+                    key="signup"                    
+                    hideNavBar={false}
+                    component={SignUp}              
+                    />
 
                 <Stack
                     key="main"
@@ -314,17 +333,21 @@ export default class RouterComponent extends React.Component {
                         </Scene>
 
                         <Scene key = "announcements" title = "Anuncios" icon={TabIcon} iconName="bullhorn">
-                            <Stack key="send_announcement" hideNavBar={true}>
-
-                                <Scene
-                                    hideNavBar={false}
-                                    title="Mandar aviso"
-                                    key="send_announcement"
-                                    component={SendAnnouncement}
-                                    
-                                />
-                            </Stack>
-
+                            <Scene
+                                hideNavBar={false}
+                                title="Avisos"
+                                key="view_announcement"
+                                component={MainFeed}
+                                
+                            />
+                            <Scene
+                                hideNavBar={false}
+                                title="Avisos"
+                                key="send_announcement"
+                                component={SendAnnouncement}
+                                back    
+                            />
+                            
                         </Scene>
 
                         <Scene key = "card" title = "Tarjetas" icon = {TabIcon} iconName="image">
@@ -334,14 +357,24 @@ export default class RouterComponent extends React.Component {
                                     hideNavBar={false}
                                     title="Bandeja de tarjetas"
                                     key="ecard_tray"
-                                    component={EcardTray}
+                                    component={EcardTrayReceived}
                                     initial
                                 />
+
+                                <Scene
+                                    hideNavBar={false}
+                                    title="Tarjetas enviadas"
+                                    key="ecard_tray_sent"
+                                    component={EcardTray}
+                                    back
+                                />
+
                                 <Scene
                                     hideNavBar={false}
                                     title="E-card"
                                     key="ecard"
                                     component={Ecard}
+                                    back
                                 />
 
                                 <Scene
@@ -350,7 +383,7 @@ export default class RouterComponent extends React.Component {
                                     title="Enviar tarjeta"
                                     key="ecard_create"
                                     component={EcardCreate}
-
+                                    back
                                 />
                                 
                             </Stack>
@@ -365,6 +398,7 @@ export default class RouterComponent extends React.Component {
                                     title="Álbum"
                                     key="album_detail"
                                     component={AlbumDetail}
+                                    back
                                 />
                                 <Scene
                                     hideNavBar={false}
@@ -378,12 +412,14 @@ export default class RouterComponent extends React.Component {
                                     title="Nuevo Álbum"
                                     key="album_creation"
                                     component={AlbumCreation}
+                                    back
                                 />
                                 <Scene
                                     hideNavBar={false}
                                     title="Nueva imágen"
                                     key="picture_upload"
                                     component={PictureUpload}
+                                    back
                                 />
                             </Stack>
 
@@ -414,6 +450,7 @@ export default class RouterComponent extends React.Component {
                                     title=""
                                     key="group_events"
                                     component={GroupEvents}
+                                    back
                                 />
 
                                 <Scene
@@ -421,6 +458,7 @@ export default class RouterComponent extends React.Component {
                                     title="Datos de evento"
                                     key="event_detail"
                                     component={EventDetail}
+                                    back
                                 />
 
                             </Stack>

@@ -11,9 +11,11 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Clipboard
 } from 'react-native';
 import {Button, Overlay} from 'react-native-elements';
+import {commonStyles} from '../../../res/styles/commonStyles';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import COLORS from '../../../res/colors';
 import {api} from '../../../res/api/api';
@@ -74,8 +76,18 @@ export class GroupsQr extends Component{
 
     }
 
+    copyQrClipboard(){
+
+        let qr_code = this.state.qr_code;
+        Clipboard.setString(qr_code);
+        ToastAndroid.show("Se ha copiado el código al portapapeles", ToastAndroid.LONG);
+
+    }
+
     render(){
 
+        let c_styles = commonStyles(this);
+        let margin_top = {marginTop:10};
         return(
 
             <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
@@ -87,17 +99,25 @@ export class GroupsQr extends Component{
 
                 </Overlay>
                 
+                <View style={{flexDirection:"column"}}>
 
-                {
+                    {
 
-                    this.state.loading ? null :
+                        this.state.loading ? null :
 
-                    <QRCode
-                        value = {this.state.qr_code}
-                        size = {this.width*0.8} />
+                        <QRCode
+                            value = {this.state.qr_code}
+                            size = {this.width*0.8} />
+                        
+                    }
 
-                }                
-                
+                   <TouchableOpacity style={{...c_styles.rounded_button, ...margin_top}} onPress={()=>this.copyQrClipboard()}>
+                       
+                       <Text>Copiar código al portapapeles</Text>
+                       
+                    </TouchableOpacity> 
+                    
+                </View>                             
 
             </View>
 

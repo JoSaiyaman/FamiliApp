@@ -14,14 +14,14 @@ import {Actions} from 'react-native-router-flux';
 import {Overlay} from 'react-native-elements';
 
 // Connection related importss
-import { ConnectionWrapper } from '../../connectionHelpers/ConnectionWrapper';
-import { hasInternetConnection } from '../../connectionHelpers/hasInternetConnection';
-import {TheCircle} from '../../components/TheCircle';
-import {get_group_announcements} from '../../res/api/calls/announcements';
-import {OK, FAIL} from '../../res/api/hostInfo';
-import COLORS from '../../res/colors';
-import IMAGES from '../../res/images';
-import commonStyles from '../../res/commonStyles';
+import { ConnectionWrapper } from '../../../connectionHelpers/ConnectionWrapper';
+import { hasInternetConnection } from '../../../connectionHelpers/hasInternetConnection';
+import {TheCircle} from '../../../components/TheCircle';
+import {get_group_announcements} from '../../../res/api/calls/announcements';
+import {OK, FAIL} from '../../../res/api/hostInfo';
+import COLORS from '../../../res/colors';
+import IMAGES from '../../../res/images';
+import commonStyles from '../../../res/commonStyles';
 
   export class MainFeed extends Component{
 
@@ -256,6 +256,13 @@ import commonStyles from '../../res/commonStyles';
                 hasInternet={this.state.hasInternet}
                 onRetry={this.loadAnnouncements.bind(this)}
             >
+                <Overlay isVisible={this.state.loading}
+                    overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
+                >
+
+                    <ActivityIndicator size="large" color={COLORS.navbar}></ActivityIndicator>
+                    
+                </Overlay>
                 <View style={this.style.main}>
                     
                     <View style={this.style.list_view}>

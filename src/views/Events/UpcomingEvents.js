@@ -195,12 +195,12 @@ import moment from 'moment';
                             <Text style={style.text}>
                                 {name}
                             </Text>
-                            <Text style={style.text_dsc}>
+                            {/* <Text style={style.text_dsc}>
                                 {description}
                             </Text>
                             <Text style={style.text_dsc}>
                                 {location}
-                            </Text>
+                            </Text> */}
                         </View>
                     </TouchableOpacity>
             </View>   

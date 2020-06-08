@@ -137,6 +137,7 @@ import COLORS from '../../../res/colors';
                 // console.log("Endpoint", res.items);
                 // console.log("Items", res.items.wishlistitem_set);
                 if(res["status"] == OK){
+                    console.log(res);
                     if(!res.detail){
                         
                         this.setState({
