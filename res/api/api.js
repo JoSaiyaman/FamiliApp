@@ -7,7 +7,8 @@ import {create_wishlist} from './calls/wishlist';
 import {get_user_wishlists} from './calls/wishlist';
 import {get_family_wishlists} from './calls/wishlist';
 import {get_family_members} from './calls/get_family_members';
-import {updateOwnUserData, getGroupsMembers} from './calls/users';
+import {create_emergency, deactivate_emergency, get_emergencies} from './calls/emergency';
+import {updateOwnUserData, getGroupsMembers, get_user_profile} from './calls/users';
 import {createLocation} from './calls/locations';
 import {getGroupMemberLocations} from './calls/locations';
 export const api = {
@@ -26,6 +27,10 @@ export const api = {
     createWishlist: create_wishlist,
     getFamilyMembers:get_family_members,
     getFamilyWishlists: get_family_wishlists,
-    createLocation
+    createLocation,
+    createEmergency: create_emergency,
+    deactivateEmergency: deactivate_emergency,
+    getEmergencies: get_emergencies,
+    getUserProfile: get_user_profile
 
 };

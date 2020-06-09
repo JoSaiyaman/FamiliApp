@@ -5,7 +5,8 @@ import {
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 
 // Connection related importss
@@ -20,13 +21,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLORS from '../../../res/colors';
 
 import {
-    getGroupMemberLocations
+    getGroupMemberLocations, amIEmergency, activateEmergency, deactivateEmergency
 } from './Locations_controller';
 
 import MapView, {
     PROVIDER_GOOGLE,
     Marker
 } from 'react-native-maps';
+import IMAGES from '../../../res/images';
 
 const styles = StyleSheet.create({
     map: {
@@ -46,16 +48,39 @@ export class Locations extends Component{
             loading: false,
             hasInternet: true,
             showModal: false,
+            amEmergency:false,
             memberLocations: []
         };
     }
 
     componentDidMount() {
         this.loadGroupMemberLocations()
+        this.setEmergency();
     }
 
     loadGroupMemberLocations() {
         getGroupMemberLocations(this)
+    }    
+
+    async setEmergency(){
+
+        let am_emergency = await amIEmergency(this);
+        this.setState({amEmergency: am_emergency})
+
+    }
+
+    async pressEmergencyCallback(){
+
+        if(!this.state.amEmergency){
+
+            activateEmergency(this);
+
+        }else{
+
+            deactivateEmergency(this);
+
+        }        
+
     }
 
     renderActions(){
@@ -111,8 +136,7 @@ export class Locations extends Component{
                         overlayStyle={{height:this.width*0.1, width:this.width*0.1}}
                         >
                         <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
-                    </Overlay>
-    
+                    </Overlay>                    
                     <MapView
                         showsUserLocation
                         followsUserLocation
@@ -131,11 +155,37 @@ export class Locations extends Component{
                                     latitude: parseFloat(marker.last_location.latitude),
                                     longitude: parseFloat(marker.last_location.longitude)
                                 }}
-                                title={marker.user_fullname}
-                                description={"marker.description"}
-                            />
-                        ))}
+                                title={marker.user_fullname}                                
+                                description={marker.is_in_emergency ? marker.user_fullname + " tiene una emergencia" : ""}
+                            >
+
+                                {
+                                    marker.is_in_emergency ? 
+                                    <Image
+                                        source={IMAGES.alert}
+                                        style={{width:30, height:30}} /> : null
+                                
+                                
+                                }
+
+                            </Marker>
+                        ))}                        
                     </MapView>
+
+                    <TouchableOpacity style={view_style.declare_emergency_button} onPress={()=>this.pressEmergencyCallback()}>
+
+                        <Text style={{color:"white"}}>
+
+                            {
+
+                                this.state.amEmergency ? 
+                                "Desactivar emergencia" : "Activar emergencia"
+
+                            }
+
+                        </Text>
+
+                    </TouchableOpacity>
 
                     {this.renderActions()}
                 </View>

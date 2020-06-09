@@ -33,7 +33,7 @@ export  function loginAction(context, username, password){
 
         if(response["status"] == OK ){
 
-            Alert.alert("Se ha iniciado sesión correctamente" + response["token"]);
+            Alert.alert("Se ha iniciado sesión correctamente");
 
             setLoginInfo(response["token"], username);
             Actions.groups()       

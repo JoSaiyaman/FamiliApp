@@ -108,3 +108,54 @@ export async function getGroupsMembers(){
     return json;
 
 }
+
+export async function get_user_profile(){
+
+    let url = `${HOST}authentication/user/profile/`;    
+
+    let token;
+    let json = {};
+    try {
+        token = store.getState().token
+    } catch (err) {
+        json["status"] = FAIL;
+        json["messages"] = "No se encontro una sesion.";
+        return json
+    }
+
+    let requestParams = {
+
+        headers:{
+
+            'Content-Type':"application/json",
+            'Authorization':"Token " + token
+
+        },
+        method:"GET",        
+
+    };
+
+    try{
+
+        let response = await fetch(url, requestParams);
+
+        json = await response.json();
+
+        if(json["error_details"]){
+
+            json["status"] = FAIL;
+            json["messages"] = "Error al obtener a los miembros del grupo";
+
+        } else {
+            json["status"] = OK;
+        }
+
+    }catch(err){
+
+        json["status"] = FAIL;
+
+    }
+    return json;
+
+
+}

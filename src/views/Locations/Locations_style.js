@@ -138,6 +138,19 @@ export const style = (context)=>{
         column: {
             flexDirection: "column",
             alignItems: 'center'
+        },
+
+        declare_emergency_button:{
+
+            position:"absolute",
+            backgroundColor:COLORS.primary,
+            top:10,
+            left:10,
+            padding:20,
+            borderRadius:15,
+            elevation:10,
+            zIndex:100
+
         }
 
     });

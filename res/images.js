@@ -3,7 +3,8 @@ const IMAGES = {
     placeholder:require("./img/placeholder.jpg"),    
     family_group_white: require("./img/family_group_white.png"),
     family_group_black: require("./img/family_group_black.png"),
-    emptylist: require("./img/empty.png")
+    emptylist: require("./img/empty.png"),
+    alert: require('./img/alert.png')
   
   }
   
