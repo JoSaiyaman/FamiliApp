@@ -28,7 +28,7 @@ import commonStyles from '../../../res/commonStyles';
 import {firebase} from '@react-native-firebase/messaging';
 import Geolocation from '@react-native-community/geolocation';
 import PushNotification from 'react-native-push-notification';
-
+import DeviceInfo from 'react-native-device-info'
 //This component shows the current user lists
   export class WishlistTray extends Component{
 
@@ -284,41 +284,111 @@ import PushNotification from 'react-native-push-notification';
 
     }
 
+    getMajorVersionInt(system_version){
+
+        let first_int = system_version.split(".")[0]
+        let i = parseInt(first_int);
+        return i;
+
+    }
+
     componentWillMount(){
+        // Geolocation.watchPosition((res)=>{
+        //     console.log("I am hereeeeee in version <=5")
+        //     let latitude = res.coords.latitude.toFixed(6);
+        //     let longitude = res.coords.longitude.toFixed(6);
+        //     console.log("Triggered watch position");
+        //     console.log(res.coords);
+        //     api.createLocation(latitude, longitude).then((response)=>{
+
+        //         if(response["status"] == OK){
+
+        //             console.log("Success registering location");
+
+        //         }
+
+        //     });
+
+        // }, (err)=>console.log(err), {distanceFilter:1, enableHighAccuracy:false});
         this.loadWishlists();        
 
-        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+        let system_version = DeviceInfo.getSystemVersion();        
 
-            title: "Familiapp",
-            message:"Familiapp necesita acceder a su ubicación para que sus familiares puedan ver dónde está",
-            buttonNeutral: "Preguntarme después",
-            buttonNegative: "Cancelar",
-            buttonPositive: "OK"
+        let i = this.getMajorVersionInt(system_version);
+        console.log(i);
+        if(i>=6){
+            console.log("Major version 6");
+            PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
 
-        }).then((granted)=>{
+                title: "Familiapp",
+                message:"Familiapp necesita acceder a su ubicación para que sus familiares puedan ver dónde está",
+                buttonNeutral: "Preguntarme después",
+                buttonNegative: "Cancelar",
+                buttonPositive: "OK"
+    
+            }).then((granted)=>{
+    
+                if(PermissionsAndroid.RESULTS.GRANTED == granted){
+    
+                    Geolocation.watchPosition((res)=>{
+                        console.log("Hereeeee in permissions");
+                        let latitude = res.coords.latitude.toFixed(6);
+                        let longitude = res.coords.longitude.toFixed(6);
+                        console.log("Triggered watch position");
+                        console.log(res.coords);
+                        api.createLocation(latitude, longitude).then((response)=>{
+            
+                            if(response["status"] == OK){
+            
+                                console.log("Success registering location");
+            
+                            }
+            
+                        });
+            
+                    }, (err)=>console.log(err), {distanceFilter:1});
+    
+                }
+    
+            });
 
-            if(PermissionsAndroid.RESULTS.GRANTED == granted){
+        }else{
 
-                Geolocation.watchPosition((res)=>{
-                    let latitude = res.coords.latitude.toFixed(6);
-                    let longitude = res.coords.longitude.toFixed(6);
-                    console.log("Triggered watch position");
-                    console.log(res.coords);
-                    api.createLocation(latitude, longitude).then((response)=>{
-        
-                        if(response["status"] == OK){
-        
-                            console.log("Success registering location");
-        
-                        }
-        
-                    });
-        
-                }, (err)=>console.log(err), {distanceFilter:1});
+            console.log("Here about to watch position");
+            // Geolocation.stopObserving();            
+            Geolocation.watchPosition((res)=>{
+                console.log("I am hereeeeee in version <=5")
+                let latitude = res.coords.latitude.toFixed(6);
+                let longitude = res.coords.longitude.toFixed(6);
+                console.log("Triggered watch position");
+                console.log(res.coords);
+                api.createLocation(latitude, longitude).then((response)=>{
+    
+                    if(response["status"] == OK){
+    
+                        console.log("Success registering location");
+    
+                    }
+    
+                });
+    
+            }, (err)=>console.log(err), {distanceFilter:1});
+            // Geolocation.getCurrentPosition((pos)=>{
 
-            }
+            //     api.createLocation(pos.coords.latitude, pos.coords.longitude).then((response)=>{
+    
+            //         if(response["status"] == OK){
+    
+            //             console.log("Success registering location");
+    
+            //         }
+    
+            //     });
 
-        });
+            // });
+
+        }
+
         get_firebase_token().then((fire_token)=>{
 
             if(fire_token){

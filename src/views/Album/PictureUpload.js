@@ -22,6 +22,7 @@ import ImagePicker from 'react-native-image-picker'
 import {upload_picture} from '../../../res/api/calls/albums';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
   export class PictureUpload extends Component{
 
@@ -67,14 +68,15 @@ import COLORS from '../../../res/colors';
                 paddingRight:20,
                 paddingTop: 2,
                 paddingBottom: 2,
-                width: this.width*0.6,
-                height: this.height*0.07,
+                width: this.width*0.8,
+                height: this.height*0.30,
                 backgroundColor:"white",
+                textAlignVertical:"top",
                 elevation:7,
                 borderRadius:13,
                 marginTop:7,
                 marginBottom:10,
-                marginLeft:this.width*0.2   
+                marginLeft:this.width*0.1
 
             },
 
@@ -192,31 +194,37 @@ import COLORS from '../../../res/colors';
                     <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
 
                 </Overlay>
-                <TouchableOpacity
-                    onPress={()=>this.handleSeleccionarFoto()}>
-               
-                {photo}
+                <ScrollView style={{flex:1}}>
 
-                </TouchableOpacity>
-                <TextInput
-                    style={this.style.textfield}
-                    placeholder="Descripción"
-                    placeholderTextColor="gray"
-                    onChangeText={(descripcion)=>this.setState({descripcion})}
-                    value={this.state.descripcion} />
-
-                <TouchableOpacity style={this.style.button}
-                    onPress={()=>this.verificarCampos()}
+                    <TouchableOpacity
+                        onPress={()=>this.handleSeleccionarFoto()}>
                 
-                >
+                    {photo}
 
-                    <Text style={this.style.text} >
+                    </TouchableOpacity>
+                    <TextInput
+                        style={this.style.textfield}
+                        placeholder="Descripción"
+                        multiline={true}
+                        numberOfLines={-1}
+                        placeholderTextColor="gray"
+                        onChangeText={(descripcion)=>this.setState({descripcion})}
+                        value={this.state.descripcion} />
 
-                        Subir Foto
+                    <TouchableOpacity style={this.style.button}
+                        onPress={()=>this.verificarCampos()}
+                    
+                    >
 
-                    </Text>
+                        <Text style={this.style.text} >
 
-                </TouchableOpacity>
+                            Subir Foto
+
+                        </Text>
+
+                    </TouchableOpacity>
+
+                </ScrollView>                
 
             </View>
 

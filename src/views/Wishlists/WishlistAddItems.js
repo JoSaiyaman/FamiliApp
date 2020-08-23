@@ -20,6 +20,7 @@ import {Overlay} from 'react-native-elements';
 import {add_item} from '../../../res/api/calls/wishlist';
 import {OK, FAIL} from '../../../res/api/hostInfo';
 import COLORS from '../../../res/colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
   export class WishlistAddItems extends Component{
 
@@ -70,14 +71,14 @@ import COLORS from '../../../res/colors';
                 paddingRight:20,
                 paddingTop: 2,
                 paddingBottom: 2,
-                width: this.width*0.6,
+                width: this.width*0.8,
                 height: this.height*0.07,
                 backgroundColor:"white",
                 elevation:7,
                 borderRadius:13,
                 marginTop:7,
                 marginBottom:10,
-                marginLeft:this.width*0.2   
+                marginLeft:this.width*0.1
 
             },
             descriptionField:{
@@ -86,14 +87,15 @@ import COLORS from '../../../res/colors';
                 paddingRight:20,
                 paddingTop: 2,
                 paddingBottom: 2,
-                width: this.width*0.6,
-                height: this.state.height,
+                width: this.width*0.8,
+                height: this.height*0.5,
                 backgroundColor:"white",
                 elevation:7,
                 borderRadius:13,
                 marginTop:7,
                 marginBottom:10,
-                marginLeft:this.width*0.2   
+                marginLeft:this.width*0.1,
+                textAlignVertical:"top"                
 
             },
 
@@ -183,33 +185,38 @@ import COLORS from '../../../res/colors';
                     <ActivityIndicator size="large" color={COLORS.primary}></ActivityIndicator>
 
                 </Overlay>
-                <TextInput
-                    style={this.style.textfield}
-                    placeholder="Nombre del artículo"
-                    placeholderTextColor="gray"
-                    onChangeText={(name)=>this.setState({name})}
-                    value={this.state.name} />
+                <ScrollView style={{flex:1}}>
 
-                <TextInput
-                    multiline
-                    style={this.style.descriptionField}
-                    placeholder="Descripción"
-                    placeholderTextColor="gray"
-                    onChangeText={(description)=>this.setState({description})}
-                    value={this.state.description} />
+                    <TextInput
+                        style={this.style.textfield}
+                        placeholder="Nombre del artículo"
+                        placeholderTextColor="gray"
+                        onChangeText={(name)=>this.setState({name})}
+                        value={this.state.name} />
 
-                <TouchableOpacity style={this.style.button}
-                    onPress={()=>this.verificarCampos()}
-                
-                >
+                    <TextInput
+                        multiline
+                        style={this.style.descriptionField}
+                        placeholder="Descripción"
+                        numberOfLines={-1}
+                        placeholderTextColor="gray"
+                        onChangeText={(description)=>this.setState({description})}
+                        value={this.state.description} />
 
-                    <Text style={this.style.text} >
+                    <TouchableOpacity style={this.style.button}
+                        onPress={()=>this.verificarCampos()}
+                    
+                    >
 
-                        Agregar a la lista
+                        <Text style={this.style.text} >
 
-                    </Text>
+                            Agregar a la lista
 
-                </TouchableOpacity>
+                        </Text>
+
+                    </TouchableOpacity>
+
+                </ScrollView>                
 
             </View>
 
